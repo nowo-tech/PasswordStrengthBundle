@@ -1,0 +1,32 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  Nowo\PasswordStrengthBundle\:
+    resource: '../../*'
+    exclude:
+      - '../../DependencyInjection/'
+      - '../../PasswordStrengthBundle.php'
+      - '../../Model/'
+
+  Nowo\PasswordStrengthBundle\Service\PolicyResolver:
+    arguments:
+      $levels: '%nowo_password_strength.levels%'
+
+  Nowo\PasswordStrengthBundle\Form\PasswordStrengthType:
+    arguments:
+      $defaultFeedbackPosition: '%nowo_password_strength.feedback_position%'
+      $defaultShowRequirements: '%nowo_password_strength.show_requirements%'
+      $defaultLiveFeedback: '%nowo_password_strength.live_feedback%'
+      $defaultGeneratorMode: '%nowo_password_strength.generator_mode%'
+      $defaultGeneratorCount: '%nowo_password_strength.generator_count%'
+      $defaultUsePasswordToggle: '%nowo_password_strength.use_password_toggle%'
+      $parentFormType: '%nowo_password_strength.parent_form_type%'
+    tags:
+      - { name: form.type }
+
+  Nowo\PasswordStrengthBundle\Validator\PasswordStrengthValidator:
+    tags:
+      - { name: validator.constraint_validator }

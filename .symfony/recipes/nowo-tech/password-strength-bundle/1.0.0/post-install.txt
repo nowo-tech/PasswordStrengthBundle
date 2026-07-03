@@ -1,0 +1,15 @@
+Password Strength Bundle has been installed.
+
+  * Configuration: config/packages/nowo_password_strength.yaml
+
+Next steps:
+
+  1. Publish bundle assets:
+     php bin/console assets:install
+
+  2. Include the script in your base layout:
+     <script src="{{ asset('bundles/passwordstrength/password-strength.js') }}" defer></script>
+
+  3. Set form_theme in nowo_password_strength.yaml to match your app (e.g. bootstrap_5_layout.html.twig).
+
+Optional: install nowo-tech/password-toggle-bundle for show/hide toggle integration.

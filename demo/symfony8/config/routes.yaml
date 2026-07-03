@@ -1,0 +1,11 @@
+controllers:
+    resource:
+        path: ../src/Controller/
+        namespace: App\Controller
+    type: attribute
+
+# Dev-only: Web Profiler + Nowo Twig Inspector (loaded when APP_ENV=dev)
+when@dev:
+    _dev_routes:
+        resource: ../config/routes/dev/
+        type: directory

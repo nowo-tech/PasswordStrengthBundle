@@ -1,0 +1,8 @@
+{
+    "bundles": {
+        "Nowo\\PasswordStrengthBundle\\PasswordStrengthBundle": ["all"]
+    },
+    "copy-from-recipe": {
+        "config/": "%CONFIG_DIR%/"
+    }
+}

@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'demo.page_title'|trans({}, 'messages') }} – {{ 'demo.title'|trans({}, 'messages') }}{% endblock %}
+
+{% block body %}
+<div class="container demo-hero pb-5">
+    <div class="row align-items-end mb-4">
+        <div class="col-lg-8">
+            <h1>{{ 'demo.page_title'|trans({}, 'messages') }}</h1>
+            <p class="lead text-muted mb-0">{{ 'demo.lead'|trans({}, 'messages') }}</p>
+        </div>
+        <div class="col-lg-4 mt-3 mt-lg-0">
+            <div class="d-flex flex-wrap gap-2 justify-content-lg-end">
+                <span class="badge text-bg-light border demo-badge">{{ 'demo.feature_live'|trans({}, 'messages') }}</span>
+                <span class="badge text-bg-light border demo-badge">{{ 'demo.feature_validator'|trans({}, 'messages') }}</span>
+                <span class="badge text-bg-light border demo-badge">{{ 'demo.feature_pattern'|trans({}, 'messages') }}</span>
+                <span class="badge text-bg-light border demo-badge">{{ 'demo.feature_generator'|trans({}, 'messages') }}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-4">
+            <article class="demo-card">
+                <a class="demo-card-link" href="{{ path('demo_level', { _locale: app.request.locale }) }}">
+                    <div class="demo-feature-list">
+                        <span class="badge text-bg-primary demo-badge">{{ 'demo.badge_level'|trans({}, 'messages') }}</span>
+                        <span class="badge text-bg-secondary demo-badge">{{ 'demo.badge_toggle'|trans({}, 'messages') }}</span>
+                        <span class="badge text-bg-info text-dark demo-badge">{{ 'demo.badge_generator_input'|trans({}, 'messages') }}</span>
+                    </div>
+                    <h2 class="h5 fw-semibold mb-2">{{ 'demo.card_level_title'|trans({}, 'messages') }}</h2>
+                    <p class="text-muted mb-0">{{ 'demo.card_level_lead'|trans({}, 'messages') }}</p>
+                </a>
+            </article>
+        </div>
+        <div class="col-md-4">
+            <article class="demo-card">
+                <a class="demo-card-link" href="{{ path('demo_conditions', { _locale: app.request.locale }) }}">
+                    <div class="demo-feature-list">
+                        <span class="badge text-bg-primary demo-badge">{{ 'demo.badge_conditions'|trans({}, 'messages') }}</span>
+                        <span class="badge text-bg-warning text-dark demo-badge">{{ 'demo.badge_feedback_above'|trans({}, 'messages') }}</span>
+                        <span class="badge text-bg-info text-dark demo-badge">{{ 'demo.badge_generator_modal'|trans({}, 'messages') }}</span>
+                    </div>
+                    <h2 class="h5 fw-semibold mb-2">{{ 'demo.card_conditions_title'|trans({}, 'messages') }}</h2>
+                    <p class="text-muted mb-0">{{ 'demo.card_conditions_lead'|trans({}, 'messages') }}</p>
+                </a>
+            </article>
+        </div>
+        <div class="col-md-4">
+            <article class="demo-card">
+                <a class="demo-card-link" href="{{ path('demo_plain', { _locale: app.request.locale }) }}">
+                    <div class="demo-feature-list">
+                        <span class="badge text-bg-secondary demo-badge">{{ 'demo.badge_plain'|trans({}, 'messages') }}</span>
+                        <span class="badge text-bg-success demo-badge">{{ 'demo.badge_feedback_below'|trans({}, 'messages') }}</span>
+                    </div>
+                    <h2 class="h5 fw-semibold mb-2">{{ 'demo.card_plain_title'|trans({}, 'messages') }}</h2>
+                    <p class="text-muted mb-0">{{ 'demo.card_plain_lead'|trans({}, 'messages') }}</p>
+                </a>
+            </article>
+        </div>
+    </div>
+</div>
+{% endblock %}
