@@ -52,6 +52,24 @@ final class ParentFormTypeResolverTest extends TestCase
         );
     }
 
+    public function testEmptyConfiguredParentUsesAutoDetection(): void
+    {
+        $expected = PasswordToggleIntegration::isAvailable()
+            ? PasswordToggleIntegration::TOGGLE_PASSWORD_TYPE
+            : SymfonyPasswordType::class;
+
+        self::assertSame($expected, ParentFormTypeResolver::resolve('', true));
+        self::assertSame(SymfonyPasswordType::class, ParentFormTypeResolver::resolve('', false));
+    }
+
+    public function testInvalidParentFormTypeThrowsWhenNotFormType(): void
+    {
+        $this->expectException(InvalidConfigurationException::class);
+        $this->expectExceptionMessage('must extend');
+
+        ParentFormTypeResolver::resolve(\Nowo\PasswordStrengthBundle\Tests\Fixtures\NotAFormType::class, true);
+    }
+
     public function testInvalidParentFormTypeThrows(): void
     {
         $this->expectException(InvalidConfigurationException::class);

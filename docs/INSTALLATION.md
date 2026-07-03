@@ -21,7 +21,7 @@ composer require nowo-tech/password-strength-bundle
 
 ### With Symfony Flex
 
-If a Flex recipe is configured, the bundle is registered and `config/packages/nowo_password_strength.yaml` is created automatically.
+If a Flex recipe is configured (`.symfony/recipes/nowo-tech/password-strength-bundle/`), the bundle is registered and `config/packages/nowo_password_strength.yaml` is created automatically.
 
 ### Manual registration
 

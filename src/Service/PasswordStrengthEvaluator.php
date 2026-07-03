@@ -13,7 +13,8 @@ use function mb_strlen;
 use function preg_match;
 use function preg_quote;
 use function str_contains;
-use function strlen;
+
+use const PREG_SPLIT_NO_EMPTY;
 
 /**
  * Evaluates a password against configured conditions (server-side mirror of the TypeScript evaluator).
@@ -27,13 +28,13 @@ final class PasswordStrengthEvaluator
 
     public function evaluate(?string $password, PasswordConditions $conditions): EvaluationResult
     {
-        $value = $password ?? '';
+        $value        = $password ?? '';
         $requirements = [];
-        $missing = [];
+        $missing      = [];
 
         if ($conditions->minLength > 0) {
-            $length = mb_strlen($value);
-            $met    = $length >= $conditions->minLength;
+            $length         = mb_strlen($value);
+            $met            = $length >= $conditions->minLength;
             $requirements[] = new RequirementResult('min_length', 'requirement.min_length', $met, $length, $conditions->minLength);
             if (!$met) {
                 $missing[] = 'min_length';
@@ -41,8 +42,8 @@ final class PasswordStrengthEvaluator
         }
 
         if ($conditions->maxLength !== null && $conditions->maxLength > 0) {
-            $length = mb_strlen($value);
-            $met    = $length <= $conditions->maxLength;
+            $length         = mb_strlen($value);
+            $met            = $length <= $conditions->maxLength;
             $requirements[] = new RequirementResult('max_length', 'requirement.max_length', $met, $length, $conditions->maxLength);
             if (!$met) {
                 $missing[] = 'max_length';
@@ -50,7 +51,7 @@ final class PasswordStrengthEvaluator
         }
 
         if ($conditions->requireLowercase) {
-            $met = preg_match('/[a-z]/u', $value) === 1;
+            $met            = preg_match('/[a-z]/u', $value) === 1;
             $requirements[] = new RequirementResult('require_lowercase', 'requirement.lowercase', $met);
             if (!$met) {
                 $missing[] = 'require_lowercase';
@@ -58,7 +59,7 @@ final class PasswordStrengthEvaluator
         }
 
         if ($conditions->requireUppercase) {
-            $met = preg_match('/[A-Z]/u', $value) === 1;
+            $met            = preg_match('/[A-Z]/u', $value) === 1;
             $requirements[] = new RequirementResult('require_uppercase', 'requirement.uppercase', $met);
             if (!$met) {
                 $missing[] = 'require_uppercase';
@@ -66,7 +67,7 @@ final class PasswordStrengthEvaluator
         }
 
         if ($conditions->requireDigit) {
-            $met = preg_match('/\d/u', $value) === 1;
+            $met            = preg_match('/\d/u', $value) === 1;
             $requirements[] = new RequirementResult('require_digit', 'requirement.digit', $met);
             if (!$met) {
                 $missing[] = 'require_digit';
@@ -74,8 +75,8 @@ final class PasswordStrengthEvaluator
         }
 
         if ($conditions->requireSpecial) {
-            $escaped = preg_quote($conditions->specialChars, '/');
-            $met     = preg_match('/[' . $escaped . ']/u', $value) === 1;
+            $escaped        = preg_quote($conditions->specialChars, '/');
+            $met            = preg_match('/[' . $escaped . ']/u', $value) === 1;
             $requirements[] = new RequirementResult('require_special', 'requirement.special', $met);
             if (!$met) {
                 $missing[] = 'require_special';
@@ -83,7 +84,7 @@ final class PasswordStrengthEvaluator
         }
 
         if ($conditions->disallowWhitespace) {
-            $met = $value === '' || preg_match('/^\S+$/u', $value) === 1;
+            $met            = $value === '' || preg_match('/^\S+$/u', $value) === 1;
             $requirements[] = new RequirementResult('disallow_whitespace', 'requirement.no_whitespace', $met);
             if (!$met) {
                 $missing[] = 'disallow_whitespace';
@@ -91,7 +92,7 @@ final class PasswordStrengthEvaluator
         }
 
         foreach ($conditions->notContain as $fragment) {
-            $met = $value === '' || !str_contains($value, $fragment);
+            $met            = $value === '' || !str_contains($value, $fragment);
             $requirements[] = new RequirementResult(
                 'not_contain_' . md5($fragment),
                 'requirement.not_contain',
@@ -103,8 +104,8 @@ final class PasswordStrengthEvaluator
         }
 
         if ($conditions->minUniqueChars > 0) {
-            $unique = count(array_unique(preg_split('//u', $value, -1, PREG_SPLIT_NO_EMPTY) ?: []));
-            $met    = $unique >= $conditions->minUniqueChars;
+            $unique         = count(array_unique(preg_split('//u', $value, -1, PREG_SPLIT_NO_EMPTY) ?: []));
+            $met            = $unique >= $conditions->minUniqueChars;
             $requirements[] = new RequirementResult(
                 'min_unique_chars',
                 'requirement.min_unique_chars',
@@ -118,7 +119,7 @@ final class PasswordStrengthEvaluator
         }
 
         if ($conditions->regex !== null) {
-            $met = $value !== '' && preg_match($this->wrapRegex($conditions->regex), $value) === 1;
+            $met            = $value !== '' && preg_match($this->wrapRegex($conditions->regex), $value) === 1;
             $requirements[] = new RequirementResult('regex', 'requirement.regex', $met);
             if (!$met) {
                 $missing[] = 'regex';
@@ -131,7 +132,7 @@ final class PasswordStrengthEvaluator
         if ($value !== '' && $pattern !== '.*' && $pattern !== '') {
             $patternValid = @preg_match('/' . $pattern . '/u', $value) === 1;
             if (!$patternValid && $missing === []) {
-                $valid = false;
+                $valid     = false;
                 $missing[] = 'pattern';
             }
         }

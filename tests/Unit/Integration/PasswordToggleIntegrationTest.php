@@ -12,7 +12,7 @@ final class PasswordToggleIntegrationTest extends TestCase
     public function testIsAvailableReflectsClassPresence(): void
     {
         self::assertSame(
-            \class_exists(PasswordToggleIntegration::TOGGLE_PASSWORD_TYPE),
+            class_exists(PasswordToggleIntegration::TOGGLE_PASSWORD_TYPE),
             PasswordToggleIntegration::isAvailable(),
         );
     }

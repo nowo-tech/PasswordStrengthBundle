@@ -79,7 +79,7 @@ link-bundle: ensure-up
 	@echo "Bundle linked to mounted source. Reload the page in the browser."
 
 update-bundle: ensure-up
-	docker-compose exec php composer update nowo-tech/password-strength-bundle nowo-tech/password-toggle-bundle --no-interaction
+	docker-compose exec php composer update nowo-tech/password-strength-bundle --no-interaction
 	docker-compose exec php php bin/console cache:clear --env=dev
 	@echo "Bundles updated. Reload the page in the browser."
 

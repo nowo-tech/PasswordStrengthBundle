@@ -36,7 +36,7 @@ final class PasswordStrengthValidator extends ConstraintValidator
             throw new UnexpectedValueException($value, 'string');
         }
 
-        $mode = PolicyMode::tryFrom($constraint->policyMode) ?? PolicyMode::Level;
+        $mode       = PolicyMode::from($constraint->policyMode);
         $conditions = $this->policyResolver->resolve($mode, [
             'level'      => $constraint->level,
             'conditions' => $constraint->conditions,

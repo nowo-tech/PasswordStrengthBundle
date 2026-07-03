@@ -23,7 +23,7 @@ final class PasswordStrengthBundle extends Bundle
         $container->addCompilerPass(new TwigPathsPass());
     }
 
-    public function getContainerExtension(): ?ExtensionInterface
+    public function getContainerExtension(): ExtensionInterface
     {
         if (!$this->extension instanceof ExtensionInterface) {
             $this->extension = new PasswordStrengthExtension();

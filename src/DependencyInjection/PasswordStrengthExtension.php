@@ -16,7 +16,7 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
  */
 final class PasswordStrengthExtension extends Extension implements PrependExtensionInterface
 {
-  /** @var array<string, string> */
+    /** @var array<string, string> */
     private const FORM_THEME_MAP = [
         'form_div_layout.html.twig'               => '@PasswordStrengthBundle/Form/password_strength_theme.html.twig',
         'form_table_layout.html.twig'             => '@PasswordStrengthBundle/Form/password_strength_theme_table.html.twig',
@@ -61,10 +61,10 @@ final class PasswordStrengthExtension extends Extension implements PrependExtens
             return;
         }
 
-        $configs   = $container->getExtensionConfig(Configuration::ALIAS);
-        $config    = $this->processConfiguration(new Configuration(), $configs);
-        $formTheme = $config['form_theme'] ?? 'form_div_layout.html.twig';
-        $themePath = self::FORM_THEME_MAP[$formTheme] ?? self::FORM_THEME_MAP['form_div_layout.html.twig'];
+        $configs        = $container->getExtensionConfig(Configuration::ALIAS);
+        $config         = $this->processConfiguration(new Configuration(), $configs);
+        $formTheme      = $config['form_theme'] ?? 'form_div_layout.html.twig';
+        $themePath      = self::FORM_THEME_MAP[$formTheme] ?? self::FORM_THEME_MAP['form_div_layout.html.twig'];
         $resolvedParent = ParentFormTypeResolver::resolve(
             $config['parent_form_type'] ?? null,
             (bool) ($config['use_password_toggle'] ?? true),

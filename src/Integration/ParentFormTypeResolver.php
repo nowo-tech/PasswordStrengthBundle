@@ -8,6 +8,8 @@ use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType as SymfonyPasswordType;
 
+use function sprintf;
+
 /**
  * Resolves which form type PasswordStrengthType extends as its parent.
  *
@@ -18,7 +20,7 @@ final class ParentFormTypeResolver
     public const SYMFONY_PASSWORD_TYPE = SymfonyPasswordType::class;
 
     /**
-     * @return class-string<AbstractType>
+     * @return class-string<AbstractType<mixed>>
      */
     public static function resolve(?string $configuredParent, bool $usePasswordToggle): string
     {
@@ -38,7 +40,7 @@ final class ParentFormTypeResolver
     /**
      * Whether the toggle widget theme must be prepended for the resolved parent.
      *
-     * @param class-string<AbstractType> $resolvedParent
+     * @param class-string<AbstractType<mixed>> $resolvedParent
      */
     public static function shouldPrependToggleTheme(string $resolvedParent, bool $usePasswordToggle): bool
     {
@@ -48,23 +50,16 @@ final class ParentFormTypeResolver
     }
 
     /**
-     * @param class-string<AbstractType> $class
+     * @phpstan-assert class-string<\Symfony\Component\Form\AbstractType<mixed>> $class
      */
     private static function assertValidFormType(string $class): void
     {
-        if (!\class_exists($class)) {
-            throw new InvalidConfigurationException(\sprintf(
-                'The configured parent form type "%s" does not exist. Install the bundle that provides it or leave parent_form_type unset for automatic detection.',
-                $class,
-            ));
+        if (!class_exists($class)) {
+            throw new InvalidConfigurationException(sprintf('The configured parent form type "%s" does not exist. Install the bundle that provides it or leave parent_form_type unset for automatic detection.', $class));
         }
 
-        if (!\is_subclass_of($class, AbstractType::class)) {
-            throw new InvalidConfigurationException(\sprintf(
-                'The configured parent form type "%s" must extend %s.',
-                $class,
-                AbstractType::class,
-            ));
+        if (!is_subclass_of($class, AbstractType::class)) {
+            throw new InvalidConfigurationException(sprintf('The configured parent form type "%s" must extend %s.', $class, AbstractType::class));
         }
     }
 }

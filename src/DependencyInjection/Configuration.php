@@ -61,15 +61,15 @@ final class Configuration implements ConfigurationInterface
                     ->useAttributeAsKey('name')
                     ->variablePrototype()->end()
                     ->defaultValue([
-                        'weak' => ['min_length' => 6],
+                        'weak'   => ['min_length' => 6],
                         'medium' => [
-                            'min_length'          => 8,
+                            'min_length'        => 8,
                             'require_lowercase' => true,
                             'require_uppercase' => true,
                             'require_digit'     => true,
                         ],
                         'strong' => [
-                            'min_length'          => 12,
+                            'min_length'        => 12,
                             'require_lowercase' => true,
                             'require_uppercase' => true,
                             'require_digit'     => true,

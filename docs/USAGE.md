@@ -83,20 +83,56 @@ $builder->add('password', PasswordStrengthType::class, [
 
 The widget sets `pattern` on the input from the active policy. Browsers may use it for native validation; **always rely on the `PasswordStrength` validator** for authoritative checks.
 
-## Overriding bundle templates and translations
+## Overriding bundle templates (REQ-TWIG-001)
 
-Copy templates from `src/Resources/views/Form/` to:
-
-```
-templates/bundles/PasswordStrengthBundle/Form/
-```
-
-Translations:
+Application overrides **always win** when placed under:
 
 ```
-translations/PasswordStrengthBundle.en.yaml
-translations/PasswordStrengthBundle.es.yaml
+templates/bundles/PasswordStrengthBundle/<subpath>
 ```
+
+**Procedure**
+
+1. Pick the `<subpath>` from the table below (same path as under `src/Resources/views/` in the package).
+2. Create `templates/bundles/PasswordStrengthBundle/<subpath>` in your app.
+3. Clear cache in dev if needed: `php bin/console cache:clear`.
+
+| Subpath | Purpose |
+|---------|---------|
+| `Form/password_strength_theme.html.twig` | Base div layout theme |
+| `Form/password_strength_theme_table.html.twig` | Table layout theme |
+| `Form/password_strength_theme_bootstrap3.html.twig` | Bootstrap 3 |
+| `Form/password_strength_theme_bootstrap3_horizontal.html.twig` | Bootstrap 3 horizontal |
+| `Form/password_strength_theme_bootstrap4.html.twig` | Bootstrap 4 |
+| `Form/password_strength_theme_bootstrap4_horizontal.html.twig` | Bootstrap 4 horizontal |
+| `Form/password_strength_theme_bootstrap5.html.twig` | Bootstrap 5 |
+| `Form/password_strength_theme_bootstrap5_horizontal.html.twig` | Bootstrap 5 horizontal |
+| `Form/password_strength_theme_tailwind2.html.twig` | Tailwind 2 |
+| `Form/password_strength_theme_foundation5.html.twig` | Foundation 5 |
+| `Form/password_strength_theme_foundation6.html.twig` | Foundation 6 |
+
+Twig namespace: `@PasswordStrengthBundle/Form/...` (registered via `TwigPathsPass`).
+
+## Translation overrides (REQ-I18N-001)
+
+Domain: **`PasswordStrengthBundle`** (same as `translation_domain` on the form type).
+
+**Procedure**
+
+1. Create `translations/PasswordStrengthBundle.<locale>.yaml` in your application.
+2. Override only the keys you need; missing keys fall back to the bundle.
+
+Example `translations/PasswordStrengthBundle.es.yaml`:
+
+```yaml
+requirement:
+  min_length: 'Al menos %count% caracteres'
+  lowercase: 'Al menos una letra minúscula'
+generator:
+  button: 'Generar contraseña'
+```
+
+See bundle defaults in `src/Resources/translations/PasswordStrengthBundle.en.yaml`.
 
 ## Demo routes
 

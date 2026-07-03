@@ -6,7 +6,7 @@
     "require": {
         "php": ">=8.4",
         "nowo-tech/password-strength-bundle": "@dev",
-        "nowo-tech/password-toggle-bundle": "@dev",
+        "nowo-tech/password-toggle-bundle": "^2.0",
         "symfony/asset": "^8.0",
         "symfony/console": "^8.0",
         "symfony/dotenv": "^8.0",
@@ -56,10 +56,6 @@
         {
             "type": "path",
             "url": "/var/password-strength-bundle"
-        },
-        {
-            "type": "path",
-            "url": "/var/password-toggle-bundle"
         }
     ],
     "require-dev": {

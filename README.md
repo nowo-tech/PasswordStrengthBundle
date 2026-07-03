@@ -1,10 +1,12 @@
 # Password Strength Bundle
 
-[![CI](https://github.com/nowo-tech/PasswordStrengthBundle/actions/workflows/ci.yml/badge.svg)](https://github.com/nowo-tech/PasswordStrengthBundle/actions/workflows/ci.yml) [![Packagist Version](https://img.shields.io/packagist/v/nowo-tech/password-strength-bundle.svg?style=flat)](https://packagist.org/packages/nowo-tech/password-strength-bundle) [![Packagist Downloads](https://img.shields.io/packagist/dt/nowo-tech/password-strength-bundle.svg)](https://packagist.org/packages/nowo-tech/password-strength-bundle) [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE) [![PHP](https://img.shields.io/badge/PHP-8.1%2B-777BB4?logo=php)](https://php.net) [![Symfony](https://img.shields.io/badge/Symfony-6.0%2B%20%7C%207.4%2B%20%7C%208.0%20%7C%208.1%2B-000000?logo=symfony)](https://symfony.com)
+[![CI](https://github.com/nowo-tech/PasswordStrengthBundle/actions/workflows/ci.yml/badge.svg)](https://github.com/nowo-tech/PasswordStrengthBundle/actions/workflows/ci.yml) [![Packagist Version](https://img.shields.io/packagist/v/nowo-tech/password-strength-bundle.svg?style=flat)](https://packagist.org/packages/nowo-tech/password-strength-bundle) [![Packagist Downloads](https://img.shields.io/packagist/dt/nowo-tech/password-strength-bundle.svg)](https://packagist.org/packages/nowo-tech/password-strength-bundle) [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE) [![PHP](https://img.shields.io/badge/PHP-8.1%2B-777BB4?logo=php)](https://php.net) [![Symfony](https://img.shields.io/badge/Symfony-6.0%2B%20%7C%207.4%2B%20%7C%208.0%20%7C%208.1%2B-000000?logo=symfony)](https://symfony.com) [![GitHub stars](https://img.shields.io/github/stars/nowo-tech/password-strength-bundle.svg?style=social&label=Star)](https://github.com/nowo-tech/PasswordStrengthBundle) [![Coverage](https://img.shields.io/badge/Coverage-99%25%20PHP%20%7C%2090%25%20TS-brightgreen)](#tests-and-coverage)
 
 > ⭐ **Found this useful?** Give it a **star** on [GitHub](https://github.com/nowo-tech/PasswordStrengthBundle) so more developers can find it.
 
 Symfony bundle that extends `PasswordType` with **100% configurable** password hardness: predefined **levels**, inline **conditions**, auto-built **HTML pattern**, live **TypeScript** feedback, and a **validator** constraint.
+
+**FrankenPHP worker mode:** Supported — the bundle is stateless (form type + validator + client script); tested with the Symfony 8 demo using FrankenPHP worker in production `Caddyfile` (see [Demo with FrankenPHP](docs/DEMO-FRANKENPHP.md)).
 
 ## Features
 
@@ -171,6 +173,7 @@ public ?string $plainPassword = null;
 - [Upgrading](docs/UPGRADING.md)
 - [Release](docs/RELEASE.md)
 - [Security](docs/SECURITY.md)
+- [Engram](docs/ENGRAM.md)
 - [Spec-driven development](docs/SPEC-DRIVEN-DEVELOPMENT.md)
 
 ### Additional documentation
@@ -191,8 +194,8 @@ Open **http://localhost:8021/en/** (redirect from `/`; set `PORT` in `demo/symfo
 
 | Language | Coverage (approx.) |
 |----------|-------------------|
-| PHP | ~68% lines (`make test-coverage`) |
-| TypeScript | ~56% (`make test-ts`) |
+| PHP | ~99% lines (`make test-coverage`) |
+| TypeScript | ~90% (`make test-ts`) |
 
 ```bash
 make test
