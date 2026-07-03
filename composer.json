@@ -47,6 +47,7 @@
         "nowo-tech/password-toggle-bundle": "Show/hide password visibility toggle integrated with strength fields"
     },
     "require-dev": {
+        "nowo-tech/password-toggle-bundle": "^2.0",
         "friendsofphp/php-cs-fixer": "^3.0",
         "phpstan/extension-installer": "^1.0",
         "phpstan/phpstan": "^2.0",

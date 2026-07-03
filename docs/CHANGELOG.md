@@ -30,3 +30,6 @@ First stable release of **Password Strength Bundle**.
 
 - PHP >= 8.1, < 8.6
 - Symfony ^6.0 || ^7.0 || ^8.0
+
+[Unreleased]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/nowo-tech/PasswordStrengthBundle/releases/tag/v1.0.0

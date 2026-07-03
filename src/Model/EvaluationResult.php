@@ -11,7 +11,7 @@ final class EvaluationResult
 {
     /**
      * @param list<RequirementResult> $requirements
-     * @param list<string>            $missing
+     * @param list<string> $missing
      */
     public function __construct(
         public readonly bool $valid,

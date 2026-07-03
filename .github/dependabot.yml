@@ -44,3 +44,20 @@ updates:
     commit-message:
       prefix: "chore(ci):"
 
+  # Maintain dependencies for npm/pnpm (TypeScript assets)
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Europe/Madrid"
+    open-pull-requests-limit: 3
+    reviewers:
+      - "HecFranco"
+    labels:
+      - "dependencies"
+      - "javascript"
+    commit-message:
+      prefix: "chore(deps):"
+

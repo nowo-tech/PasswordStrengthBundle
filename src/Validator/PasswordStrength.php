@@ -17,7 +17,7 @@ final class PasswordStrength extends Constraint
 
     public string $message = self::INVALID_STRENGTH;
 
-    /** @var 'level'|'conditions' */
+    /** @var 'conditions'|'level' */
     public string $policyMode = 'level';
 
     public ?string $level = null;

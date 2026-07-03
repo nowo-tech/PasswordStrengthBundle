@@ -110,7 +110,7 @@ composer-sync: ensure-up
 	$(COMPOSE) exec -T $(SERVICE_PHP) composer validate --strict
 	$(COMPOSE) exec -T $(SERVICE_PHP) composer update --no-install
 
-release-check: ensure-up composer-sync cs-fix cs-check rector-dry phpstan test-coverage test-ts release-check-demos
+release-check: ensure-up composer-sync cs-fix cs-check rector-dry phpstan validate-translations test-coverage release-check-demos test-ts
 
 release-check-demos:
 	@$(MAKE) -C demo release-check

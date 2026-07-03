@@ -30,7 +30,7 @@ final class PasswordPatternBuilder
             $lookaheads[] = '(?=.*\d)';
         }
         if ($conditions->requireSpecial) {
-            $escaped = preg_quote($conditions->specialChars, '/');
+            $escaped      = preg_quote($conditions->specialChars, '/');
             $lookaheads[] = '(?=.*[' . $escaped . '])';
         }
         if ($conditions->disallowWhitespace) {
@@ -43,8 +43,8 @@ final class PasswordPatternBuilder
             $lookaheads[] = sprintf('(?=(?:.*(.)((?!\1).)){0,}%d)', max(0, $conditions->minUniqueChars - 1));
         }
 
-        $min = max(0, $conditions->minLength);
-        $max = $conditions->maxLength;
+        $min              = max(0, $conditions->minLength);
+        $max              = $conditions->maxLength;
         $lengthQuantifier = $max !== null && $max > 0
             ? '{' . $min . ',' . $max . '}'
             : ($min > 0 ? '{' . $min . ',}' : '*');

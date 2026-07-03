@@ -12,7 +12,6 @@ services:
     volumes:
       - .:/app
       - ../..:/var/password-strength-bundle
-      - ../../../PasswordToggleBundle:/var/password-toggle-bundle
       - ./docker/frankenphp/Caddyfile.dev:/etc/frankenphp/Caddyfile.dev
       - ./docker/php-dev.ini:/usr/local/etc/php/conf.d/99-dev.ini:ro
       - composer-cache:/root/.composer/cache

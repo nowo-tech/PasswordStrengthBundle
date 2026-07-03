@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "40c4d63c27dc5c81474083a204a5fdfe",
+    "content-hash": "5314b626f06d4bbb707fed1869660d1e",
     "packages": [
         {
             "name": "nowo-tech/password-strength-bundle",
@@ -12,7 +12,7 @@
             "dist": {
                 "type": "path",
                 "url": "/var/password-strength-bundle",
-                "reference": "c418af9e2bb34f7f6ecb08ab3425e0e0eede13a8"
+                "reference": "d5da3c2ec022c7e109dacdc8b8735e2a5140ccf5"
             },
             "require": {
                 "php": ">=8.1 <8.6",
@@ -28,6 +28,7 @@
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^3.0",
+                "nowo-tech/password-toggle-bundle": "^2.0",
                 "phpstan/extension-installer": "^1.0",
                 "phpstan/phpstan": "^2.0",
                 "phpstan/phpstan-phpunit": "^2.0",
@@ -128,11 +129,17 @@
         },
         {
             "name": "nowo-tech/password-toggle-bundle",
-            "version": "dev-main",
+            "version": "v2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nowo-tech/PasswordToggleBundle.git",
+                "reference": "5369a9b7a133f252b99efd3afe49c5a2ee731a4d"
+            },
             "dist": {
-                "type": "path",
-                "url": "/var/password-toggle-bundle",
-                "reference": "8d758728386cc2c0fd6d4b6707450491b95c226e"
+                "type": "zip",
+                "url": "https://api.github.com/repos/nowo-tech/PasswordToggleBundle/zipball/5369a9b7a133f252b99efd3afe49c5a2ee731a4d",
+                "reference": "5369a9b7a133f252b99efd3afe49c5a2ee731a4d",
+                "shasum": ""
             },
             "require": {
                 "php": ">=8.2 <8.6",
@@ -165,50 +172,7 @@
                     "Nowo\\PasswordToggleBundle\\": "src/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Nowo\\PasswordToggleBundle\\Tests\\": "tests/"
-                }
-            },
-            "archive": {
-                "exclude": [
-                    "/demo",
-                    "/.cursor"
-                ]
-            },
-            "scripts": {
-                "test": [
-                    "phpunit"
-                ],
-                "test-coverage": [
-                    "phpunit --coverage-html coverage --coverage-clover coverage.xml --coverage-text"
-                ],
-                "cs-check": [
-                    "php-cs-fixer fix --dry-run --diff"
-                ],
-                "cs-fix": [
-                    "php-cs-fixer fix"
-                ],
-                "rector": [
-                    "rector process"
-                ],
-                "rector-dry": [
-                    "rector process --dry-run"
-                ],
-                "phpstan": [
-                    "phpstan analyse --memory-limit=512M"
-                ],
-                "qa": [
-                    "@cs-check",
-                    "@test"
-                ],
-                "update": [
-                    "composer update"
-                ],
-                "validate": [
-                    "composer validate --strict"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -238,9 +202,13 @@
                 "issues": "https://github.com/nowo-tech/PasswordToggleBundle/issues",
                 "source": "https://github.com/nowo-tech/PasswordToggleBundle"
             },
-            "transport-options": {
-                "relative": false
-            }
+            "funding": [
+                {
+                    "url": "https://github.com/HecFranco",
+                    "type": "github"
+                }
+            ],
+            "time": "2026-07-02T09:04:53+00:00"
         },
         {
             "name": "psr/cache",
@@ -4567,8 +4535,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "nowo-tech/password-strength-bundle": 20,
-        "nowo-tech/password-toggle-bundle": 20
+        "nowo-tech/password-strength-bundle": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

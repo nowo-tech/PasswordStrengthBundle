@@ -39,17 +39,17 @@ final class PasswordDemoController extends AbstractController
     public function level(Request $request): Response
     {
         return $this->renderDemo($request, [
-            'page_title' => 'demo.page_level_title',
-            'page_lead' => 'demo.page_level_lead',
-            'hint' => 'demo.hint_level',
-            'badges' => ['demo.badge_level', 'demo.badge_toggle', 'demo.badge_generator_input', 'demo.badge_feedback_below'],
+            'page_title'       => 'demo.page_level_title',
+            'page_lead'        => 'demo.page_level_lead',
+            'hint'             => 'demo.hint_level',
+            'badges'           => ['demo.badge_level', 'demo.badge_toggle', 'demo.badge_generator_input', 'demo.badge_feedback_below'],
             'password_options' => [
-                'label' => 'Password',
-                'policy_mode' => 'level',
-                'level' => 'medium',
-                'feedback_position' => 'below',
-                'ui_framework' => 'bootstrap5',
-                'generator_mode' => 'input',
+                'label'               => 'Password',
+                'policy_mode'         => 'level',
+                'level'               => 'medium',
+                'feedback_position'   => 'below',
+                'ui_framework'        => 'bootstrap5',
+                'generator_mode'      => 'input',
                 'use_password_toggle' => true,
             ],
         ]);
@@ -59,25 +59,25 @@ final class PasswordDemoController extends AbstractController
     public function conditions(Request $request): Response
     {
         return $this->renderDemo($request, [
-            'page_title' => 'demo.page_conditions_title',
-            'page_lead' => 'demo.page_conditions_lead',
-            'hint' => 'demo.hint_conditions',
-            'badges' => ['demo.badge_conditions', 'demo.badge_toggle', 'demo.badge_generator_modal', 'demo.badge_feedback_above'],
+            'page_title'       => 'demo.page_conditions_title',
+            'page_lead'        => 'demo.page_conditions_lead',
+            'hint'             => 'demo.hint_conditions',
+            'badges'           => ['demo.badge_conditions', 'demo.badge_toggle', 'demo.badge_generator_modal', 'demo.badge_feedback_above'],
             'password_options' => [
-                'label' => 'Password',
+                'label'       => 'Password',
                 'policy_mode' => 'conditions',
-                'conditions' => [
-                    'min_length' => 10,
-                    'require_lowercase' => true,
-                    'require_uppercase' => true,
-                    'require_digit' => true,
-                    'require_special' => true,
+                'conditions'  => [
+                    'min_length'          => 10,
+                    'require_lowercase'   => true,
+                    'require_uppercase'   => true,
+                    'require_digit'       => true,
+                    'require_special'     => true,
                     'disallow_whitespace' => true,
                 ],
-                'feedback_position' => 'above',
-                'ui_framework' => 'bootstrap5',
-                'generator_mode' => 'modal',
-                'generator_count' => 4,
+                'feedback_position'   => 'above',
+                'ui_framework'        => 'bootstrap5',
+                'generator_mode'      => 'modal',
+                'generator_count'     => 4,
                 'use_password_toggle' => true,
             ],
         ]);
@@ -87,17 +87,17 @@ final class PasswordDemoController extends AbstractController
     public function plain(Request $request): Response
     {
         return $this->renderDemo($request, [
-            'page_title' => 'demo.page_plain_title',
-            'page_lead' => 'demo.page_plain_lead',
-            'hint' => 'demo.hint_plain',
-            'badges' => ['demo.badge_plain', 'demo.badge_level', 'demo.badge_feedback_below'],
+            'page_title'       => 'demo.page_plain_title',
+            'page_lead'        => 'demo.page_plain_lead',
+            'hint'             => 'demo.hint_plain',
+            'badges'           => ['demo.badge_plain', 'demo.badge_level', 'demo.badge_feedback_below'],
             'password_options' => [
-                'label' => 'Password',
-                'policy_mode' => 'level',
-                'level' => 'strong',
-                'feedback_position' => 'below',
-                'ui_framework' => 'bootstrap5',
-                'generator_mode' => 'off',
+                'label'               => 'Password',
+                'policy_mode'         => 'level',
+                'level'               => 'strong',
+                'feedback_position'   => 'below',
+                'ui_framework'        => 'bootstrap5',
+                'generator_mode'      => 'off',
                 'use_password_toggle' => false,
             ],
         ]);
@@ -124,11 +124,11 @@ final class PasswordDemoController extends AbstractController
         }
 
         return $this->render('password_demo/show.html.twig', [
-            'form' => $form,
+            'form'           => $form,
             'page_title_key' => $config['page_title'],
-            'page_lead_key' => $config['page_lead'],
-            'hint_key' => $config['hint'],
-            'badge_keys' => $config['badges'],
+            'page_lead_key'  => $config['page_lead'],
+            'hint_key'       => $config['hint'],
+            'badge_keys'     => $config['badges'],
         ]);
     }
 
@@ -140,7 +140,7 @@ final class PasswordDemoController extends AbstractController
     private function createDemoForm(array $passwordOptions): FormInterface
     {
         $constraints = [new NotBlank()];
-        $policyMode = (string) ($passwordOptions['policy_mode'] ?? 'level');
+        $policyMode  = (string) ($passwordOptions['policy_mode'] ?? 'level');
 
         if ($policyMode === 'conditions') {
             $constraints[] = new PasswordStrength([
@@ -150,7 +150,7 @@ final class PasswordDemoController extends AbstractController
         } else {
             $constraints[] = new PasswordStrength([
                 'policyMode' => 'level',
-                'level' => (string) ($passwordOptions['level'] ?? 'medium'),
+                'level'      => (string) ($passwordOptions['level'] ?? 'medium'),
             ]);
         }
 
@@ -159,7 +159,7 @@ final class PasswordDemoController extends AbstractController
         return $this->createFormBuilder()
             ->add('password', PasswordStrengthType::class, $passwordOptions)
             ->add('submit', SubmitType::class, [
-                'label' => 'demo.submit',
+                'label'              => 'demo.submit',
                 'translation_domain' => 'messages',
             ])
             ->getForm();

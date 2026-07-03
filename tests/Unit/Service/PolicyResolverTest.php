@@ -24,7 +24,7 @@ final class PolicyResolverTest extends TestCase
 
     public function testResolvesInlineConditions(): void
     {
-        $resolver = new PolicyResolver();
+        $resolver   = new PolicyResolver();
         $conditions = $resolver->resolve(PolicyMode::Conditions, [
             'conditions' => ['min_length' => 10, 'require_digit' => true],
         ]);

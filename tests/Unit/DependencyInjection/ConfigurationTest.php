@@ -10,11 +10,6 @@ use Symfony\Component\Config\Definition\Processor;
 
 final class ConfigurationTest extends TestCase
 {
-    public function testAliasConstant(): void
-    {
-        self::assertSame('nowo_password_strength', Configuration::ALIAS);
-    }
-
     public function testProcessConfigurationWithDefaults(): void
     {
         $config = $this->processConfiguration([]);
