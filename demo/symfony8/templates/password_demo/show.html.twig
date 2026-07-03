@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ page_title_key|trans({}, 'messages') }} – {{ 'demo.title'|trans({}, 'messages') }}{% endblock %}
+
+{% block body %}
+<div class="container py-4 pb-5">
+    <a class="demo-back-link" href="{{ path('demo_home', { _locale: app.request.locale }) }}">
+        <span aria-hidden="true">←</span> {{ 'demo.back_home'|trans({}, 'messages') }}
+    </a>
+
+    <div class="demo-page-card">
+        <header class="demo-page-header">
+            <div class="demo-feature-list">
+                {% for badge_key in badge_keys %}
+                    <span class="badge text-bg-light border demo-badge">{{ badge_key|trans({}, 'messages') }}</span>
+                {% endfor %}
+            </div>
+            <h1>{{ page_title_key|trans({}, 'messages') }}</h1>
+            <p class="lead text-muted mb-0">{{ page_lead_key|trans({}, 'messages')|raw }}</p>
+        </header>
+
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ message|trans({}, 'messages') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+
+        <div class="demo-form-panel">
+            {{ form_start(form, { attr: { class: 'needs-validation', novalidate: 'novalidate' } }) }}
+                <div class="mb-3">
+                    {{ form_label(form.password) }}
+                    {{ form_widget(form.password) }}
+                    {{ form_errors(form.password) }}
+                </div>
+                <div class="d-grid d-md-flex gap-2">
+                    {{ form_widget(form.submit, { attr: { class: 'btn btn-primary px-4' } }) }}
+                </div>
+            {{ form_end(form) }}
+        </div>
+
+        {% if hint_key is defined and hint_key %}
+            <p class="demo-hint mb-0">{{ hint_key|trans({}, 'messages') }}</p>
+        {% endif %}
+    </div>
+</div>
+
+<script src="{{ asset('bundles/passwordstrength/password-strength.js') }}" defer></script>
+{% endblock %}

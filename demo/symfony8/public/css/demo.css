@@ -1,0 +1,182 @@
+:root {
+    --demo-primary: #0d6efd;
+    --demo-primary-dark: #0a58ca;
+    --demo-accent: #20c997;
+    --demo-surface: #ffffff;
+    --demo-muted: #6c757d;
+    --demo-border: rgba(15, 23, 42, 0.08);
+    --demo-shadow: 0 1rem 2.5rem rgba(15, 23, 42, 0.08);
+}
+
+body.demo-app {
+    background:
+        radial-gradient(circle at top left, rgba(13, 110, 253, 0.12), transparent 28rem),
+        radial-gradient(circle at bottom right, rgba(32, 201, 151, 0.1), transparent 24rem),
+        #f4f7fb;
+    min-height: 100vh;
+}
+
+.demo-navbar {
+    backdrop-filter: blur(10px);
+    background: rgba(13, 110, 253, 0.96) !important;
+    box-shadow: 0 0.25rem 1rem rgba(13, 110, 253, 0.18);
+}
+
+.demo-footer {
+    color: var(--demo-muted);
+    font-size: 0.9rem;
+}
+
+.demo-hero {
+    padding: 2.5rem 0 1rem;
+}
+
+.demo-hero h1 {
+    font-size: clamp(1.75rem, 3vw, 2.35rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.demo-card {
+    background: var(--demo-surface);
+    border: 1px solid var(--demo-border);
+    border-radius: 1rem;
+    box-shadow: var(--demo-shadow);
+    height: 100%;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.demo-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 1.25rem 2.75rem rgba(15, 23, 42, 0.12);
+}
+
+.demo-card-link {
+    color: inherit;
+    display: block;
+    height: 100%;
+    padding: 1.5rem;
+    text-decoration: none;
+}
+
+.demo-card-link:hover {
+    color: inherit;
+}
+
+.demo-badge {
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    padding: 0.35rem 0.65rem;
+}
+
+.demo-page-card {
+    background: var(--demo-surface);
+    border: 1px solid var(--demo-border);
+    border-radius: 1rem;
+    box-shadow: var(--demo-shadow);
+    padding: 1.75rem;
+}
+
+.demo-page-header {
+    margin-bottom: 1.5rem;
+}
+
+.demo-page-header h1 {
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.demo-feature-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.demo-form-panel {
+    background: #f8fafc;
+    border: 1px solid var(--demo-border);
+    border-radius: 0.85rem;
+    padding: 1.25rem;
+}
+
+.demo-form-panel .form-label {
+    font-weight: 600;
+}
+
+.demo-form-panel .mb-3:last-child {
+    margin-bottom: 0 !important;
+}
+
+.password-strength-requirements {
+    list-style: none;
+    margin: 0.75rem 0 0;
+    padding: 0;
+}
+
+.password-strength-requirement {
+    align-items: center;
+    display: flex;
+    font-size: 0.92rem;
+    gap: 0.5rem;
+    margin-bottom: 0.35rem;
+}
+
+.password-strength-requirement::before {
+    content: '';
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background: #dee2e6;
+}
+
+.password-strength-requirement--met::before {
+    background: #198754;
+    box-shadow: inset 0 0 0 2px #fff;
+}
+
+.password-strength-requirement--unmet::before {
+    background: #dc3545;
+    box-shadow: inset 0 0 0 2px #fff;
+}
+
+.password-strength-input-row {
+    align-items: stretch;
+}
+
+.password-strength-input-row .input-group,
+.password-strength-input-row .password-strength-input-grow .input-group {
+    width: 100%;
+}
+
+.form-password-toggle .input-group-text.cursor-pointer {
+    transition: background-color 0.15s ease, transform 0.15s ease;
+}
+
+.form-password-toggle .input-group-text.cursor-pointer:hover {
+    background-color: #e9ecef;
+}
+
+.demo-hint {
+    color: var(--demo-muted);
+    font-size: 0.9rem;
+    margin-top: 0.75rem;
+}
+
+.demo-back-link {
+    color: var(--demo-muted);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-bottom: 1rem;
+    text-decoration: none;
+}
+
+.demo-back-link:hover {
+    color: var(--demo-primary-dark);
+}
