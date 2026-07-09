@@ -65,6 +65,8 @@ With default settings (`use_password_toggle: true`), this bundle detects Passwor
 - Templates: `templates/bundles/PasswordStrengthBundle/...`
 - Translations: `translations/PasswordStrengthBundle.{locale}.yaml`
 
+Bundled locales: `de`, `en`, `es`, `fr`, `it`, `nl`, `pt`.
+
 See [USAGE.md](USAGE.md#overriding-bundle-templates-and-translations).
 
 ## Next steps

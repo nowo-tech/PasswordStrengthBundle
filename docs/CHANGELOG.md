@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-07-09
+
+### Added
+
+- **Translations** — German (`de`), French (`fr`), Italian (`it`), Dutch (`nl`), and Portuguese (`pt`) in addition to English and Spanish.
+- **GitHub Spec Kit** — baseline spec and code inventory (`specs/001-baseline/`), operator manual [`SPEC-KIT.md`](SPEC-KIT.md), `.specify/` scaffolding, and Cursor Agent `speckit-*` skills.
+
+### Changed
+
+- [`SPEC-DRIVEN-DEVELOPMENT.md`](SPEC-DRIVEN-DEVELOPMENT.md) — documents the three-layer model (Spec Kit, product behavior, `REQ-*` traceability).
+- Demo Symfony 8 Docker image and Composer lockfiles refreshed.
+
 ## [1.0.0] - 2026-07-03
 
 First stable release of **Password Strength Bundle**.
@@ -31,5 +43,6 @@ First stable release of **Password Strength Bundle**.
 - PHP >= 8.1, < 8.6
 - Symfony ^6.0 || ^7.0 || ^8.0
 
-[Unreleased]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/nowo-tech/PasswordStrengthBundle/releases/tag/v1.0.0

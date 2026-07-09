@@ -1,9 +1,10 @@
 # Spec-driven development
 
-In this repository, **spec-driven development** has two layers that stay in sync:
+In this repository, **spec-driven development** has three layers that stay in sync:
 
-1. **Product behavior** — what **Password Strength Bundle** guarantees (form type, validator, policies, live feedback). See [`USAGE.md`](USAGE.md) and [`CONFIGURATION.md`](CONFIGURATION.md); **PHPUnit**, **Vitest**, and **PHPStan** enforce it in CI.
-2. **Traceability anchors** — stable **`REQ-*`** identifiers from the Nowo bundle checklist (`BUNDLES_FULL_SPECS_DETAILS.md`) in Makefiles and demos.
+1. **GitHub Spec Kit baseline** — [`specs/001-baseline/`](../specs/001-baseline/) ([`spec.md`](../specs/001-baseline/spec.md), [`code-inventory.md`](../specs/001-baseline/code-inventory.md)), initialized with [GitHub Spec Kit](https://github.com/github/spec-kit) (`.specify/`, **Cursor Agent** skills in `.cursor/skills/speckit-*`). The inventory maps **100%** of production code in `src/`. **How to install, initialize, and use Spec Kit:** [`SPEC-KIT.md`](SPEC-KIT.md).
+2. **Product behavior** — what **Password Strength Bundle** guarantees (form type, validator, policies, live feedback). See [`USAGE.md`](USAGE.md) and [`CONFIGURATION.md`](CONFIGURATION.md); **PHPUnit**, **Vitest**, and **PHPStan** enforce it in CI.
+3. **Traceability anchors** — stable **`REQ-*`** identifiers from the Nowo bundle checklist (`BUNDLES_FULL_SPECS_DETAILS.md`) in Makefiles and demos.
 
 There is no separate executable spec language (Gherkin); tests and static analysis are the mechanical proof.
 
@@ -69,6 +70,44 @@ When changing scripted behavior, update the matching `REQ-*` comment or add a ne
 
 ---
 
+## Suggested workflow for contributors
+
+1. **Clarify behavior** in an issue or draft PR: acceptance criteria for the **product** and, if relevant, **Makefiles/demos** (`REQ-*`).
+2. **Implement** with tests and static analysis.
+3. **Anchor scripts and demos** when dev UX changes: add or adjust `REQ-*` comments and the requirement table.
+4. **Ship integrator docs** when behavior or configuration changes: [`USAGE.md`](USAGE.md), [`CONFIGURATION.md`](CONFIGURATION.md), [`CHANGELOG.md`](CHANGELOG.md), and [`UPGRADING.md`](UPGRADING.md) when consumers must change code or config.
+5. **Keep Spec Kit artifacts in sync** when production code under `src/` changes:
+   - Update [`specs/001-baseline/spec.md`](../specs/001-baseline/spec.md) and [`code-inventory.md`](../specs/001-baseline/code-inventory.md).
+   - Follow the maintainer checklist in [`SPEC-KIT.md`](SPEC-KIT.md).
+   - For **new features**, use Cursor Agent skills (`/speckit-specify`, `/speckit-plan`, `/speckit-tasks`) as documented in SPEC-KIT.
+
+---
+
+
+## GitHub Spec Kit (summary)
+
+This repository uses [GitHub Spec Kit](https://github.com/github/spec-kit) with **Cursor Agent** (`cursor-agent` integration).
+
+| Artifact | Path |
+| --- | --- |
+| **Operator manual** (install, init, usage) | [`SPEC-KIT.md`](SPEC-KIT.md) |
+| Baseline spec | [`specs/001-baseline/spec.md`](../specs/001-baseline/spec.md) |
+| Code inventory (100%) | [`specs/001-baseline/code-inventory.md`](../specs/001-baseline/code-inventory.md) |
+| Constitution | [`.specify/memory/constitution.md`](../.specify/memory/constitution.md) |
+| Cursor Agent skills | [`.cursor/skills/`](../.cursor/skills/) (`speckit-*`) |
+
+**Quick start (maintainers):**
+
+```bash
+# Install Specify CLI (once per machine) — see SPEC-KIT.md
+specify init --here --force --integration cursor-agent --script sh
+specify integration list   # Cursor → installed (default)
+```
+
+In Cursor Agent, start a new feature with `/speckit-specify <description>`. For day-to-day tooling details, skills reference, folder layout, and troubleshooting, read **[`SPEC-KIT.md`](SPEC-KIT.md)**.
+
+---
+
 ## Relationship to Engram
 
 Org-wide documentation hygiene and MCP setup: [`ENGRAM.md`](ENGRAM.md). This file defines **bundle behavior** and local `REQ-*` traceability.
@@ -77,6 +116,7 @@ Org-wide documentation hygiene and MCP setup: [`ENGRAM.md`](ENGRAM.md). This fil
 
 ## See also
 
+- [`SPEC-KIT.md`](SPEC-KIT.md) — GitHub Spec Kit manual (install, structure, usage)
 - [Usage](USAGE.md)
 - [Configuration](CONFIGURATION.md)
 - [Contributing](CONTRIBUTING.md)

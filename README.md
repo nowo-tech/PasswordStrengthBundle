@@ -19,7 +19,7 @@ Symfony bundle that extends `PasswordType` with **100% configurable** password h
 - **Multi-framework Twig themes** — Bootstrap 3–5, Tailwind 2, Foundation 5–6, table/div layouts
 - **PasswordToggleBundle** — optional show/hide toggle when that bundle is installed (auto-detected)
 - **Vite + pnpm + TypeScript** assets (IIFE bundle for `assets:install`)
-- **Translations** — EN/ES (overridable from the app)
+- **Translations** — DE, EN, ES, FR, IT, NL, PT (overridable from the app)
 
 ## Installation
 
@@ -175,6 +175,7 @@ public ?string $plainPassword = null;
 - [Security](docs/SECURITY.md)
 - [Engram](docs/ENGRAM.md)
 - [Spec-driven development](docs/SPEC-DRIVEN-DEVELOPMENT.md)
+- [GitHub Spec Kit](docs/SPEC-KIT.md)
 
 ### Additional documentation
 
