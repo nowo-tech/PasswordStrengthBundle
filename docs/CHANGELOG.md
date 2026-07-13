@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-07-13
+
+### Added
+
+- **Asset package** — registers the `nowo_password_strength` Symfony assets package (`base_path: /bundles/passwordstrength`) for AssetMapper and consistent `asset()` usage.
+- **AssetMapper docs** — installation notes in [`INSTALLATION.md`](INSTALLATION.md) for apps using Symfony AssetMapper.
+
+### Changed
+
+- **Documentation** — README, INSTALLATION, UPGRADING, Flex recipe `post-install.txt`, and demo templates now use `asset('password-strength.js', 'nowo_password_strength')` instead of a hard-coded public path.
+
 ## [1.1.0] - 2026-07-09
 
 ### Added
@@ -43,6 +54,7 @@ First stable release of **Password Strength Bundle**.
 - PHP >= 8.1, < 8.6
 - Symfony ^6.0 || ^7.0 || ^8.0
 
-[Unreleased]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v1.2.0...HEAD
+[1.2.0]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/nowo-tech/PasswordStrengthBundle/releases/tag/v1.0.0

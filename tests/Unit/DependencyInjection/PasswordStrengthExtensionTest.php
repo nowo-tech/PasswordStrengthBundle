@@ -87,4 +87,16 @@ final class PasswordStrengthExtensionTest extends TestCase
     {
         self::assertSame('nowo_password_strength', (new PasswordStrengthExtension())->getAlias());
     }
+
+    public function testPrependConfiguresAssets(): void
+    {
+        $container = new ContainerBuilder();
+        $container->registerExtension(new \Symfony\Bundle\FrameworkBundle\DependencyInjection\FrameworkExtension());
+        (new PasswordStrengthExtension())->prepend($container);
+
+        self::assertSame(
+            '/bundles/passwordstrength',
+            $container->getExtensionConfig('framework')[0]['assets']['packages']['nowo_password_strength']['base_path'],
+        );
+    }
 }
