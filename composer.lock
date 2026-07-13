@@ -4136,16 +4136,16 @@
         },
         {
             "name": "nowo-tech/password-toggle-bundle",
-            "version": "v2.0.2",
+            "version": "v2.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nowo-tech/PasswordToggleBundle.git",
-                "reference": "81e0d0bb83d8ffb53d4779a7e18253aaad686108"
+                "reference": "ac2b51369ffbc7a95995576dc0b5571a8f40ec12"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nowo-tech/PasswordToggleBundle/zipball/81e0d0bb83d8ffb53d4779a7e18253aaad686108",
-                "reference": "81e0d0bb83d8ffb53d4779a7e18253aaad686108",
+                "url": "https://api.github.com/repos/nowo-tech/PasswordToggleBundle/zipball/ac2b51369ffbc7a95995576dc0b5571a8f40ec12",
+                "reference": "ac2b51369ffbc7a95995576dc0b5571a8f40ec12",
                 "shasum": ""
             },
             "require": {
@@ -4215,7 +4215,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-07-09T08:58:32+00:00"
+            "time": "2026-07-13T06:26:06+00:00"
         },
         {
             "name": "phar-io/manifest",
