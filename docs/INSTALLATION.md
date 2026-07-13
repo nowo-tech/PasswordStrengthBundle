@@ -45,10 +45,14 @@ php bin/console assets:install
 4. Include the script in your layout:
 
 ```twig
-<script src="{{ asset('bundles/passwordstrength/password-strength.js') }}" defer></script>
+<script src="{{ asset('password-strength.js', 'nowo_password_strength') }}" defer></script>
 ```
 
 The bundle prepends its form theme to `twig.form_themes` according to `form_theme` in configuration (default: `form_div_layout.html.twig`). Set `form_theme` to match your app layout (e.g. `bootstrap_5_layout.html.twig`).
+
+### AssetMapper
+
+If your app uses [Symfony AssetMapper](https://symfony.com/doc/current/frontend/asset_mapper.html), the bundle registers the `nowo_password_strength` asset package. Run `assets:install` once so `password-strength.js` is published to `public/bundles/passwordstrength/`.
 
 ## Optional: PasswordToggleBundle
 

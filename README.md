@@ -42,7 +42,7 @@ php bin/console assets:install
 Include the script in your layout (or demo template):
 
 ```twig
-<script src="{{ asset('bundles/passwordstrength/password-strength.js') }}" defer></script>
+<script src="{{ asset('password-strength.js', 'nowo_password_strength') }}" defer></script>
 ```
 
 ## Configuration
