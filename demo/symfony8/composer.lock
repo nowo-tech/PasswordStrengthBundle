@@ -12,7 +12,7 @@
             "dist": {
                 "type": "path",
                 "url": "/var/password-strength-bundle",
-                "reference": "3bf2e1134443aca95c0d8962fab63e3ae02a2643"
+                "reference": "2b8e5f122b9eb223c1ac611e855e9e5fc6fda44d"
             },
             "require": {
                 "php": ">=8.1 <8.6",

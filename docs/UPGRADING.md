@@ -41,6 +41,17 @@ composer update nowo-tech/password-strength-bundle
 
 The previous `asset('bundles/passwordstrength/password-strength.js')` path continues to work after `assets:install`; the package alias is the supported approach (required for AssetMapper). See [INSTALLATION.md](INSTALLATION.md).
 
+## 1.3.0 (2026-07-16)
+
+No breaking changes for application consumers. Upgrade with:
+
+```bash
+composer update nowo-tech/password-strength-bundle
+```
+
+- **Runtime / API** — unchanged from 1.2.0; no form, validator, or config migrations.
+- **Contributors** — after cloning, run `make setup-hooks` so commit messages cannot include Cursor co-author trailers (see [CONTRIBUTING.md](CONTRIBUTING.md) and [GITHUB_CI.md](GITHUB_CI.md)).
+
 ## Unreleased / 1.x
 
 Breaking or notable changes in future 1.x releases will be documented here.

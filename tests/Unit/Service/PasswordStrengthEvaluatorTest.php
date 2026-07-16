@@ -86,4 +86,34 @@ final class PasswordStrengthEvaluatorTest extends TestCase
         self::assertFalse($result->toArray()['valid']);
         self::assertNotEmpty($result->toArray()['requirements']);
     }
+
+    public function testEvaluateAcceptsCustomRegex(): void
+    {
+        $result = $this->evaluator->evaluate('ABC', PasswordConditions::fromArray([
+            'regex' => '^[A-Z]+$',
+        ]));
+
+        self::assertTrue($result->valid);
+    }
+
+    public function testEvaluateRejectsWhenCustomRegexDoesNotMatch(): void
+    {
+        $result = $this->evaluator->evaluate('abcdef', PasswordConditions::fromArray([
+            'regex' => '^[0-9]+$',
+        ]));
+
+        self::assertFalse($result->valid);
+        self::assertContains('regex', $result->missing);
+    }
+
+    public function testEvaluateAcceptsDelimitedRegexLiteralForRequirementCheck(): void
+    {
+        $result = $this->evaluator->evaluate('abc', PasswordConditions::fromArray([
+            'regex' => '/^[A-Z]+$/i',
+        ]));
+
+        // Requirement uses wrapRegex (delimited form); HTML pattern reuses the raw string and may not match.
+        self::assertSame('regex', $result->requirements[0]->id);
+        self::assertTrue($result->requirements[0]->met);
+    }
 }

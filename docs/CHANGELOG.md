@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-07-16
+
+### Added
+
+- **Code of Conduct** — Contributor Covenant (`CODE_OF_CONDUCT.md`), linked from README and CONTRIBUTING.
+- **Git hygiene (REQ-GIT-001)** — CI job and scripts to reject Cursor `Co-authored-by` trailers; `.githooks/commit-msg`, `make setup-hooks`, `make check-no-cursor-coauthor`, and [`GITHUB_CI.md`](GITHUB_CI.md).
+- **Tests** — additional coverage for `PasswordStrengthType` and `PasswordStrengthEvaluator`.
+
+### Changed
+
+- **Release checklist** — `make release-check` runs `check-no-cursor-coauthor` first; RELEASE.md notes re-check before push.
+
 ## [1.2.0] - 2026-07-13
 
 ### Added
@@ -54,7 +66,8 @@ First stable release of **Password Strength Bundle**.
 - PHP >= 8.1, < 8.6
 - Symfony ^6.0 || ^7.0 || ^8.0
 
-[Unreleased]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v1.2.0...HEAD
+[Unreleased]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v1.3.0...HEAD
+[1.3.0]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/nowo-tech/PasswordStrengthBundle/releases/tag/v1.0.0

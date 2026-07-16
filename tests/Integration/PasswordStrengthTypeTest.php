@@ -172,6 +172,33 @@ final class PasswordStrengthTypeTest extends TestCase
         self::assertSame('input', $view['password']->vars['generator_mode']);
     }
 
+    public function testInvalidFeedbackAndGeneratorOptionsAreRejected(): void
+    {
+        $this->expectException(\Symfony\Component\OptionsResolver\Exception\InvalidOptionsException::class);
+
+        $this->factory->createBuilder(FormType::class)
+            ->add('password', PasswordStrengthType::class, [
+                'feedback_position' => 'invalid-position',
+                'generator_mode'    => 'invalid-mode',
+            ])
+            ->getForm();
+    }
+
+    public function testNullFeedbackAndGeneratorOptionsUseDefaults(): void
+    {
+        $form = $this->factory->createBuilder(FormType::class)
+            ->add('password', PasswordStrengthType::class, [
+                'feedback_position' => null,
+                'generator_mode'    => null,
+            ])
+            ->getForm();
+
+        $view = $form->createView();
+
+        self::assertSame('below', $view['password']->vars['feedback_position']);
+        self::assertSame('modal', $view['password']->vars['generator_mode']);
+    }
+
     public function testBlockPrefixAndParent(): void
     {
         $type = new PasswordStrengthType(
