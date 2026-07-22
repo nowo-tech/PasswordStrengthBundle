@@ -88,13 +88,13 @@ The widget sets `pattern` on the input from the active policy. Browsers may use 
 Application overrides **always win** when placed under:
 
 ```
-templates/bundles/PasswordStrengthBundle/<subpath>
+templates/bundles/NowoPasswordStrengthBundle/<subpath>
 ```
 
 **Procedure**
 
 1. Pick the `<subpath>` from the table below (same path as under `src/Resources/views/` in the package).
-2. Create `templates/bundles/PasswordStrengthBundle/<subpath>` in your app.
+2. Create `templates/bundles/NowoPasswordStrengthBundle/<subpath>` in your app.
 3. Clear cache in dev if needed: `php bin/console cache:clear`.
 
 | Subpath | Purpose |
@@ -111,18 +111,18 @@ templates/bundles/PasswordStrengthBundle/<subpath>
 | `Form/password_strength_theme_foundation5.html.twig` | Foundation 5 |
 | `Form/password_strength_theme_foundation6.html.twig` | Foundation 6 |
 
-Twig namespace: `@PasswordStrengthBundle/Form/...` (registered via `TwigPathsPass`).
+Twig namespace: `@NowoPasswordStrengthBundle/Form/...` (registered via `TwigPathsPass`).
 
 ## Translation overrides (REQ-I18N-001)
 
-Domain: **`PasswordStrengthBundle`** (same as `translation_domain` on the form type).
+Domain: **`NowoPasswordStrengthBundle`** (same as `translation_domain` on the form type).
 
 **Procedure**
 
-1. Create `translations/PasswordStrengthBundle.<locale>.yaml` in your application.
+1. Create `translations/NowoPasswordStrengthBundle.<locale>.yaml` in your application.
 2. Override only the keys you need; missing keys fall back to the bundle.
 
-Example `translations/PasswordStrengthBundle.es.yaml`:
+Example `translations/NowoPasswordStrengthBundle.es.yaml`:
 
 ```yaml
 requirement:
@@ -132,7 +132,7 @@ generator:
   button: 'Generar contraseña'
 ```
 
-See bundle defaults in `src/Resources/translations/PasswordStrengthBundle.en.yaml`.
+See bundle defaults in `src/Resources/translations/NowoPasswordStrengthBundle.en.yaml`.
 
 ## Demo routes
 

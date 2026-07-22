@@ -82,13 +82,13 @@ This file proves that **every source artifact** under `src/` is referenced by th
 
 | Source file | Spec section | Requirement IDs |
 | --- | --- | --- |
-| `PasswordStrengthBundle.en.yaml` | i18n | FR-I18N-001 |
-| `PasswordStrengthBundle.es.yaml` | i18n | FR-I18N-001 |
-| `PasswordStrengthBundle.de.yaml` | i18n | FR-I18N-001 |
-| `PasswordStrengthBundle.fr.yaml` | i18n | FR-I18N-001 |
-| `PasswordStrengthBundle.it.yaml` | i18n | FR-I18N-001 |
-| `PasswordStrengthBundle.nl.yaml` | i18n | FR-I18N-001 |
-| `PasswordStrengthBundle.pt.yaml` | i18n | FR-I18N-001 |
+| `NowoPasswordStrengthBundle.en.yaml` | i18n | FR-I18N-001 |
+| `NowoPasswordStrengthBundle.es.yaml` | i18n | FR-I18N-001 |
+| `NowoPasswordStrengthBundle.de.yaml` | i18n | FR-I18N-001 |
+| `NowoPasswordStrengthBundle.fr.yaml` | i18n | FR-I18N-001 |
+| `NowoPasswordStrengthBundle.it.yaml` | i18n | FR-I18N-001 |
+| `NowoPasswordStrengthBundle.nl.yaml` | i18n | FR-I18N-001 |
+| `NowoPasswordStrengthBundle.pt.yaml` | i18n | FR-I18N-001 |
 
 ## Coverage summary
 

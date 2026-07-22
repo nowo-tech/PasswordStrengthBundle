@@ -12,7 +12,7 @@
             "dist": {
                 "type": "path",
                 "url": "/var/password-strength-bundle",
-                "reference": "2b8e5f122b9eb223c1ac611e855e9e5fc6fda44d"
+                "reference": "c852bdcc290ce4a861d34d84dbe500f1a9ac2ae3"
             },
             "require": {
                 "php": ">=8.1 <8.6",
@@ -129,16 +129,16 @@
         },
         {
             "name": "nowo-tech/password-toggle-bundle",
-            "version": "v2.0.2",
+            "version": "v2.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nowo-tech/PasswordToggleBundle.git",
-                "reference": "81e0d0bb83d8ffb53d4779a7e18253aaad686108"
+                "reference": "1c3039e7aa6a0fff1d66c8449db7d1eb7ccebb34"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nowo-tech/PasswordToggleBundle/zipball/81e0d0bb83d8ffb53d4779a7e18253aaad686108",
-                "reference": "81e0d0bb83d8ffb53d4779a7e18253aaad686108",
+                "url": "https://api.github.com/repos/nowo-tech/PasswordToggleBundle/zipball/1c3039e7aa6a0fff1d66c8449db7d1eb7ccebb34",
+                "reference": "1c3039e7aa6a0fff1d66c8449db7d1eb7ccebb34",
                 "shasum": ""
             },
             "require": {
@@ -208,7 +208,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-07-09T08:58:32+00:00"
+            "time": "2026-07-16T11:53:52+00:00"
         },
         {
             "name": "psr/cache",
@@ -3753,16 +3753,16 @@
         },
         {
             "name": "symfony/ux-icons",
-            "version": "v3.2.0",
+            "version": "v3.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/ux-icons.git",
-                "reference": "a6b81d5953d5f963fc8f27a3584213d242406ca1"
+                "reference": "449a8873a8077fc21ac2bd98a453c247c320cdd5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ux-icons/zipball/a6b81d5953d5f963fc8f27a3584213d242406ca1",
-                "reference": "a6b81d5953d5f963fc8f27a3584213d242406ca1",
+                "url": "https://api.github.com/repos/symfony/ux-icons/zipball/449a8873a8077fc21ac2bd98a453c247c320cdd5",
+                "reference": "449a8873a8077fc21ac2bd98a453c247c320cdd5",
                 "shasum": ""
             },
             "require": {
@@ -3822,7 +3822,7 @@
                 "twig"
             ],
             "support": {
-                "source": "https://github.com/symfony/ux-icons/tree/v3.2.0"
+                "source": "https://github.com/symfony/ux-icons/tree/v3.3.0"
             },
             "funding": [
                 {
@@ -4271,16 +4271,16 @@
     "packages-dev": [
         {
             "name": "nowo-tech/twig-inspector-bundle",
-            "version": "v1.0.34",
+            "version": "v1.0.37",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nowo-tech/TwigInspectorBundle.git",
-                "reference": "e926c092b6df59edaded71ec011075e67190c783"
+                "reference": "87f257751802989a5fbe3e61da3cff3737edc928"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nowo-tech/TwigInspectorBundle/zipball/e926c092b6df59edaded71ec011075e67190c783",
-                "reference": "e926c092b6df59edaded71ec011075e67190c783",
+                "url": "https://api.github.com/repos/nowo-tech/TwigInspectorBundle/zipball/87f257751802989a5fbe3e61da3cff3737edc928",
+                "reference": "87f257751802989a5fbe3e61da3cff3737edc928",
                 "shasum": ""
             },
             "require": {
@@ -4308,7 +4308,7 @@
                 "symfony/yaml": "^6.0 || ^7.0 || ^8.0"
             },
             "suggest": {
-                "symfony/flex": "For automatic recipe installation (config and routes)"
+                "symfony/flex": "For automatic recipe installation (config and routes; registers this bundle for dev/test only — always install with composer require --dev)"
             },
             "type": "symfony-bundle",
             "autoload": {
@@ -4369,7 +4369,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-07-07T14:45:27+00:00"
+            "time": "2026-07-20T08:48:35+00:00"
         },
         {
             "name": "symfony/debug-bundle",

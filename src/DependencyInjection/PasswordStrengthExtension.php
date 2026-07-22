@@ -18,17 +18,17 @@ final class PasswordStrengthExtension extends Extension implements PrependExtens
 {
     /** @var array<string, string> */
     private const FORM_THEME_MAP = [
-        'form_div_layout.html.twig'               => '@PasswordStrengthBundle/Form/password_strength_theme.html.twig',
-        'form_table_layout.html.twig'             => '@PasswordStrengthBundle/Form/password_strength_theme_table.html.twig',
-        'bootstrap_5_layout.html.twig'            => '@PasswordStrengthBundle/Form/password_strength_theme_bootstrap5.html.twig',
-        'bootstrap_5_horizontal_layout.html.twig' => '@PasswordStrengthBundle/Form/password_strength_theme_bootstrap5_horizontal.html.twig',
-        'bootstrap_4_layout.html.twig'            => '@PasswordStrengthBundle/Form/password_strength_theme_bootstrap4.html.twig',
-        'bootstrap_4_horizontal_layout.html.twig' => '@PasswordStrengthBundle/Form/password_strength_theme_bootstrap4_horizontal.html.twig',
-        'bootstrap_3_layout.html.twig'            => '@PasswordStrengthBundle/Form/password_strength_theme_bootstrap3.html.twig',
-        'bootstrap_3_horizontal_layout.html.twig' => '@PasswordStrengthBundle/Form/password_strength_theme_bootstrap3_horizontal.html.twig',
-        'foundation_5_layout.html.twig'           => '@PasswordStrengthBundle/Form/password_strength_theme_foundation5.html.twig',
-        'foundation_6_layout.html.twig'           => '@PasswordStrengthBundle/Form/password_strength_theme_foundation6.html.twig',
-        'tailwind_2_layout.html.twig'             => '@PasswordStrengthBundle/Form/password_strength_theme_tailwind2.html.twig',
+        'form_div_layout.html.twig'               => '@NowoPasswordStrengthBundle/Form/password_strength_theme.html.twig',
+        'form_table_layout.html.twig'             => '@NowoPasswordStrengthBundle/Form/password_strength_theme_table.html.twig',
+        'bootstrap_5_layout.html.twig'            => '@NowoPasswordStrengthBundle/Form/password_strength_theme_bootstrap5.html.twig',
+        'bootstrap_5_horizontal_layout.html.twig' => '@NowoPasswordStrengthBundle/Form/password_strength_theme_bootstrap5_horizontal.html.twig',
+        'bootstrap_4_layout.html.twig'            => '@NowoPasswordStrengthBundle/Form/password_strength_theme_bootstrap4.html.twig',
+        'bootstrap_4_horizontal_layout.html.twig' => '@NowoPasswordStrengthBundle/Form/password_strength_theme_bootstrap4_horizontal.html.twig',
+        'bootstrap_3_layout.html.twig'            => '@NowoPasswordStrengthBundle/Form/password_strength_theme_bootstrap3.html.twig',
+        'bootstrap_3_horizontal_layout.html.twig' => '@NowoPasswordStrengthBundle/Form/password_strength_theme_bootstrap3_horizontal.html.twig',
+        'foundation_5_layout.html.twig'           => '@NowoPasswordStrengthBundle/Form/password_strength_theme_foundation5.html.twig',
+        'foundation_6_layout.html.twig'           => '@NowoPasswordStrengthBundle/Form/password_strength_theme_foundation6.html.twig',
+        'tailwind_2_layout.html.twig'             => '@NowoPasswordStrengthBundle/Form/password_strength_theme_tailwind2.html.twig',
     ];
 
     public function load(array $configs, ContainerBuilder $container): void

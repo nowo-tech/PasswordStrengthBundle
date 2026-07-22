@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.0] - 2026-07-22
+
+### Changed
+
+- **Twig namespace** — `@PasswordStrengthBundle` renamed to `@NowoPasswordStrengthBundle` (form themes and logical template names).
+- **Translation domain** — files and default `translation_domain` renamed from `PasswordStrengthBundle` to `NowoPasswordStrengthBundle` (`de`/`en`/`es`/`fr`/`it`/`nl`/`pt`).
+- **TwigPathsPass** — resolves Twig filesystem loader aliases more robustly; prepends `templates/bundles/NowoPasswordStrengthBundle` when that directory exists so app overrides win.
+- **Documentation** — INSTALLATION, USAGE, UPGRADING, and Spec Kit inventory updated for the new namespace/domain.
+
+### Migration
+
+See [UPGRADING.md](UPGRADING.md#200-2026-07-22) for override path and translation file renames.
+
 ## [1.3.0] - 2026-07-16
 
 ### Added
@@ -66,7 +79,8 @@ First stable release of **Password Strength Bundle**.
 - PHP >= 8.1, < 8.6
 - Symfony ^6.0 || ^7.0 || ^8.0
 
-[Unreleased]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v1.3.0...HEAD
+[Unreleased]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v2.0.0...HEAD
+[2.0.0]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v1.3.0...v2.0.0
 [1.3.0]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v1.0.0...v1.1.0

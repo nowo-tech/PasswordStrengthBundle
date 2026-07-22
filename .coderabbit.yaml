@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
 #
-# CodeRabbit configuration for nowo-tech/PasswordStrengthBundle.
+# CodeRabbit configuration for nowo-tech/password-strength-bundle.
 
 language: en-US
 

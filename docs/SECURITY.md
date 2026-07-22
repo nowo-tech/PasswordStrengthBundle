@@ -18,7 +18,7 @@
 | **Bundle configuration** | `nowo_password_strength` YAML (levels, themes, toggle integration). |
 | **HTTP form fields** | Password values submitted by end users (handled by the application, not stored by this bundle). |
 | **Client script** | `password-strength.js` reads data attributes and updates the DOM (requirements list, generator). |
-| **Translations** | `PasswordStrengthBundle` domain strings rendered in Twig. |
+| **Translations** | `NowoPasswordStrengthBundle` domain strings rendered in Twig. |
 
 ## Threats and mitigations
 

@@ -2,6 +2,22 @@
 
 This document describes how to upgrade between versions of Password Strength Bundle.
 
+## 2.0.0 (2026-07-22)
+
+**Breaking** for apps that override Twig templates or translations. Upgrade with:
+
+```bash
+composer update nowo-tech/password-strength-bundle
+```
+
+- **Twig namespace** — Update logical template names from `@PasswordStrengthBundle/...` to `@NowoPasswordStrengthBundle/...`.
+- **Application overrides** — Move `templates/bundles/PasswordStrengthBundle/...` to `templates/bundles/NowoPasswordStrengthBundle/...`.
+- **Translations** — Rename application override files from `translations/PasswordStrengthBundle.{locale}.yaml` to `translations/NowoPasswordStrengthBundle.{locale}.yaml`.
+- **Form option** — Default `translation_domain` is now `NowoPasswordStrengthBundle` (override per field if you still need the old domain temporarily).
+- **TwigPathsPass** — Prepends the app override directory when present so application templates win over the bundle.
+
+PHP class namespaces (`Nowo\PasswordStrengthBundle\...`), config key `nowo_password_strength`, and the asset package `nowo_password_strength` are unchanged.
+
 ## 1.0.0 (2026-07-03)
 
 First stable release. No upgrade steps when installing for the first time.
@@ -21,7 +37,7 @@ composer update nowo-tech/password-strength-bundle
 ```
 
 - **New locales** — `de`, `fr`, `it`, `nl`, and `pt` ship in `PasswordStrengthBundle` translations. They apply automatically when your app locale matches; no configuration changes required.
-- **Overrides** — continue using `translations/PasswordStrengthBundle.{locale}.yaml` in your app to customize strings (see [INSTALLATION.md](INSTALLATION.md)).
+- **Overrides** — use `translations/PasswordStrengthBundle.{locale}.yaml` in your app to customize strings (see [INSTALLATION.md](INSTALLATION.md) for the path used in that version).
 - **Spec Kit** — maintainer-only scaffolding (`specs/`, `.specify/`, `.cursor/skills/`); not required for production installs.
 
 ## 1.2.0 (2026-07-13)
@@ -52,6 +68,6 @@ composer update nowo-tech/password-strength-bundle
 - **Runtime / API** — unchanged from 1.2.0; no form, validator, or config migrations.
 - **Contributors** — after cloning, run `make setup-hooks` so commit messages cannot include Cursor co-author trailers (see [CONTRIBUTING.md](CONTRIBUTING.md) and [GITHUB_CI.md](GITHUB_CI.md)).
 
-## Unreleased / 1.x
+## Unreleased / 2.x
 
-Breaking or notable changes in future 1.x releases will be documented here.
+Breaking or notable changes in future 2.x releases will be documented here.

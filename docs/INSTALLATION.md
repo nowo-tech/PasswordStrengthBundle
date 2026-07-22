@@ -66,8 +66,8 @@ With default settings (`use_password_toggle: true`), this bundle detects Passwor
 
 ## Twig and translation overrides
 
-- Templates: `templates/bundles/PasswordStrengthBundle/...`
-- Translations: `translations/PasswordStrengthBundle.{locale}.yaml`
+- Templates: `templates/bundles/NowoPasswordStrengthBundle/...`
+- Translations: `translations/NowoPasswordStrengthBundle.{locale}.yaml`
 
 Bundled locales: `de`, `en`, `es`, `fr`, `it`, `nl`, `pt`.
 

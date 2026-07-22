@@ -120,7 +120,7 @@ final class PasswordStrengthType extends AbstractType
             'generator_mode'      => null,
             'generator_count'     => null,
             'use_password_toggle' => $this->defaultUsePasswordToggle,
-            'translation_domain'  => 'PasswordStrengthBundle',
+            'translation_domain'  => 'NowoPasswordStrengthBundle',
             'always_empty'        => true,
             'trim'                => true,
         ]);
