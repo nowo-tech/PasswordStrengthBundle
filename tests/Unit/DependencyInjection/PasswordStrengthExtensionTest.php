@@ -6,6 +6,7 @@ namespace Nowo\PasswordStrengthBundle\Tests\Unit\DependencyInjection;
 
 use Nowo\PasswordStrengthBundle\DependencyInjection\PasswordStrengthExtension;
 use PHPUnit\Framework\TestCase;
+use Symfony\Bundle\FrameworkBundle\DependencyInjection\FrameworkExtension;
 use Symfony\Bundle\TwigBundle\DependencyInjection\TwigExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
@@ -91,7 +92,7 @@ final class PasswordStrengthExtensionTest extends TestCase
     public function testPrependConfiguresAssets(): void
     {
         $container = new ContainerBuilder();
-        $container->registerExtension(new \Symfony\Bundle\FrameworkBundle\DependencyInjection\FrameworkExtension());
+        $container->registerExtension(new FrameworkExtension());
         (new PasswordStrengthExtension())->prepend($container);
 
         self::assertSame(

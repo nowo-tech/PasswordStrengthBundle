@@ -1,5 +1,6 @@
 # Security
 
+
 ## Table of contents
 
 - [Attack surface](#attack-surface)
@@ -64,5 +65,6 @@ Before tagging a release, confirm:
 | **Dependencies** | `composer audit` run in CI / locally. |
 | **Logging** | No password values in bundle logs. |
 | **Cryptography** | Generator uses secure random APIs in the browser only. |
+| **REQ-SEC-004 (AI audit)** | Pass (conditional) — Low residual (server validator authoritative; do not log passwords); see monorepo `BUNDLES_SECURITY_ANALYSIS.md` (audit 2026-07-29). |
 
 Record confirmation in the release PR or tag notes.

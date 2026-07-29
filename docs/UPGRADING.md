@@ -2,6 +2,28 @@
 
 This document describes how to upgrade between versions of Password Strength Bundle.
 
+
+## Table of contents
+
+- [2.1.0 (2026-07-29)](#210-2026-07-29)
+- [2.0.0 (2026-07-22)](#200-2026-07-22)
+- [1.0.0 (2026-07-03)](#100-2026-07-03)
+- [1.1.0 (2026-07-09)](#110-2026-07-09)
+- [1.2.0 (2026-07-13)](#120-2026-07-13)
+- [1.3.0 (2026-07-16)](#130-2026-07-16)
+- [Unreleased / 2.x](#unreleased-2x)
+
+## 2.1.0 (2026-07-29)
+
+No breaking changes for application consumers. Upgrade with:
+
+```bash
+composer update nowo-tech/password-strength-bundle
+```
+
+- **Runtime / API** — unchanged from 2.0.0 (Twig namespace and translation domain remain `NowoPasswordStrengthBundle`).
+- **Maintainers** — `make release-check` now also runs `check-open-prs` and `coverage-check` (≥99% PHP lines). See [CONTRIBUTING.md](CONTRIBUTING.md) and [GITHUB_CI.md](GITHUB_CI.md).
+
 ## 2.0.0 (2026-07-22)
 
 **Breaking** for apps that override Twig templates or translations. Upgrade with:

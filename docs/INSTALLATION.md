@@ -1,5 +1,18 @@
 # Installation
 
+
+## Table of contents
+
+- [Requirements](#requirements)
+- [Install with Composer](#install-with-composer)
+- [Register the bundle](#register-the-bundle)
+  - [With Symfony Flex](#with-symfony-flex)
+  - [Manual registration](#manual-registration)
+  - [AssetMapper](#assetmapper)
+- [Optional: PasswordToggleBundle](#optional-passwordtogglebundle)
+- [Twig and translation overrides](#twig-and-translation-overrides)
+- [Next steps](#next-steps)
+
 ## Requirements
 
 - **PHP** >= 8.1, < 8.6

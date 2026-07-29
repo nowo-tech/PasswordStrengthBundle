@@ -5,7 +5,46 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+
+## Table of contents
+
+- [[Unreleased]](#unreleased)
+- [[2.1.0] - 2026-07-29](#210---2026-07-29)
+  - [Added](#added)
+  - [Changed](#changed)
+- [[2.0.0] - 2026-07-22](#200---2026-07-22)
+  - [Changed](#changed-1)
+  - [Migration](#migration)
+- [[1.3.0] - 2026-07-16](#130---2026-07-16)
+  - [Added](#added-1)
+  - [Changed](#changed-2)
+- [[1.2.0] - 2026-07-13](#120---2026-07-13)
+  - [Added](#added-2)
+  - [Changed](#changed-3)
+- [[1.1.0] - 2026-07-09](#110---2026-07-09)
+  - [Added](#added-3)
+  - [Changed](#changed-4)
+- [[1.0.0] - 2026-07-03](#100---2026-07-03)
+  - [Added](#added-4)
+  - [Requirements](#requirements)
+
 ## [Unreleased]
+
+## [2.1.0] - 2026-07-29
+
+### Added
+
+- **FrankenPHP friendly** — badge/image in README and stronger demo/docs coverage for worker mode (`docs/images/frankenphp-friendly.png`, demo entrypoint).
+- **Release gates** — `make coverage-check` (fail under 99% PHP lines), `make check-open-prs` (REQ-REL-003), wired into `make release-check`.
+- **PHPStan FrankenPHP** — `nowo-tech/phpstan-frankenphp` classic + worker rulesets in `phpstan.neon.dist`.
+- **Deprecation hard-fail** — `SYMFONY_DEPRECATIONS_HELPER=max[direct]=0` in PHPUnit and CI (REQ-SF-005).
+- **Documentation** — table of contents across integrator/maintainer docs; expanded INSTALLATION, USAGE, CONTRIBUTING, GITHUB_CI, DEMO-FRANKENPHP.
+
+### Changed
+
+- **Makefile** — prefers Docker Compose V2 (`docker compose`), optional monorepo `update-deps` include, `demo-smoke` target.
+- **PHPStan** — empty `ignoreErrors`; report unmatched ignores.
+- **Code cleanup** — `PasswordStrengthBundle::getContainerExtension()`, form type imports, PasswordToggle integration typing.
 
 ## [2.0.0] - 2026-07-22
 
@@ -79,7 +118,8 @@ First stable release of **Password Strength Bundle**.
 - PHP >= 8.1, < 8.6
 - Symfony ^6.0 || ^7.0 || ^8.0
 
-[Unreleased]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v2.0.0...HEAD
+[Unreleased]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v2.1.0...HEAD
+[2.1.0]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v2.0.0...v2.1.0
 [2.0.0]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v1.3.0...v2.0.0
 [1.3.0]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v1.1.0...v1.2.0

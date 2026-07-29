@@ -10,6 +10,19 @@ There is no separate executable spec language (Gherkin); tests and static analys
 
 ---
 
+
+## Table of contents
+
+- [User stories](#user-stories)
+- [Bundle functional scope](#bundle-functional-scope)
+- [Validating the functional spec](#validating-the-functional-spec)
+- [Requirement identifiers (`REQ-*`)](#requirement-identifiers-req)
+- [Contributor workflow](#contributor-workflow)
+- [Suggested workflow for contributors](#suggested-workflow-for-contributors)
+- [GitHub Spec Kit (summary)](#github-spec-kit-summary)
+- [Relationship to Engram](#relationship-to-engram)
+- [See also](#see-also)
+
 ## User stories
 
 | ID | Story |

@@ -2,6 +2,15 @@
 
 Configuration lives under the `nowo_password_strength` key in `config/packages/nowo_password_strength.yaml`.
 
+
+## Table of contents
+
+- [Full example](#full-example)
+- [Options](#options)
+- [Condition keys (levels or inline `conditions`)](#condition-keys-levels-or-inline-conditions)
+- [`form_theme`](#form-theme)
+- [PasswordToggleBundle](#passwordtogglebundle)
+
 ## Full example
 
 ```yaml

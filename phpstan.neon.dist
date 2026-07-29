@@ -7,9 +7,11 @@ parameters:
         - demo/*
     bootstrapFiles:
         - vendor/autoload.php
-    reportUnmatchedIgnoredErrors: false
+    reportUnmatchedIgnoredErrors: true
     treatPhpDocTypesAsCertain: false
-    ignoreErrors:
-        -
-            message: '#Call to function is_string\(\) with string will always evaluate to true#'
-            path: src/Controller/Api/IconSvgController.php
+    # REQ-CS-006: keep ignoreErrors empty — fix findings instead of silencing
+    ignoreErrors: []
+
+includes:
+  - vendor/nowo-tech/phpstan-frankenphp/ruleset-classic.neon
+  - vendor/nowo-tech/phpstan-frankenphp/ruleset-worker.neon

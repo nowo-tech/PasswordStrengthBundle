@@ -12,9 +12,11 @@ use Nowo\PasswordStrengthBundle\Service\PasswordStrengthEvaluator;
 use Nowo\PasswordStrengthBundle\Service\PolicyResolver;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\Forms;
+use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Symfony\Component\Validator\Validation;
 
 final class PasswordStrengthTypeTest extends TestCase
@@ -41,7 +43,7 @@ final class PasswordStrengthTypeTest extends TestCase
             defaultLiveFeedback: true,
             defaultGeneratorMode: 'modal',
             defaultGeneratorCount: 3,
-            parentFormType: \Symfony\Component\Form\Extension\Core\Type\PasswordType::class,
+            parentFormType: PasswordType::class,
         );
 
         $this->factory = Forms::createFormFactoryBuilder()
@@ -156,7 +158,7 @@ final class PasswordStrengthTypeTest extends TestCase
             new PasswordStrengthEvaluator(new PasswordPatternBuilder()),
             new PasswordPatternBuilder(),
             defaultGeneratorMode: 'input',
-            parentFormType: \Symfony\Component\Form\Extension\Core\Type\PasswordType::class,
+            parentFormType: PasswordType::class,
         );
 
         $factory = Forms::createFormFactoryBuilder()
@@ -174,7 +176,7 @@ final class PasswordStrengthTypeTest extends TestCase
 
     public function testInvalidFeedbackAndGeneratorOptionsAreRejected(): void
     {
-        $this->expectException(\Symfony\Component\OptionsResolver\Exception\InvalidOptionsException::class);
+        $this->expectException(InvalidOptionsException::class);
 
         $this->factory->createBuilder(FormType::class)
             ->add('password', PasswordStrengthType::class, [
@@ -205,11 +207,11 @@ final class PasswordStrengthTypeTest extends TestCase
             new PolicyResolver([]),
             new PasswordStrengthEvaluator(new PasswordPatternBuilder()),
             new PasswordPatternBuilder(),
-            parentFormType: \Symfony\Component\Form\Extension\Core\Type\PasswordType::class,
+            parentFormType: PasswordType::class,
         );
 
         self::assertSame('password_strength', $type->getBlockPrefix());
-        self::assertSame(\Symfony\Component\Form\Extension\Core\Type\PasswordType::class, $type->getParent());
+        self::assertSame(PasswordType::class, $type->getParent());
     }
 
     public function testToggleNormalizerWhenToggleParentIsConfigured(): void

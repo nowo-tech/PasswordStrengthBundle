@@ -8,6 +8,7 @@ use Nowo\PasswordStrengthBundle\Integration\PasswordToggleIntegration;
 use Nowo\PasswordStrengthBundle\Model\FeedbackPosition;
 use Nowo\PasswordStrengthBundle\Model\GeneratorMode;
 use Nowo\PasswordStrengthBundle\Model\PolicyMode;
+use Nowo\PasswordStrengthBundle\Model\RequirementResult;
 use Nowo\PasswordStrengthBundle\Service\PasswordPatternBuilder;
 use Nowo\PasswordStrengthBundle\Service\PasswordStrengthEvaluator;
 use Nowo\PasswordStrengthBundle\Service\PolicyResolver;
@@ -51,8 +52,6 @@ final class PasswordStrengthType extends AbstractType
 
     /**
      * @param array<string, mixed> $options
-     *
-     * @phpstan-ignore missingType.generics
      */
     public function buildView(FormView $view, FormInterface $form, array $options): void
     {
@@ -79,7 +78,7 @@ final class PasswordStrengthType extends AbstractType
         $view->vars['generator_mode']  = $generatorMode->value;
         $view->vars['generator_count'] = max(1, min(10, (int) ($options['generator_count'] ?? $this->defaultGeneratorCount)));
         $view->vars['requirements']    = array_map(
-            static fn (\Nowo\PasswordStrengthBundle\Model\RequirementResult $r): array => $r->toArray(),
+            static fn (RequirementResult $r): array => $r->toArray(),
             $evaluation->requirements,
         );
 

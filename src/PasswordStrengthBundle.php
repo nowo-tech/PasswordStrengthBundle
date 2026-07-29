@@ -25,13 +25,10 @@ final class PasswordStrengthBundle extends Bundle
 
     public function getContainerExtension(): ExtensionInterface
     {
-        if (!$this->extension instanceof ExtensionInterface) {
+        if ($this->extension === null || $this->extension === false) {
             $this->extension = new PasswordStrengthExtension();
         }
 
-        $extension = $this->extension;
-
-        /* @phpstan-ignore identical.alwaysFalse */
-        return $extension === false ? null : $extension;
+        return $this->extension;
     }
 }

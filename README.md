@@ -6,7 +6,29 @@
 
 Symfony bundle that extends `PasswordType` with **100% configurable** password hardness: predefined **levels**, inline **conditions**, auto-built **HTML pattern**, live **TypeScript** feedback, and a **validator** constraint.
 
+![FrankenPHP Friendly Worker Mode](docs/images/frankenphp-friendly.png)
+
+This bundle is **FrankenPHP worker mode friendly**.
+
 **FrankenPHP worker mode:** Supported — the bundle is stateless (form type + validator + client script); tested with the Symfony 8 demo using FrankenPHP worker in production `Caddyfile` (see [Demo with FrankenPHP](docs/DEMO-FRANKENPHP.md)).
+
+
+## Table of contents
+
+- [Features](#features)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [PasswordToggleBundle compatibility (optional)](#passwordtogglebundle-compatibility-optional)
+- [Usage](#usage)
+  - [Form type (inline conditions)](#form-type-inline-conditions)
+  - [Validator constraint](#validator-constraint)
+  - [Available condition keys](#available-condition-keys)
+- [Documentation](#documentation)
+  - [Additional documentation](#additional-documentation)
+- [Demo](#demo)
+- [Tests and coverage](#tests-and-coverage)
+- [Requirements](#requirements)
+- [License](#license)
 
 ## Features
 

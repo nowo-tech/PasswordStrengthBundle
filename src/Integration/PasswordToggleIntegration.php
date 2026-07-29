@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace Nowo\PasswordStrengthBundle\Integration;
 
+use Nowo\PasswordToggleBundle\Form\Type\PasswordType;
+use Symfony\Component\Form\AbstractType;
+
 /**
  * Detects whether PasswordToggleBundle is installed at runtime.
  */
 final class PasswordToggleIntegration
 {
-    public const TOGGLE_PASSWORD_TYPE = \Nowo\PasswordToggleBundle\Form\Type\PasswordType::class;
+    public const TOGGLE_PASSWORD_TYPE = PasswordType::class;
 
     public static function isAvailable(): bool
     {
@@ -17,7 +20,7 @@ final class PasswordToggleIntegration
     }
 
     /**
-     * @param class-string<\Symfony\Component\Form\AbstractType<mixed>> $parentFormType
+     * @param class-string<AbstractType<mixed>> $parentFormType
      */
     public static function isToggleFormType(string $parentFormType): bool
     {

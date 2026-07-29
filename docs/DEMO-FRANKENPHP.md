@@ -2,12 +2,14 @@
 
 The bundle includes a **Symfony 8** demo under `demo/symfony8/` using **FrankenPHP** and Docker Compose.
 
+
 ## Table of contents
 
 - [Quick start (development)](#quick-start-development)
-- [Production / worker mode](#production--worker-mode)
+- [Production / worker mode](#production-worker-mode)
 - [Demo pages](#demo-pages)
 - [Commands](#commands)
+- [Switching classic vs worker (`FRANKENPHP_MODE`)](#switching-classic-vs-worker-frankenphp-mode)
 - [Troubleshooting](#troubleshooting)
 
 ## Quick start (development)
@@ -68,6 +70,17 @@ From bundle root:
 ```bash
 make -C demo up
 ```
+
+## Switching classic vs worker (`FRANKENPHP_MODE`)
+
+Demos select the FrankenPHP runtime via **`FRANKENPHP_MODE`** in `.env` / `.env.example` (not a Dockerfile `ENV`):
+
+| Value | Behaviour |
+| --- | --- |
+| **`worker`** (default) | Keep the worker Caddyfile (`php_server { worker ... }`) |
+| **`classic`** | Entrypoint copies `Caddyfile.dev` (plain `php_server`, hot-reload friendly) |
+
+Compose passes `FRANKENPHP_MODE=${FRANKENPHP_MODE:-worker}` into the PHP service. After changing `.env`, run `docker compose up -d` (or `make up`) so the container is **recreated** — a plain `restart` does not reload env. No image rebuild is required.
 
 ## Troubleshooting
 

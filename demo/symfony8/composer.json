@@ -4,7 +4,7 @@
     "type": "project",
     "license": "MIT",
     "require": {
-        "php": ">=8.4",
+        "php": ">=8.5",
         "nowo-tech/password-strength-bundle": "@dev",
         "nowo-tech/password-toggle-bundle": "^2.0",
         "symfony/asset": "^8.0",

@@ -6,6 +6,7 @@ namespace Nowo\PasswordStrengthBundle\Tests\Unit\Integration;
 
 use Nowo\PasswordStrengthBundle\Integration\ParentFormTypeResolver;
 use Nowo\PasswordStrengthBundle\Integration\PasswordToggleIntegration;
+use Nowo\PasswordStrengthBundle\Tests\Fixtures\NotAFormType;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType as SymfonyPasswordType;
@@ -67,7 +68,7 @@ final class ParentFormTypeResolverTest extends TestCase
         $this->expectException(InvalidConfigurationException::class);
         $this->expectExceptionMessage('must extend');
 
-        ParentFormTypeResolver::resolve(\Nowo\PasswordStrengthBundle\Tests\Fixtures\NotAFormType::class, true);
+        ParentFormTypeResolver::resolve(NotAFormType::class, true);
     }
 
     public function testInvalidParentFormTypeThrows(): void

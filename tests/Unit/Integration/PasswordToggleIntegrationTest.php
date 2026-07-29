@@ -6,6 +6,7 @@ namespace Nowo\PasswordStrengthBundle\Tests\Unit\Integration;
 
 use Nowo\PasswordStrengthBundle\Integration\PasswordToggleIntegration;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
 final class PasswordToggleIntegrationTest extends TestCase
 {
@@ -20,7 +21,7 @@ final class PasswordToggleIntegrationTest extends TestCase
     public function testIsToggleFormTypeRequiresMatchingParent(): void
     {
         self::assertFalse(PasswordToggleIntegration::isToggleFormType(
-            \Symfony\Component\Form\Extension\Core\Type\PasswordType::class,
+            PasswordType::class,
         ));
 
         if (!PasswordToggleIntegration::isAvailable()) {
