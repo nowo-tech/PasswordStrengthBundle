@@ -10,24 +10,17 @@ Symfony bundle that extends `PasswordType` with **100% configurable** password h
 
 This bundle is **FrankenPHP worker mode friendly**.
 
-**FrankenPHP worker mode:** Supported — the bundle is stateless (form type + validator + client script); tested with the Symfony 8 demo using FrankenPHP worker in production `Caddyfile` (see [Demo with FrankenPHP](docs/DEMO-FRANKENPHP.md)).
-
-
 ## Table of contents
 
 - [Features](#features)
 - [Installation](#installation)
-- [Configuration](#configuration)
-- [PasswordToggleBundle compatibility (optional)](#passwordtogglebundle-compatibility-optional)
-- [Usage](#usage)
-  - [Form type (inline conditions)](#form-type-inline-conditions)
-  - [Validator constraint](#validator-constraint)
-  - [Available condition keys](#available-condition-keys)
-- [Documentation](#documentation)
-  - [Additional documentation](#additional-documentation)
-- [Demo](#demo)
-- [Tests and coverage](#tests-and-coverage)
 - [Requirements](#requirements)
+- [Configuration](#configuration)
+- [Usage](#usage)
+- [PasswordToggleBundle compatibility (optional)](#passwordtogglebundle-compatibility-optional)
+- [Demo](#demo)
+- [Documentation](#documentation)
+- [Tests and coverage](#tests-and-coverage)
 - [License](#license)
 
 ## Features
@@ -67,6 +60,11 @@ Include the script in your layout (or demo template):
 <script src="{{ asset('password-strength.js', 'nowo_password_strength') }}" defer></script>
 ```
 
+## Requirements
+
+- PHP >= 8.1, < 8.6
+- Symfony >= 6.0 || >= 7.0 || >= 8.0
+
 ## Configuration
 
 ```yaml
@@ -95,41 +93,6 @@ nowo_password_strength:
   # parent_form_type: ~      # null = auto; or set a FQCN to force a specific parent PasswordType
   generator_mode: off
 ```
-
-## PasswordToggleBundle compatibility (optional)
-
-`PasswordToggleBundle` is **not required**. With default settings the bundle works standalone using Symfony `PasswordType`.
-
-When `PasswordToggleBundle` is installed, `PasswordStrengthType` automatically extends its `PasswordType` and renders the eye toggle **alongside** strength feedback and the optional password generator.
-
-```bash
-composer require nowo-tech/password-toggle-bundle symfony/ux-icons symfony/http-client
-```
-
-```yaml
-nowo_password_strength:
-  use_password_toggle: true   # default; ignored if parent_form_type is set explicitly
-  # Force Symfony parent even when PasswordToggleBundle is installed:
-  # parent_form_type: Symfony\Component\Form\Extension\Core\Type\PasswordType
-  # Force PasswordToggle parent (requires the bundle):
-  # parent_form_type: Nowo\PasswordToggleBundle\Form\Type\PasswordType
-
-nowo_password_toggle:
-  toggle: true
-  visible_icon: 'tabler:eye-off'
-  hidden_icon: 'tabler:eye'
-```
-
-Per field:
-
-```php
-$builder->add('password', PasswordStrengthType::class, [
-    'use_password_toggle' => true,  // false = plain password input
-    'generator_mode' => 'input',
-]);
-```
-
-The generator syncs toggle icon/aria state when it fills the field as visible text.
 
 ## Usage
 
@@ -185,8 +148,51 @@ public ?string $plainPassword = null;
 | `min_unique_chars` | int | Minimum unique characters |
 | `regex` | string | Custom regex (server + pattern) |
 
-## Documentation
+## PasswordToggleBundle compatibility (optional)
 
+`PasswordToggleBundle` is **not required**. With default settings the bundle works standalone using Symfony `PasswordType`.
+
+When `PasswordToggleBundle` is installed, `PasswordStrengthType` automatically extends its `PasswordType` and renders the eye toggle **alongside** strength feedback and the optional password generator.
+
+```bash
+composer require nowo-tech/password-toggle-bundle symfony/ux-icons symfony/http-client
+```
+
+```yaml
+nowo_password_strength:
+  use_password_toggle: true   # default; ignored if parent_form_type is set explicitly
+  # Force Symfony parent even when PasswordToggleBundle is installed:
+  # parent_form_type: Symfony\Component\Form\Extension\Core\Type\PasswordType
+  # Force PasswordToggle parent (requires the bundle):
+  # parent_form_type: Nowo\PasswordToggleBundle\Form\Type\PasswordType
+
+nowo_password_toggle:
+  toggle: true
+  visible_icon: 'tabler:eye-off'
+  hidden_icon: 'tabler:eye'
+```
+
+Per field:
+
+```php
+$builder->add('password', PasswordStrengthType::class, [
+    'use_password_toggle' => true,  // false = plain password input
+    'generator_mode' => 'input',
+]);
+```
+
+The generator syncs toggle icon/aria state when it fills the field as visible text.
+
+## Demo
+
+```bash
+make -C demo up
+# or: make -C demo/symfony8 up
+```
+
+Open **http://localhost:8021/en/** (redirect from `/`; set `PORT` in `demo/symfony8/.env` if needed).
+
+## Documentation
 
 - [GitHub Actions CI requirements](docs/GITHUB_CI.md)
 - [Installation](docs/INSTALLATION.md)
@@ -207,15 +213,6 @@ public ?string $plainPassword = null;
 - [Demo with FrankenPHP](docs/DEMO-FRANKENPHP.md)
 - [Demo (Symfony 8)](demo/symfony8/README.md)
 
-## Demo
-
-```bash
-make -C demo up
-# or: make -C demo/symfony8 up
-```
-
-Open **http://localhost:8021/en/** (redirect from `/`; set `PORT` in `demo/symfony8/.env` if needed).
-
 ## Tests and coverage
 
 | Language | Coverage (approx.) |
@@ -228,11 +225,6 @@ make test
 make test-ts
 make test-coverage
 ```
-
-## Requirements
-
-- PHP >= 8.1, < 8.6
-- Symfony >= 6.0 || >= 7.0 || >= 8.0
 
 ## License
 
