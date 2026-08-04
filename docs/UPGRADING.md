@@ -5,6 +5,7 @@ This document describes how to upgrade between versions of Password Strength Bun
 
 ## Table of contents
 
+- [To 2.2.0](#to-220)
 - [2.1.0 (2026-07-29)](#210-2026-07-29)
 - [2.0.0 (2026-07-22)](#200-2026-07-22)
 - [1.0.0 (2026-07-03)](#100-2026-07-03)
@@ -12,6 +13,15 @@ This document describes how to upgrade between versions of Password Strength Bun
 - [1.2.0 (2026-07-13)](#120-2026-07-13)
 - [1.3.0 (2026-07-16)](#130-2026-07-16)
 - [Unreleased / 2.x](#unreleased-2x)
+
+## To 2.2.0
+
+From **2.1.0** — Adds required Twig Extra (REQ-TWIG-004) and Twig-CS-Fixer. Register `TwigExtraBundle` if Flex did not.
+
+```bash
+composer update nowo-tech/password-strength-bundle
+php bin/console cache:clear
+```
 
 ## 2.1.0 (2026-07-29)
 
@@ -93,3 +103,19 @@ composer update nowo-tech/password-strength-bundle
 ## Unreleased / 2.x
 
 Breaking or notable changes in future 2.x releases will be documented here.
+
+### Twig Extra Bundle (REQ-TWIG-004)
+
+Hosts that render this bundle's Twig templates must install:
+
+```bash
+composer require twig/extra-bundle twig/string-extra
+```
+
+and enable `Twig\Extra\TwigExtraBundle\TwigExtraBundle`. Flex recipes usually register it automatically.
+
+### Twig-CS-Fixer (maintainers)
+
+Package maintainers: `composer twig:lint` / `composer twig:fix` use `.twig-cs-fixer.php` over `src/` (and `templates/` when present).
+
+

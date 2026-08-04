@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Table of contents
 
 - [[Unreleased]](#unreleased)
+- [[2.2.0] - 2026-08-04](#220---2026-08-04)
 - [[2.1.0] - 2026-07-29](#210---2026-07-29)
   - [Added](#added)
   - [Changed](#changed)
@@ -29,6 +30,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - [Requirements](#requirements)
 
 ## [Unreleased]
+
+## [2.2.0] - 2026-08-04
+
+### Added
+- **REQ-TWIG-004:** require `twig/extra-bundle` + `twig/string-extra`; `make check-twig-extra` in `release-check`; demos register `TwigExtraBundle`.
+- **Twig-CS-Fixer:** `vincentlanglet/twig-cs-fixer`, `.twig-cs-fixer.php`, `composer twig:lint` / `twig:fix`.
+
+[2.2.0]: https://github.com/nowo-tech/PasswordStrengthBundle/releases/tag/v2.2.0
 
 ## [2.1.0] - 2026-07-29
 
