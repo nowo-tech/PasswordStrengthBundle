@@ -5,6 +5,7 @@ This document describes how to upgrade between versions of Password Strength Bun
 
 ## Table of contents
 
+- [To 2.2.1](#to-221)
 - [To 2.2.0](#to-220)
 - [2.1.0 (2026-07-29)](#210-2026-07-29)
 - [2.0.0 (2026-07-22)](#200-2026-07-22)
@@ -13,6 +14,15 @@ This document describes how to upgrade between versions of Password Strength Bun
 - [1.2.0 (2026-07-13)](#120-2026-07-13)
 - [1.3.0 (2026-07-16)](#130-2026-07-16)
 - [Unreleased / 2.x](#unreleased-2x)
+
+## To 2.2.1
+
+No application upgrade steps. **Demos only:** Hot Reload Bundle `^1.4` (FrankenPHP Mercure/`hot_reload`, `dev`/`test`).
+
+```bash
+composer update nowo-tech/password-strength-bundle
+php bin/console cache:clear
+```
 
 ## To 2.2.0
 

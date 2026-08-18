@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Table of contents
 
 - [[Unreleased]](#unreleased)
+- [[2.2.1] - 2026-08-18](#221---2026-08-18)
 - [[2.2.0] - 2026-08-04](#220---2026-08-04)
 - [[2.1.0] - 2026-07-29](#210---2026-07-29)
   - [Added](#added)
@@ -30,6 +31,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - [Requirements](#requirements)
 
 ## [Unreleased]
+
+## [2.2.1] - 2026-08-18
+
+### Changed
+
+- **Demos:** pin `nowo-tech/hot-reload-bundle` to `^1.4` with FrankenPHP Mercure/`hot_reload` (`dev`/`test` only).
+
+[2.2.1]: https://github.com/nowo-tech/PasswordStrengthBundle/releases/tag/v2.2.1
 
 ## [2.2.0] - 2026-08-04
 
@@ -127,7 +136,7 @@ First stable release of **Password Strength Bundle**.
 - PHP >= 8.1, < 8.6
 - Symfony ^6.0 || ^7.0 || ^8.0
 
-[Unreleased]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v2.1.0...HEAD
+[Unreleased]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v2.2.1...HEAD
 [2.1.0]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v2.0.0...v2.1.0
 [2.0.0]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v1.3.0...v2.0.0
 [1.3.0]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v1.2.0...v1.3.0
