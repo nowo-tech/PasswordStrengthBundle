@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Nowo\PasswordStrengthBundle\PasswordStrengthBundle;
 use Nowo\PasswordToggleBundle\NowoPasswordToggleBundle;
+use Nowo\HotReloadBundle\NowoHotReloadBundle;
 use Nowo\TwigInspectorBundle\NowoTwigInspectorBundle;
 use Symfony\Bundle\DebugBundle\DebugBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
@@ -20,6 +21,7 @@ return [
     WebProfilerBundle::class        => ['dev' => true],
     PasswordStrengthBundle::class   => ['all' => true],
     NowoPasswordToggleBundle::class => ['all' => true],
+    NowoHotReloadBundle::class  => ['dev' => true, 'test' => true],
     NowoTwigInspectorBundle::class  => ['dev' => true, 'test' => true],
     TwigExtraBundle::class          => ['all' => true],
 ];
