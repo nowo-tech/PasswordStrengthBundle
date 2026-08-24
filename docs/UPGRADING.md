@@ -5,6 +5,8 @@ This document describes how to upgrade between versions of Password Strength Bun
 
 ## Table of contents
 
+
+- [From 2.2.2 to 2.2.3](#from-222-to-223)
 - [To 2.2.2](#to-222)
 - [To 2.2.1](#to-221)
 - [To 2.2.0](#to-220)
@@ -15,6 +17,22 @@ This document describes how to upgrade between versions of Password Strength Bun
 - [1.2.0 (2026-07-13)](#120-2026-07-13)
 - [1.3.0 (2026-07-16)](#130-2026-07-16)
 - [Unreleased / 2.x](#unreleased-2x)
+
+## From 2.2.2 to 2.2.3
+
+Review the [CHANGELOG](CHANGELOG.md) entry. PHP **8.2+** may now be required.
+
+```bash
+composer update nowo-tech/password-strength-bundle
+```
+
+## From 2.2.2 to 2.2.3
+
+Review the [CHANGELOG](CHANGELOG.md) entry. PHP **8.2+** may now be required.
+
+```bash
+composer update nowo-tech/password-strength-bundle
+```
 
 ## To 2.2.2
 
