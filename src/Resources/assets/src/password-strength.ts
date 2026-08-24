@@ -18,6 +18,9 @@ const log = createBundleLogger('password-strength', {
 
 let stylesInjected = false;
 
+export const TAG_NOWO_PASSWORD_STRENGTH = 'nowo-password-strength';
+export const HOST_SELECTOR = `${TAG_NOWO_PASSWORD_STRENGTH}, [data-password-strength-field], [data-controller*="password-strength"], input.password-strength-widget`;
+
 /** CSS class map per UI framework (framework-agnostic hooks). */
 const FRAMEWORK_CLASSES: Record<
   UiFramework,
@@ -126,8 +129,8 @@ export function parseConfig(raw: string | undefined): PasswordStrengthConfig | n
  */
 export function initPasswordStrengthContainer(root: HTMLElement): void {
   const field =
-    root.closest<HTMLElement>('[data-password-strength-field]') ??
-    root.parentElement?.closest<HTMLElement>('[data-password-strength-field]') ??
+    root.closest<HTMLElement>(`${TAG_NOWO_PASSWORD_STRENGTH}, [data-password-strength-field]`) ??
+    root.parentElement?.closest<HTMLElement>(`${TAG_NOWO_PASSWORD_STRENGTH}, [data-password-strength-field]`) ??
     root;
 
   const input =
@@ -217,11 +220,7 @@ export function initPasswordStrengthContainer(root: HTMLElement): void {
  * Discover and initialize all password-strength widgets.
  */
 export function runInit(): void {
-  document
-    .querySelectorAll<HTMLElement>(
-      '[data-password-strength-field], [data-controller*="password-strength"], input.password-strength-widget',
-    )
-    .forEach((el) => initPasswordStrengthContainer(el));
+  document.querySelectorAll<HTMLElement>(HOST_SELECTOR).forEach((el) => initPasswordStrengthContainer(el));
 }
 
 /**
@@ -234,15 +233,10 @@ export function runInitAndObserve(): void {
     for (const mutation of mutations) {
       mutation.addedNodes.forEach((node) => {
         if (!(node instanceof HTMLElement)) return;
-        if (
-          node.matches('[data-password-strength-field], [data-controller*="password-strength"]') ||
-          node.querySelector('[data-password-strength-field], [data-controller*="password-strength"]')
-        ) {
+        if (node.matches(HOST_SELECTOR) || node.querySelector(HOST_SELECTOR)) {
           initPasswordStrengthContainer(node);
         }
-        node
-          .querySelectorAll<HTMLElement>('[data-password-strength-field], [data-controller*="password-strength"]')
-          .forEach(initPasswordStrengthContainer);
+        node.querySelectorAll<HTMLElement>(HOST_SELECTOR).forEach(initPasswordStrengthContainer);
       });
     }
   });
@@ -503,7 +497,8 @@ function injectBaseStyles(): void {
   style.textContent = `
     .password-strength-input-row{display:flex;gap:.5rem;align-items:stretch;width:100%}
     .password-strength-input-grow{flex:1 1 auto;min-width:0}
-    .password-strength-input-row--toggle .input-group{width:100%}
+    .password-strength-input-row--toggle .input-group,
+    .password-strength-input-row--toggle nowo-password-toggle{width:100%}
     .password-strength-input-row .password-strength-widget,.password-strength-input-row input{flex:1 1 auto;min-width:0}
     .password-strength-generate-btn{flex:0 0 auto;white-space:nowrap}
     .password-strength-modal-overlay{position:fixed;inset:0;z-index:1050;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.45);padding:1rem}
@@ -514,6 +509,7 @@ function injectBaseStyles(): void {
     .password-strength-modal-item{display:flex;gap:.5rem;align-items:center;margin-bottom:.5rem;flex-wrap:wrap}
     .password-strength-modal-item code{flex:1 1 12rem;word-break:break-all;padding:.35rem .5rem;background:#f8f9fa;border-radius:.25rem;font-size:.95rem}
     .password-strength-modal-actions{display:flex;gap:.5rem;justify-content:flex-end;flex-wrap:wrap;margin-top:1rem}
+    nowo-password-strength{display:block}
   `;
   document.head.appendChild(style);
   stylesInjected = true;
@@ -529,6 +525,40 @@ if (typeof window !== 'undefined') {
     generatePasswords,
   };
 }
+
+export class NowoPasswordStrengthElement extends HTMLElement {
+  constructor() {
+    super();
+    if (!this.style.display) {
+      this.style.display = 'block';
+    }
+  }
+
+  connectedCallback(): void {
+    initPasswordStrengthContainer(this);
+  }
+}
+
+let definitionRequested = false;
+
+/**
+ * Defines {@link TAG_NOWO_PASSWORD_STRENGTH} once. Safe to call multiple times.
+ */
+export function ensureNowoPasswordStrengthDefined(): void {
+  if (typeof customElements === 'undefined') {
+    return;
+  }
+  if (customElements.get(TAG_NOWO_PASSWORD_STRENGTH) !== undefined) {
+    return;
+  }
+  if (definitionRequested) {
+    return;
+  }
+  definitionRequested = true;
+  customElements.define(TAG_NOWO_PASSWORD_STRENGTH, NowoPasswordStrengthElement);
+}
+
+ensureNowoPasswordStrengthDefined();
 
 log.scriptLoaded();
 

@@ -32,6 +32,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- **Web Component:** the form theme now renders `<nowo-password-strength>` (light DOM). `password-strength.js` defines the custom element and still initializes legacy `[data-password-strength-field]` hosts. Nested PasswordToggle uses `<nowo-password-toggle>` when that bundle is present.
+
 
 ## [2.2.3] - 2026-08-24
 
