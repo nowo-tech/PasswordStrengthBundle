@@ -27,6 +27,8 @@ $builder->add('password', PasswordStrengthType::class, [
 ]);
 ```
 
+The field value is a password string. The widget is the `<nowo-password-strength>` custom element (light DOM: native input + requirements list). Include `password-strength.js` after `assets:install`.
+
 ## Policy modes
 
 ### Level (preset)
