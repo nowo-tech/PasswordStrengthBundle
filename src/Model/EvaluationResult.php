@@ -7,17 +7,17 @@ namespace Nowo\PasswordStrengthBundle\Model;
 /**
  * Full password strength evaluation against a policy.
  */
-final class EvaluationResult
+final readonly class EvaluationResult
 {
     /**
      * @param list<RequirementResult> $requirements
      * @param list<string> $missing
      */
     public function __construct(
-        public readonly bool $valid,
-        public readonly array $requirements,
-        public readonly array $missing,
-        public readonly string $pattern,
+        public bool $valid,
+        public array $requirements,
+        public array $missing,
+        public string $pattern,
     ) {
     }
 

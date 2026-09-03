@@ -7,14 +7,14 @@ namespace Nowo\PasswordStrengthBundle\Model;
 /**
  * Evaluation result for a single password requirement.
  */
-final class RequirementResult
+final readonly class RequirementResult
 {
     public function __construct(
-        public readonly string $id,
-        public readonly string $labelKey,
-        public readonly bool $met,
-        public readonly ?int $current = null,
-        public readonly ?int $required = null,
+        public string $id,
+        public string $labelKey,
+        public bool $met,
+        public ?int $current = null,
+        public ?int $required = null,
     ) {
     }
 

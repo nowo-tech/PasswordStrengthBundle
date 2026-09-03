@@ -11,24 +11,24 @@ use function is_string;
 /**
  * Normalized password policy conditions shared by PHP evaluator, validator, and frontend payload.
  */
-final class PasswordConditions
+final readonly class PasswordConditions
 {
     /**
      * @param list<string> $notContain
      */
     public function __construct(
-        public readonly int $minLength = 0,
-        public readonly ?int $maxLength = null,
-        public readonly bool $requireLowercase = false,
-        public readonly bool $requireUppercase = false,
-        public readonly bool $requireDigit = false,
-        public readonly bool $requireSpecial = false,
-        public readonly string $specialChars = '!@#$%^&*()_+-=[]{}|;:,.<>?',
-        public readonly bool $disallowWhitespace = false,
-        public readonly array $notContain = [],
-        public readonly ?string $regex = null,
-        public readonly ?string $regexMessage = null,
-        public readonly int $minUniqueChars = 0,
+        public int $minLength = 0,
+        public ?int $maxLength = null,
+        public bool $requireLowercase = false,
+        public bool $requireUppercase = false,
+        public bool $requireDigit = false,
+        public bool $requireSpecial = false,
+        public string $specialChars = '!@#$%^&*()_+-=[]{}|;:,.<>?',
+        public bool $disallowWhitespace = false,
+        public array $notContain = [],
+        public ?string $regex = null,
+        public ?string $regexMessage = null,
+        public int $minUniqueChars = 0,
     ) {
     }
 

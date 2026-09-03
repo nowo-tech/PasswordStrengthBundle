@@ -17,6 +17,11 @@
 
 Symfony `PasswordStrengthType` form field with configurable strength policies (preset levels or inline conditions), live browser feedback, HTML `pattern`, optional password generator, server-side validator, and optional PasswordToggleBundle integration.
 
+
+## Notes / release sync
+
+- **2026-09-03:** Widget host is `<nowo-password-strength>` (custom element, light DOM); legacy data-attribute hosts still supported.
+
 ---
 
 ## User Scenarios & Testing

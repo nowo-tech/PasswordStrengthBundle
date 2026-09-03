@@ -6,7 +6,7 @@ This document describes how to upgrade between versions of Password Strength Bun
 ## Table of contents
 
 
-- [Unreleased](#unreleased)
+- [From 2.2.3 to 2.3.0](#from-223-to-230)
 - [From 2.2.2 to 2.2.3](#from-222-to-223)
 - [To 2.2.2](#to-222)
 - [To 2.2.1](#to-221)
@@ -19,9 +19,15 @@ This document describes how to upgrade between versions of Password Strength Bun
 - [1.3.0 (2026-07-16)](#130-2026-07-16)
 - [Unreleased / 2.x](#unreleased-2x)
 
-## Unreleased
 
-The default form theme now wraps the widget in `<nowo-password-strength>`. Include the same `password-strength.js` asset as before. Custom theme overrides that copied `password_strength_theme.html.twig` should switch the outer `<div class="password-strength-field">` to `<nowo-password-strength>` (legacy `[data-password-strength-field]` hosts still initialize).
+## From 2.2.3 to 2.3.0
+
+The default form theme now wraps the widget in `<nowo-password-strength>`. Load the same `password-strength.js` asset. If you copied the form theme, wrap the field in `<nowo-password-strength>` (legacy `data-password-strength-field` hosts still initialize). Nested PasswordToggle may render `<nowo-password-toggle>` when that bundle is installed.
+
+```bash
+composer update nowo-tech/password-strength-bundle
+php bin/console assets:install
+```
 
 ## From 2.2.2 to 2.2.3
 

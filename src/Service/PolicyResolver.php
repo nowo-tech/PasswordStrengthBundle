@@ -13,13 +13,13 @@ use function is_string;
 /**
  * Resolves effective password conditions from global levels or inline field options.
  */
-final class PolicyResolver
+final readonly class PolicyResolver
 {
     /**
      * @param array<string, array<string, mixed>> $levels
      */
     public function __construct(
-        private readonly array $levels = [],
+        private array $levels = [],
     ) {
     }
 

@@ -19,10 +19,10 @@ use const PREG_SPLIT_NO_EMPTY;
 /**
  * Evaluates a password against configured conditions (server-side mirror of the TypeScript evaluator).
  */
-final class PasswordStrengthEvaluator
+final readonly class PasswordStrengthEvaluator
 {
     public function __construct(
-        private readonly PasswordPatternBuilder $patternBuilder,
+        private PasswordPatternBuilder $patternBuilder,
     ) {
     }
 
