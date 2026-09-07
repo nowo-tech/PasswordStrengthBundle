@@ -4275,16 +4275,16 @@
         },
         {
             "name": "nowo-tech/password-toggle-bundle",
-            "version": "v2.1.4",
+            "version": "v2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nowo-tech/PasswordToggleBundle.git",
-                "reference": "3ceb653339100cd67db4f666bcf970e887497746"
+                "reference": "709f94a7590be7e77c853c60cca3763e8597efed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nowo-tech/PasswordToggleBundle/zipball/3ceb653339100cd67db4f666bcf970e887497746",
-                "reference": "3ceb653339100cd67db4f666bcf970e887497746",
+                "url": "https://api.github.com/repos/nowo-tech/PasswordToggleBundle/zipball/709f94a7590be7e77c853c60cca3763e8597efed",
+                "reference": "709f94a7590be7e77c853c60cca3763e8597efed",
                 "shasum": ""
             },
             "require": {
@@ -4362,7 +4362,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-08-24T16:03:10+00:00"
+            "time": "2026-09-03T22:16:13+00:00"
         },
         {
             "name": "nowo-tech/phpstan-frankenphp",
