@@ -3,6 +3,7 @@
 
 ## Table of contents
 
+- [FrankenPHP worker mode](#frankenphp-worker-mode)
 - [Basic form field](#basic-form-field)
 - [Policy modes](#policy-modes)
   - [Level (preset)](#level-preset)
@@ -15,6 +16,12 @@
 - [Translation overrides (REQ-I18N-001)](#translation-overrides-req-i18n-001)
 - [Demo routes](#demo-routes)
 - [Related bundles](#related-bundles)
+
+## FrankenPHP worker mode
+
+This bundle is compatible with FrankenPHP **worker** when the Symfony kernel is **reused** between requests (`FRANKENPHP_RESET_KERNEL` unset or `0` — the Runtime default). Shared services (`PolicyResolver`, `PasswordStrengthEvaluator`, `PasswordPatternBuilder`, `PasswordStrengthType`, `PasswordStrengthValidator`) hold only compiled configuration or are framework-managed per validation call. They do not need `kernel.reset`.
+
+Full audit: [FRANKENPHP-WORKER-AUDIT.md](FRANKENPHP-WORKER-AUDIT.md). Demo runtime: [DEMO-FRANKENPHP.md](DEMO-FRANKENPHP.md).
 
 ## Basic form field
 

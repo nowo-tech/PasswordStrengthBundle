@@ -2,7 +2,7 @@
 
 **Baseline spec**: [`spec.md`](spec.md)  
 **Package**: `nowo-tech/password-strength-bundle`  
-**Last audited**: 2026-07-07
+**Last audited**: 2026-09-24
 
 This file proves that **every source artifact** under `src/` is referenced by the baseline specification. Co-located Vitest files (`*.test.ts`) enforce frontend contracts; PHPUnit covers PHP under `tests/`.
 
@@ -23,11 +23,11 @@ This file proves that **every source artifact** under `src/` is referenced by th
 | `Model/PasswordConditions.php` | Policy conditions DTO | FR-MODEL-004 |
 | `Model/PolicyMode.php` | level/conditions enum | FR-MODEL-005 |
 | `Model/RequirementResult.php` | Single requirement state | FR-MODEL-006 |
-| `Service/PolicyResolver.php` | Policy resolution | FR-POL-001 |
-| `Service/PasswordStrengthEvaluator.php` | Server-side evaluation | FR-EVAL-001 |
-| `Service/PasswordPatternBuilder.php` | HTML pattern builder | FR-PAT-001 |
+| `Service/PolicyResolver.php` | Policy resolution | FR-POL-001, FR-WORKER-001 |
+| `Service/PasswordStrengthEvaluator.php` | Server-side evaluation | FR-EVAL-001, FR-WORKER-001 |
+| `Service/PasswordPatternBuilder.php` | HTML pattern builder | FR-PAT-001, FR-WORKER-001 |
 | `Validator/PasswordStrength.php` | Constraint | FR-VAL-001 |
-| `Validator/PasswordStrengthValidator.php` | Server validation | FR-VAL-002 |
+| `Validator/PasswordStrengthValidator.php` | Server validation | FR-VAL-002, FR-WORKER-002 |
 
 ## TypeScript production (`src/Resources/assets/src/`)
 

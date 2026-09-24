@@ -44,7 +44,7 @@ APP_ENV=prod APP_DEBUG=0 docker-compose up -d --build
 
 Or set `APP_ENV=prod` in `.env` and rebuild. The entrypoint keeps the production `Caddyfile` when `APP_ENV` is not `dev`.
 
-**Password Strength Bundle** is stateless (form rendering + validator + client script) and does not rely on per-request global state incompatible with FrankenPHP workers.
+**Password Strength Bundle** is stateless (form rendering + validator + client script) and does not rely on per-request global state incompatible with FrankenPHP workers when the kernel is **not** reset between requests (`FRANKENPHP_RESET_KERNEL` unset/false). Full service-by-service review: [FRANKENPHP-WORKER-AUDIT.md](FRANKENPHP-WORKER-AUDIT.md).
 
 ## Demo pages
 

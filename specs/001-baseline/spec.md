@@ -21,6 +21,7 @@ Symfony `PasswordStrengthType` form field with configurable strength policies (p
 ## Notes / release sync
 
 - **2026-09-03:** Widget host is `<nowo-password-strength>` (custom element, light DOM); legacy data-attribute hosts still supported.
+- **2026-09-24:** FrankenPHP worker / `FRANKENPHP_RESET_KERNEL` unset|false — services stay stateless (`FR-WORKER-*`); see [`docs/FRANKENPHP-WORKER-AUDIT.md`](../../docs/FRANKENPHP-WORKER-AUDIT.md).
 
 ---
 
@@ -123,6 +124,12 @@ As an integrator, I select a form theme matching Bootstrap, Foundation, Tailwind
 
 - **FR-VAL-001**: `PasswordStrength` constraint MUST carry `policyMode`, `level`, `conditions`, `message`.
 - **FR-VAL-002**: `PasswordStrengthValidator` MUST reuse resolver + evaluator and build violation with missing requirements list.
+
+### FrankenPHP worker
+
+- **FR-WORKER-001**: Bundle container services MUST hold no per-request mutable state; no `kernel.reset` required when the kernel is reused between requests (`FRANKENPHP_RESET_KERNEL` unset or `false`).
+- **FR-WORKER-002**: Password values and form options MUST be passed as method arguments (never stored on shared services).
+- **FR-WORKER-003**: PHPStan MUST include `nowo-tech/phpstan-frankenphp` classic + worker-strict rulesets (`phpstan.neon.dist`). Documented in [`docs/FRANKENPHP-WORKER-AUDIT.md`](../../docs/FRANKENPHP-WORKER-AUDIT.md).
 
 ### Frontend (TypeScript)
 

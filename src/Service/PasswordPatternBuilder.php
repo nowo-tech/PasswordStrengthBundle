@@ -14,7 +14,7 @@ use function sprintf;
 /**
  * Builds an HTML5 pattern attribute from password conditions using positive lookaheads.
  */
-final class PasswordPatternBuilder
+final readonly class PasswordPatternBuilder
 {
     public function build(PasswordConditions $conditions): string
     {

@@ -6,6 +6,7 @@ This document describes how to upgrade between versions of Password Strength Bun
 ## Table of contents
 
 
+- [From 2.3.0 to 2.3.1](#from-230-to-231)
 - [From 2.2.3 to 2.3.0](#from-223-to-230)
 - [From 2.2.2 to 2.2.3](#from-222-to-223)
 - [To 2.2.2](#to-222)
@@ -20,6 +21,14 @@ This document describes how to upgrade between versions of Password Strength Bun
 - [Unreleased / 2.x](#unreleased-2x)
 
 
+## From 2.3.0 to 2.3.1
+
+No application upgrade steps. Documents FrankenPHP worker compatibility when the kernel is **not** reset between requests (`FRANKENPHP_RESET_KERNEL` unset/false). See [FRANKENPHP-WORKER-AUDIT.md](FRANKENPHP-WORKER-AUDIT.md).
+
+```bash
+composer update nowo-tech/password-strength-bundle
+```
+
 ## From 2.2.3 to 2.3.0
 
 The default form theme now wraps the widget in `<nowo-password-strength>`. Load the same `password-strength.js` asset. If you copied the form theme, wrap the field in `<nowo-password-strength>` (legacy `data-password-strength-field` hosts still initialize). Nested PasswordToggle may render `<nowo-password-toggle>` when that bundle is installed.
@@ -27,14 +36,6 @@ The default form theme now wraps the widget in `<nowo-password-strength>`. Load 
 ```bash
 composer update nowo-tech/password-strength-bundle
 php bin/console assets:install
-```
-
-## From 2.2.2 to 2.2.3
-
-Review the [CHANGELOG](CHANGELOG.md) entry. PHP **8.2+** may now be required.
-
-```bash
-composer update nowo-tech/password-strength-bundle
 ```
 
 ## From 2.2.2 to 2.2.3
