@@ -27,6 +27,8 @@ make install
 make assets
 make test
 make test-ts
+make -C demo/symfony8 test-e2e          # Playwright against the FrankenPHP demo (REQ-DEMO-013)
+make -C demo/symfony8 demo-screenshots  # refresh docs/images/demo/*.png for README
 ```
 
 ## Quality checks

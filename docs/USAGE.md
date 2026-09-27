@@ -14,8 +14,19 @@
 - [HTML pattern](#html-pattern)
 - [Overriding bundle templates (REQ-TWIG-001)](#overriding-bundle-templates-req-twig-001)
 - [Translation overrides (REQ-I18N-001)](#translation-overrides-req-i18n-001)
+- [Screenshots](#screenshots)
 - [Demo routes](#demo-routes)
 - [Related bundles](#related-bundles)
+
+## Screenshots
+
+Cropped to the form widget (not the demo chrome):
+
+| Requirements met | Unmet feedback |
+|------------------|----------------|
+| ![Requirements met](images/demo/overview.png) | ![Unmet feedback](images/demo/interaction.png) |
+
+Regenerate with `make -C demo/symfony8 demo-screenshots` (REQ-DEMO-013).
 
 ## FrankenPHP worker mode
 
