@@ -1,5 +1,5 @@
 # Password Strength Bundle - Development
-.PHONY: help up down build shell install test test-coverage coverage-check coverage-php-percent cs-check cs-fix qa clean assets assets-build assets-watch assets-test test-ts ensure-up rector rector-dry phpstan release-check release-check-demos demo-smoke composer-sync update validate validate-translations check-no-cursor-coauthor check-open-prs strip-cursor-coauthor-from-history check-twig-extra
+.PHONY: help up down build shell install test test-coverage coverage-check coverage-php-percent cs-check cs-fix qa clean assets assets-build assets-watch assets-test test-ts ensure-up rector rector-dry phpstan igor release-check release-check-demos demo-smoke composer-sync update validate validate-translations check-no-cursor-coauthor check-open-prs strip-cursor-coauthor-from-history check-twig-extra
 
 COMPOSE_FILE ?= docker-compose.yml
 # Prefer Compose V2 plugin (GitHub Actions / modern Docker Desktop); fall back to docker-compose V1 (REQ-MAKE-010).
@@ -25,6 +25,7 @@ help:
 	@echo "  cs-check / cs-fix  Code style"
 	@echo "  rector / rector-dry  Rector"
 	@echo "  phpstan         Static analysis"
+	@echo "  igor          Run Igor worker-state audit (REQ-CS-008)"
 	@echo "  qa              cs-check + test"
 	@echo "  release-check   Pre-release checks"
 	@echo "  composer-sync   Validate and align composer.lock"
@@ -127,7 +128,11 @@ demo-smoke:
 check-twig-extra:
 	@chmod +x .scripts/check-twig-extra.sh
 	@./.scripts/check-twig-extra.sh
-release-check: check-no-cursor-coauthor check-open-prs check-twig-extra ensure-up composer-sync cs-fix cs-check rector-dry phpstan validate-translations coverage-check release-check-demos test-ts
+
+# Run Igor worker-state audit (REQ-CS-008)
+igor: ensure-up
+	$(COMPOSE) exec -T php composer igor
+release-check: check-no-cursor-coauthor check-open-prs check-twig-extra ensure-up composer-sync cs-fix cs-check rector-dry phpstan igor validate-translations coverage-check release-check-demos test-ts
 
 release-check-demos:
 	@$(MAKE) -C demo release-check

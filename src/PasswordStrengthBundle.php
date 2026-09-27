@@ -26,6 +26,7 @@ final class PasswordStrengthBundle extends Bundle
     public function getContainerExtension(): ExtensionInterface
     {
         if ($this->extension === null || $this->extension === false) {
+            // @igor-ignore - Boot-time Symfony Bundle extension cache (not request state).
             $this->extension = new PasswordStrengthExtension();
         }
 

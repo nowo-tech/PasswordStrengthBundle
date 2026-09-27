@@ -1,5 +1,19 @@
 # Upgrading
 
+
+## Unreleased
+
+## To 2.3.2
+
+From **2.3.1** — REQ-CS-008 Igor FrankenPHP worker audit (igor-php require-dev, igor.json, make igor).
+
+```bash
+composer update nowo-tech/password-strength-bundle
+php bin/console cache:clear
+```
+
+- No application upgrade steps for require-dev Igor tooling (REQ-CS-008). Consumers do not pull `igor-php/igor-php` transitively.
+
 This document describes how to upgrade between versions of Password Strength Bundle.
 
 
