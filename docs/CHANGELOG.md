@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Table of contents
 
 - [[Unreleased]](#unreleased)
+- [[2.3.3] - 2026-10-09](#233---2026-10-09)
 - [[2.3.2] - 2026-09-27](#232---2026-09-27)
 - [[2.3.1] - 2026-09-24](#231---2026-09-24)
 - [[2.3.0] - 2026-09-03](#230---2026-09-03)
@@ -35,9 +36,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.3.3] - 2026-10-09
+
 ### Added
 
 - **REQ-DEMO-013:** Playwright e2e under `demo/symfony8/e2e/` (`make test-e2e`), `demo-screenshots` target, and README gallery (`docs/images/demo/overview.png`, `interaction.png`).
+
+### Fixed
+
+- `pnpm-lock.yaml` re-synced with `package.json` (vite ^8.3.2) so frozen-lockfile installs work again.
+
+### Dependencies
+
+- Bundle lock: `symfony/validator` v7.4.20 and other Symfony 7.4 patch releases.
+- Dev tooling: `phpstan/phpstan` 2.3.1, `phpstan/phpstan-phpunit` 2.1.1, `phpstan/phpstan-symfony` 2.1.0, `rector/rector` 2.7.0, `phpunit/phpunit` 11.5.57, `igor-php/igor-php` ^0.10 (v0.10.1), `nowo-tech/phpstan-frankenphp` v1.2.3, `nowo-tech/password-toggle-bundle` v2.2.3.
+- JS dev: Vite 8.3.4, `@types/node` 26.6.4.
+- Demo (Symfony 8): Symfony v8.1.8, `twig/twig` v3.30.0, `twig/extra-bundle` v3.29.0, `symfony/ux-icons` v3.5.1, `nowo-tech/password-toggle-bundle` v2.2.3, `nowo-tech/hot-reload-bundle` v1.5.5, `nowo-tech/twig-inspector-bundle` v1.1.7.
 
 ## [2.3.2] - 2026-09-27
 
@@ -205,7 +219,8 @@ First stable release of **Password Strength Bundle**.
 - PHP >= 8.1, < 8.6
 - Symfony ^6.0 || ^7.0 || ^8.0
 
-[Unreleased]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v2.3.1...HEAD
+[Unreleased]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v2.3.3...HEAD
+[2.3.3]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v2.3.2...v2.3.3
 [2.3.1]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v2.3.0...v2.3.1
 [2.3.0]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v2.2.3...v2.3.0
 [2.1.0]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v2.0.0...v2.1.0

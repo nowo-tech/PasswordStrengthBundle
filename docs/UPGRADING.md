@@ -3,6 +3,16 @@
 
 ## Unreleased
 
+## To 2.3.3
+
+From **2.3.2** — dependency updates and demo Playwright e2e (REQ-DEMO-013).
+
+```bash
+composer update nowo-tech/password-strength-bundle
+```
+
+No breaking changes. No application upgrade steps.
+
 ## To 2.3.2
 
 From **2.3.1** — REQ-CS-008 Igor FrankenPHP worker audit (igor-php require-dev, igor.json, make igor).
@@ -20,6 +30,7 @@ This document describes how to upgrade between versions of Password Strength Bun
 ## Table of contents
 
 
+- [To 2.3.3](#to-233)
 - [From 2.3.0 to 2.3.1](#from-230-to-231)
 - [From 2.2.3 to 2.3.0](#from-223-to-230)
 - [From 2.2.2 to 2.2.3](#from-222-to-223)
