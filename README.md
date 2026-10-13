@@ -75,7 +75,7 @@ Include the script in your layout (or demo template):
 
 ## Requirements
 
-- PHP >= 8.1, < 8.6
+- PHP >= 8.2, < 8.6
 - Symfony >= 7.4 || >= 8.0
 
 ## Configuration
