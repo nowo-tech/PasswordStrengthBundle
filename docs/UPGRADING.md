@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+## To 2.5.0
+
+From **2.4.0** — Symfony >=7.4 (lowest tested), vitest 4.
+
+```bash
+composer update nowo-tech/password-strength-bundle
+```
+
 - Symfony **6.x and 7.0–7.3** are no longer supported: the bundle requires `^7.4 || ^8.0`. Upgrade the host application to Symfony 7.4 LTS or 8.x first.
 
 ## To 2.4.0
@@ -51,6 +59,7 @@ This document describes how to upgrade between versions of Password Strength Bun
 
 ## Table of contents
 
+- [To 2.5.0](#to-250)
 - [To 2.4.0](#to-240)
 - [To 2.3.4](#to-234)
 - [To 2.3.3](#to-233)
