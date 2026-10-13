@@ -276,6 +276,10 @@ function applyPasswordToInput(
 /**
  * Show password in the field and sync PasswordToggleBundle button state (icons + aria).
  *
+ * PasswordToggleBundle (>= 2.1.1) switches the eye icons with the `is-password-visible` class on the
+ * button + toggle_password.css (CSP-safe); inline `style.display` would desync the toggle and leave the
+ * stylesheet rules in charge (no icon, or both icons under a nonce-based style-src).
+ *
  * @param input Password input inside `.form-password-toggle` when toggle is enabled.
  */
 function revealInputWithToggle(input: HTMLInputElement): void {
@@ -285,17 +289,14 @@ function revealInputWithToggle(input: HTMLInputElement): void {
     return;
   }
 
-  const toggleBtn = input.nextElementSibling;
+  const host = input.closest<HTMLElement>('nowo-password-toggle, .form-password-toggle');
+  const toggleBtn =
+    host?.querySelector<HTMLElement>('[data-nowo-password-toggle-target="button"]') ?? input.nextElementSibling;
   if (!(toggleBtn instanceof HTMLElement)) {
     return;
   }
 
-  toggleBtn.querySelectorAll<HTMLElement>('.icon-hidden').forEach((el) => {
-    el.style.display = 'none';
-  });
-  toggleBtn.querySelectorAll<HTMLElement>('.icon-visible').forEach((el) => {
-    el.style.display = '';
-  });
+  toggleBtn.classList.add('is-password-visible');
 
   const hiddenLabel = input.getAttribute('data-password-strength-toggle-hidden-label');
   if (hiddenLabel) {

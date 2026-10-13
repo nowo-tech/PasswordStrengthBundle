@@ -77,6 +77,12 @@ Register `NowoPasswordToggleBundle`, add UX Icons config, and lock tabler icons 
 
 With default settings (`use_password_toggle: true`), this bundle detects PasswordToggleBundle and extends its `PasswordType` automatically.
 
+Load the toggle stylesheet in your layout — the eye icons are switched by CSS (`is-password-visible`), so without it **both icons show side by side**:
+
+```twig
+<link rel="stylesheet" href="{{ asset('css/toggle_password.css', 'nowo_password_toggle') }}">
+```
+
 ## Twig and translation overrides
 
 - Templates: `templates/bundles/NowoPasswordStrengthBundle/...`

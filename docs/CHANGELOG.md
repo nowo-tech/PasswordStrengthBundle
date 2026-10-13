@@ -28,6 +28,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- **PasswordToggleBundle integration:** applying a generated password now reveals it through the toggle button's `is-password-visible` class (PasswordToggleBundle >= 2.1.1, CSP-safe) instead of inline `style.display` on the eye icons, which left the toggle out of sync (no icon / wrong icon, and the next click hid the password again without updating the icon). Shipped `password-strength.js` rebuilt; TS regression test added.
+- **Docs / demo:** INSTALLATION now says to load `toggle_password.css` when PasswordToggleBundle is installed; the Symfony 8 demo did not, so both eye icons rendered side by side.
+
 ## [2.5.0] - 2026-10-13
 
 ### Changed
