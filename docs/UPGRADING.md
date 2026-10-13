@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Symfony **6.x and 7.0–7.3** are no longer supported: the bundle requires `^7.4 || ^8.0`. Upgrade the host application to Symfony 7.4 LTS or 8.x first.
+
 ## To 2.4.0
 
 From **2.3.4** — fixes - min_unique_chars and delimited regex patterns, attribute named arguments, translated validator message, default_level.

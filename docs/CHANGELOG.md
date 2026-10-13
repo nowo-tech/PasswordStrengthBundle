@@ -37,6 +37,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Minimum Symfony version is now **7.4** (`^7.4 || ^8.0`). Symfony 6.x could not be installed with the dev dependencies (password-toggle-bundle requires `^7.0`) and the CI "7.0" cell resolved to the latest 7.x anyway; the cell is removed and the coverage job runs on 7.4.
+- Dev tooling: `vitest` and `@vitest/coverage-v8` upgraded from `^2.1.9` to `^4.1.11` (no config change needed; shipped assets unchanged).
+
 ## [2.4.0] - 2026-10-13
 
 ### Fixed
