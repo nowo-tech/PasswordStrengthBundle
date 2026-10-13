@@ -143,15 +143,15 @@ final class PasswordDemoController extends AbstractController
         $policyMode  = (string) ($passwordOptions['policy_mode'] ?? 'level');
 
         if ($policyMode === 'conditions') {
-            $constraints[] = new PasswordStrength([
-                'policyMode' => 'conditions',
-                'conditions' => $passwordOptions['conditions'] ?? [],
-            ]);
+            $constraints[] = new PasswordStrength(
+                policyMode: 'conditions',
+                conditions: $passwordOptions['conditions'] ?? [],
+            );
         } else {
-            $constraints[] = new PasswordStrength([
-                'policyMode' => 'level',
-                'level'      => (string) ($passwordOptions['level'] ?? 'medium'),
-            ]);
+            $constraints[] = new PasswordStrength(
+                policyMode: 'level',
+                level: (string) ($passwordOptions['level'] ?? 'medium'),
+            );
         }
 
         $passwordOptions['constraints'] = $constraints;
