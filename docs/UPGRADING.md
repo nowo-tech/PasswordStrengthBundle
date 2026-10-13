@@ -1,7 +1,16 @@
 # Upgrading
 
-
 ## Unreleased
+
+## To 2.3.4
+
+From **2.3.3** — dependency refresh and repository maintenance.
+
+```bash
+composer update nowo-tech/password-strength-bundle
+```
+
+- No breaking changes. No application upgrade steps.
 
 ## To 2.3.3
 
@@ -26,10 +35,9 @@ php bin/console cache:clear
 
 This document describes how to upgrade between versions of Password Strength Bundle.
 
-
 ## Table of contents
 
-
+- [To 2.3.4](#to-234)
 - [To 2.3.3](#to-233)
 - [From 2.3.0 to 2.3.1](#from-230-to-231)
 - [From 2.2.3 to 2.3.0](#from-223-to-230)
@@ -44,7 +52,6 @@ This document describes how to upgrade between versions of Password Strength Bun
 - [1.2.0 (2026-07-13)](#120-2026-07-13)
 - [1.3.0 (2026-07-16)](#130-2026-07-16)
 - [Unreleased / 2.x](#unreleased-2x)
-
 
 ## From 2.3.0 to 2.3.1
 
@@ -191,5 +198,4 @@ and enable `Twig\Extra\TwigExtraBundle\TwigExtraBundle`. Flex recipes usually re
 ### Twig-CS-Fixer (maintainers)
 
 Package maintainers: `composer twig:lint` / `composer twig:fix` use `.twig-cs-fixer.php` over `src/` (and `templates/` when present).
-
 

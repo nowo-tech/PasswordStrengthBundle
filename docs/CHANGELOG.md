@@ -5,10 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-
 ## Table of contents
 
 - [[Unreleased]](#unreleased)
+- [[2.3.4] - 2026-10-13](#234---2026-10-13)
 - [[2.3.3] - 2026-10-09](#233---2026-10-09)
 - [[2.3.2] - 2026-09-27](#232---2026-09-27)
 - [[2.3.1] - 2026-09-24](#231---2026-09-24)
@@ -36,9 +36,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.3.4] - 2026-10-13
+
 ### Changed
 
 - Development: `composer.json` pins `config.platform.php` to 8.2.0 so the committed lock stays installable on the minimum PHP; CI overrides the platform per matrix cell.
+- Repository: `.twig-cs-fixer.cache` is now git-ignored.
+
+### Dependencies
+
+- `nowo-tech/password-toggle-bundle` 2.2.3 → 2.3.0 (development lock; #56).
+- `@types/node` 26.6.4 → 26.6.5 (frontend tooling; #57).
+- `happy-dom` 20.14.5 → 20.14.6 (frontend tooling; #58).
 
 ## [2.3.3] - 2026-10-09
 
@@ -223,7 +232,8 @@ First stable release of **Password Strength Bundle**.
 - PHP >= 8.1, < 8.6
 - Symfony ^6.0 || ^7.0 || ^8.0
 
-[Unreleased]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v2.3.3...HEAD
+[Unreleased]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v2.3.4...HEAD
+[2.3.4]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v2.3.3...v2.3.4
 [2.3.3]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v2.3.2...v2.3.3
 [2.3.1]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v2.3.0...v2.3.1
 [2.3.0]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v2.2.3...v2.3.0
