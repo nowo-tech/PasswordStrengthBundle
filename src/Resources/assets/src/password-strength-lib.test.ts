@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { buildPasswordPattern } from './password-pattern-builder';
+import { buildPasswordPattern, toHtmlPattern } from './password-pattern-builder';
 import {
   DEFAULT_LABELS,
   evaluatePassword,
@@ -92,6 +92,26 @@ describe('evaluatePassword', () => {
     expect(evaluatePassword('123', { regex: '^[0-9]+$' }).valid).toBe(true);
   });
 
+  it('accepts passwords matching a delimited regex with flags (regression)', () => {
+    const result = evaluatePassword('abcxyz', { regex: '/^[A-Z]+$/i' });
+    expect(result.valid).toBe(true);
+    expect(result.missing).toHaveLength(0);
+    expect(result.pattern).toBe('');
+    expect(evaluatePassword('abc1', { regex: '/^[A-Z]+$/i' }).missing).toEqual(['regex']);
+  });
+
+  it('flags the pattern when requirements pass but the HTML pattern does not', () => {
+    const result = evaluatePassword('abcd\nefgh', { min_length: 8 });
+    expect(result.valid).toBe(false);
+    expect(result.missing).toEqual(['pattern']);
+  });
+
+  it('accepts passwords with enough unique characters (no digit required)', () => {
+    const result = evaluatePassword('abcdefgh', { min_length: 8, min_unique_chars: 4 });
+    expect(result.valid).toBe(true);
+    expect(result.pattern).not.toContain('{0,}');
+  });
+
   it('covers individual requirement branches', () => {
     expect(evaluatePassword('ABC', { require_lowercase: true }).missing).toContain('require_lowercase');
     expect(evaluatePassword('abc', { require_uppercase: true }).missing).toContain('require_uppercase');
@@ -111,6 +131,15 @@ describe('evaluatePassword', () => {
     });
     expect(result.valid).toBe(false);
     expect(result.missing).toContain('regex');
+  });
+});
+
+describe('toHtmlPattern', () => {
+  it('keeps bare patterns and strips delimiters', () => {
+    expect(toHtmlPattern('^[A-Z]{3}$')).toBe('^[A-Z]{3}$');
+    expect(toHtmlPattern('/^[A-Z]{3}$/')).toBe('^[A-Z]{3}$');
+    expect(toHtmlPattern('/^[A-Z]{3}$/u')).toBe('^[A-Z]{3}$');
+    expect(toHtmlPattern('/^[A-Z]{3}$/i')).toBe('');
   });
 });
 

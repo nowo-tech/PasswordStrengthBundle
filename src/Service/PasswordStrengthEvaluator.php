@@ -119,7 +119,7 @@ final readonly class PasswordStrengthEvaluator
         }
 
         if ($conditions->regex !== null) {
-            $met            = $value !== '' && preg_match($this->wrapRegex($conditions->regex), $value) === 1;
+            $met            = $value !== '' && preg_match(PasswordPatternBuilder::toPcre($conditions->regex), $value) === 1;
             $requirements[] = new RequirementResult('regex', 'requirement.regex', $met);
             if (!$met) {
                 $missing[] = 'regex';
@@ -129,7 +129,9 @@ final readonly class PasswordStrengthEvaluator
         $pattern = $this->patternBuilder->build($conditions);
         $valid   = $missing === [] && ($value !== '' || $requirements === []);
 
-        if ($value !== '' && $pattern !== '.*' && $pattern !== '') {
+        // A custom regex is already checked above exactly as configured; re-checking its HTML form would
+        // double-wrap delimited patterns (`/…/i`) and reject every password.
+        if ($value !== '' && $conditions->regex === null && $pattern !== '.*' && $pattern !== '') {
             $patternValid = @preg_match('/' . $pattern . '/u', $value) === 1;
             if (!$patternValid && $missing === []) {
                 $valid     = false;
@@ -138,14 +140,5 @@ final readonly class PasswordStrengthEvaluator
         }
 
         return new EvaluationResult($valid, $requirements, $missing, $pattern);
-    }
-
-    private function wrapRegex(string $regex): string
-    {
-        if (str_starts_with($regex, '/') && preg_match('#^/.+/[a-z]*$#i', $regex) === 1) {
-            return $regex;
-        }
-
-        return '/' . $regex . '/u';
     }
 }

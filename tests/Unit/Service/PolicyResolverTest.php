@@ -32,4 +32,17 @@ final class PolicyResolverTest extends TestCase
         self::assertSame(10, $conditions->minLength);
         self::assertTrue($conditions->requireDigit);
     }
+
+    public function testUsesConfiguredDefaultLevelWhenNoneGiven(): void
+    {
+        $resolver = new PolicyResolver([
+            'medium' => ['min_length' => 8],
+            'strong' => ['min_length' => 12],
+        ], 'strong');
+
+        self::assertSame(12, $resolver->resolve(PolicyMode::Level, [])->minLength);
+        self::assertSame(12, $resolver->resolve(PolicyMode::Level, ['level' => null])->minLength);
+        self::assertSame(12, $resolver->resolve(PolicyMode::Level, ['level' => 'unknown'])->minLength);
+        self::assertSame(8, $resolver->resolve(PolicyMode::Level, ['level' => 'medium'])->minLength);
+    }
 }

@@ -159,7 +159,7 @@ public ?string $plainPassword = null;
 | `disallow_whitespace` | bool | No spaces |
 | `not_contain` | string[] | Forbidden substrings |
 | `min_unique_chars` | int | Minimum unique characters |
-| `regex` | string | Custom regex (server + pattern) |
+| `regex` | string | Custom regex, bare (`^[A-Z]+$`) or delimited (`/^[a-z]+$/i`); checked server + client as given. The HTML `pattern` uses the delimiter-free body and is omitted when flags other than `u` are set. |
 
 ## PasswordToggleBundle compatibility (optional)
 

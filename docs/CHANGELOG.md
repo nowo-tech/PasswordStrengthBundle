@@ -36,6 +36,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- `min_unique_chars` no longer emits a broken HTML/server pattern (`{0,}3`) that required a literal digit and rejected valid passwords; unique characters are counted by the evaluators only.
+- A custom `regex` written with delimiters (e.g. `/^[a-z]+$/i`) is evaluated as given instead of being wrapped again (which rejected every password). The HTML `pattern` attribute gets the delimiter-free body, and is omitted when flags other than `u` cannot be expressed in HTML.
+- `#[PasswordStrength(policyMode: …, level: …, conditions: …)]` now works as documented (the constraint has a named-argument constructor, also accepting `message`, `groups` and `payload`).
+- The validator violation now fills `%missing%` (and still `{{ missing }}`), and `password_strength.invalid` ships in the `validators` translation domain for all bundled locales, so users see the translated message instead of the raw key.
+- `default_level` is now honoured by the form type (default `level` option) and by the policy resolver / `PasswordStrength` constraint when no level is given.
+- An unknown `policyMode` on the constraint raises a `ConstraintDefinitionException` with the allowed values instead of a bare `ValueError`.
+
 ## [2.3.4] - 2026-10-13
 
 ### Changed

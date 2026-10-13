@@ -14,6 +14,7 @@ services:
   Nowo\PasswordStrengthBundle\Service\PolicyResolver:
     arguments:
       $levels: '%nowo_password_strength.levels%'
+      $defaultLevel: '%nowo_password_strength.default_level%'
 
   Nowo\PasswordStrengthBundle\Form\PasswordStrengthType:
     arguments:
@@ -24,6 +25,7 @@ services:
       $defaultGeneratorCount: '%nowo_password_strength.generator_count%'
       $defaultUsePasswordToggle: '%nowo_password_strength.use_password_toggle%'
       $parentFormType: '%nowo_password_strength.parent_form_type%'
+      $defaultLevel: '%nowo_password_strength.default_level%'
     tags:
       - { name: form.type }
 

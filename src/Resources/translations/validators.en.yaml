@@ -1,0 +1,1 @@
+password_strength.invalid: 'The password does not meet the strength requirements (%missing%).'

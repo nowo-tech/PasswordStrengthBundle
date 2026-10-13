@@ -71,6 +71,35 @@ final class PasswordStrengthTypeTest extends TestCase
         self::assertSame(PolicyMode::Level->value, $view['password']->vars['policy_mode']);
     }
 
+    public function testDefaultLevelFromConfigurationIsUsed(): void
+    {
+        $type = new PasswordStrengthType(
+            new PolicyResolver(['medium' => ['min_length' => 8], 'strong' => ['min_length' => 14]], 'strong'),
+            new PasswordStrengthEvaluator(new PasswordPatternBuilder()),
+            new PasswordPatternBuilder(),
+            parentFormType: PasswordType::class,
+            defaultLevel: 'strong',
+        );
+        $factory = Forms::createFormFactoryBuilder()->addType($type)->getFormFactory();
+
+        $view = $factory->create(PasswordStrengthType::class)->createView();
+
+        self::assertSame('strong', $view->vars['level']);
+        self::assertSame(14, $view->vars['conditions']['min_length']);
+    }
+
+    public function testFlaggedRegexOmitsPatternAttribute(): void
+    {
+        $view = $this->factory->create(PasswordStrengthType::class, null, [
+            'policy_mode' => 'conditions',
+            'conditions'  => ['regex' => '/^[a-z]+$/i'],
+            'attr'        => ['pattern' => 'stale'],
+        ])->createView();
+
+        self::assertSame('', $view->vars['pattern']);
+        self::assertArrayNotHasKey('pattern', $view->vars['attr']);
+    }
+
     public function testFormViewGeneratorOptions(): void
     {
         $form = $this->factory->createBuilder(FormType::class)

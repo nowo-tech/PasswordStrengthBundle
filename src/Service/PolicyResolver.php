@@ -20,6 +20,7 @@ final readonly class PolicyResolver
      */
     public function __construct(
         private array $levels = [],
+        private string $defaultLevel = 'medium',
     ) {
     }
 
@@ -34,8 +35,8 @@ final readonly class PolicyResolver
             return PasswordConditions::fromArray(is_array($inline) ? $inline : []);
         }
 
-        $levelName = is_string($options['level'] ?? null) ? $options['level'] : 'medium';
-        $levelData = $this->levels[$levelName] ?? $this->levels['medium'] ?? [];
+        $levelName = is_string($options['level'] ?? null) ? $options['level'] : $this->defaultLevel;
+        $levelData = $this->levels[$levelName] ?? $this->levels[$this->defaultLevel] ?? $this->levels['medium'] ?? [];
 
         return PasswordConditions::fromArray(is_array($levelData['conditions'] ?? null) ? $levelData['conditions'] : $levelData);
     }

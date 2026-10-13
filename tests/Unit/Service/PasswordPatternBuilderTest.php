@@ -72,13 +72,33 @@ final class PasswordPatternBuilderTest extends TestCase
         );
     }
 
-    public function testMinUniqueCharsLookahead(): void
+    public function testMinUniqueCharsDoesNotRequireLiteralDigit(): void
     {
         $pattern = $this->builder->build(PasswordConditions::fromArray([
             'min_unique_chars' => 4,
             'min_length'       => 4,
         ]));
 
-        self::assertStringContainsString('(?=(?:.*(.)((?!\\1).)){0,}3)', $pattern);
+        // Regression: the old lookahead rendered `{0,}3`, which required a literal "3" in the password.
+        self::assertStringNotContainsString('{0,}', $pattern);
+        self::assertSame('^.{4,}$', $pattern);
+        self::assertMatchesRegularExpression('/' . $pattern . '/u', 'abcdefgh');
+    }
+
+    public function testDelimitedRegexIsStrippedForHtmlPattern(): void
+    {
+        self::assertSame('^[A-Z]{3}$', $this->builder->build(PasswordConditions::fromArray(['regex' => '/^[A-Z]{3}$/'])));
+        self::assertSame('^[A-Z]{3}$', $this->builder->build(PasswordConditions::fromArray(['regex' => '/^[A-Z]{3}$/u'])));
+    }
+
+    public function testDelimitedRegexWithFlagsOmitsHtmlPattern(): void
+    {
+        self::assertSame('', $this->builder->build(PasswordConditions::fromArray(['regex' => '/^x$/i'])));
+    }
+
+    public function testToPcreKeepsDelimitedRegexAndWrapsBareRegex(): void
+    {
+        self::assertSame('/^x$/i', PasswordPatternBuilder::toPcre('/^x$/i'));
+        self::assertSame('/^x$/u', PasswordPatternBuilder::toPcre('^x$'));
     }
 }

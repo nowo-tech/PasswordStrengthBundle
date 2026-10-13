@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Nowo\PasswordStrengthBundle\Tests\Unit\DependencyInjection;
 
 use Nowo\PasswordStrengthBundle\DependencyInjection\PasswordStrengthExtension;
+use Nowo\PasswordStrengthBundle\Form\PasswordStrengthType;
+use Nowo\PasswordStrengthBundle\Service\PolicyResolver;
 use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\DependencyInjection\FrameworkExtension;
 use Symfony\Bundle\TwigBundle\DependencyInjection\TwigExtension;
@@ -38,6 +40,16 @@ final class PasswordStrengthExtensionTest extends TestCase
         self::assertSame(5, $container->getParameter('nowo_password_strength.generator_count'));
         self::assertFalse($container->getParameter('nowo_password_strength.use_password_toggle'));
         self::assertIsString($container->getParameter('nowo_password_strength.parent_form_type'));
+
+        // default_level must reach the services that fall back to it (used to be a dead parameter).
+        self::assertSame(
+            '%nowo_password_strength.default_level%',
+            $container->getDefinition(PolicyResolver::class)->getArgument('$defaultLevel'),
+        );
+        self::assertSame(
+            '%nowo_password_strength.default_level%',
+            $container->getDefinition(PasswordStrengthType::class)->getArgument('$defaultLevel'),
+        );
     }
 
     public function testPrependDoesNothingWithoutTwigExtension(): void

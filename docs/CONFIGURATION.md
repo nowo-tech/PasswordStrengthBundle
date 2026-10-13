@@ -48,7 +48,7 @@ nowo_password_strength:
 | `feedback_position` | `above` \| `below` | `below` | Where to show the live requirements list. |
 | `show_requirements` | bool | `true` | Show requirement checklist in the UI. |
 | `live_feedback` | bool | `true` | Update requirements while typing (client-side). |
-| `default_level` | string | `medium` | Default level when using `policy_mode: level`. |
+| `default_level` | string | `medium` | Default level when using `policy_mode: level` (form type `level` option default, and the `PasswordStrength` constraint when `level` is null). |
 | `generator_mode` | `off` \| `input` \| `modal` | `off` | Default password generator behaviour. |
 | `generator_count` | int (1–10) | `3` | Suggestions count in modal mode. |
 | `use_password_toggle` | bool | `true` | Use PasswordToggleBundle parent when installed. |
@@ -69,7 +69,7 @@ nowo_password_strength:
 | `disallow_whitespace` | bool | No spaces |
 | `not_contain` | string[] | Forbidden substrings |
 | `min_unique_chars` | int | Minimum unique characters |
-| `regex` | string | Custom regex (server + pattern) |
+| `regex` | string | Custom regex, bare (`^[A-Z]+$`) or delimited (`/^[a-z]+$/i`); checked server + client as given. The HTML `pattern` uses the delimiter-free body and is omitted when flags other than `u` are set. |
 
 ## `form_theme`
 

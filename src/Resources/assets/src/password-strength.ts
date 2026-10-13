@@ -174,7 +174,11 @@ export function initPasswordStrengthContainer(root: HTMLElement): void {
   const applyFeedback = (): void => {
     if (!feedbackHost) return;
     const result = evaluatePassword(input.value, config.conditions);
-    input.setAttribute('pattern', result.pattern);
+    if (result.pattern === '') {
+      input.removeAttribute('pattern');
+    } else {
+      input.setAttribute('pattern', result.pattern);
+    }
 
     if (!config.showRequirements) {
       feedbackHost.hidden = true;

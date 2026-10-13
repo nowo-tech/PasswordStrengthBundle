@@ -47,6 +47,7 @@ final class PasswordStrengthType extends AbstractType
         private readonly int $defaultGeneratorCount = 3,
         private readonly bool $defaultUsePasswordToggle = true,
         private readonly string $parentFormType = SymfonyPasswordType::class,
+        private readonly string $defaultLevel = 'medium',
     ) {
     }
 
@@ -101,16 +102,21 @@ final class PasswordStrengthType extends AbstractType
         $view->vars['attr'] ??= [];
         $view->vars['attr']['data-controller']                     = trim(($view->vars['attr']['data-controller'] ?? '') . ' password-strength');
         $view->vars['attr']['data-password-strength-config-value'] = $json;
-        $view->vars['attr']['pattern']                             = $pattern;
         $view->vars['attr']['class']                               = trim(($view->vars['attr']['class'] ?? '') . ' password-strength-input');
         $view->vars['attr']['autocomplete'] ??= 'new-password';
+        if ($pattern !== '') {
+            $view->vars['attr']['pattern'] = $pattern;
+        } else {
+            // Custom regex with flags (e.g. `/…/i`) cannot be expressed as an HTML pattern: rely on server/JS checks.
+            unset($view->vars['attr']['pattern']);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'policy_mode'         => PolicyMode::Level->value,
-            'level'               => 'medium',
+            'level'               => $this->defaultLevel,
             'conditions'          => null,
             'feedback_position'   => null,
             'show_requirements'   => $this->defaultShowRequirements,

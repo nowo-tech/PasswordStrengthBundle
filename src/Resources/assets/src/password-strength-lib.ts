@@ -134,7 +134,8 @@ export function evaluatePassword(
   const pattern = buildPasswordPattern(conditions);
   let valid = missing.length === 0;
 
-  if (value !== '' && pattern !== '.*' && pattern !== '') {
+  // A custom regex is already checked above as configured; re-checking its HTML form is redundant.
+  if (value !== '' && !conditions.regex && pattern !== '.*' && pattern !== '') {
     try {
       const patternValid = new RegExp(pattern).test(value);
       if (!patternValid && missing.length === 0) {

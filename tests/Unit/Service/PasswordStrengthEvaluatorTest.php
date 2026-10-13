@@ -106,14 +106,50 @@ final class PasswordStrengthEvaluatorTest extends TestCase
         self::assertContains('regex', $result->missing);
     }
 
-    public function testEvaluateAcceptsDelimitedRegexLiteralForRequirementCheck(): void
+    public function testEvaluateAcceptsDelimitedRegexWithFlags(): void
     {
+        // Regression: the HTML-pattern re-check wrapped `/^x$/i` again (`//^x$/i/u`) and rejected every password.
         $result = $this->evaluator->evaluate('abc', PasswordConditions::fromArray([
             'regex' => '/^[A-Z]+$/i',
         ]));
 
-        // Requirement uses wrapRegex (delimited form); HTML pattern reuses the raw string and may not match.
+        self::assertTrue($result->valid);
+        self::assertSame([], $result->missing);
+        self::assertSame('', $result->pattern);
         self::assertSame('regex', $result->requirements[0]->id);
         self::assertTrue($result->requirements[0]->met);
+    }
+
+    public function testEvaluateRejectsPasswordNotMatchingDelimitedRegex(): void
+    {
+        $result = $this->evaluator->evaluate('abc1', PasswordConditions::fromArray([
+            'regex' => '/^[A-Z]+$/i',
+        ]));
+
+        self::assertFalse($result->valid);
+        self::assertSame(['regex'], $result->missing);
+    }
+
+    public function testEvaluateAcceptsMinUniqueCharsWithoutDigits(): void
+    {
+        // Regression: min_unique_chars lookahead `{0,}3` required a literal "3".
+        $result = $this->evaluator->evaluate('abcdefgh', PasswordConditions::fromArray([
+            'min_length'       => 8,
+            'min_unique_chars' => 4,
+        ]));
+
+        self::assertTrue($result->valid);
+        self::assertSame([], $result->missing);
+    }
+
+    public function testEvaluateFlagsPatternWhenRequirementsPassButPatternFails(): void
+    {
+        // `.` does not match a newline, so the HTML pattern rejects what the requirement checks accept.
+        $result = $this->evaluator->evaluate("abcd\nefgh", PasswordConditions::fromArray([
+            'min_length' => 8,
+        ]));
+
+        self::assertFalse($result->valid);
+        self::assertSame(['pattern'], $result->missing);
     }
 }

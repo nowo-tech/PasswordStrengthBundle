@@ -47,7 +47,7 @@ export function buildPasswordPattern(conditions: PasswordConditionsConfig): stri
     max !== null && max > 0 ? `{${min},${max}}` : min > 0 ? `{${min},}` : '*';
 
   if (conditions.regex) {
-    return conditions.regex;
+    return toHtmlPattern(conditions.regex);
   }
 
   const body = conditions.disallow_whitespace || conditions.no_whitespace ? '\\S' : '.';
@@ -56,4 +56,21 @@ export function buildPasswordPattern(conditions: PasswordConditionsConfig): stri
   }
 
   return `^${lookaheads.join('')}${body}${lengthQuantifier}$`;
+}
+
+/**
+ * Convert a configured regex into an HTML5 `pattern` value (mirror of PasswordPatternBuilder::toHtmlPattern()).
+ *
+ * Bare patterns are returned unchanged; `/body/flags` is stripped to `body`. Flags other than `u` cannot be
+ * expressed in an HTML pattern, so an empty string is returned and the attribute should be omitted.
+ *
+ * @param regex Pattern from configuration (with or without delimiters).
+ * @returns Pattern without delimiters, or '' when it cannot be represented.
+ */
+export function toHtmlPattern(regex: string): string {
+  const match = /^\/(.+)\/([a-zA-Z]*)$/s.exec(regex);
+  if (!match) {
+    return regex;
+  }
+  return match[2].replace(/u/g, '') === '' ? match[1] : '';
 }
