@@ -1,5 +1,29 @@
 # Upgrading
 
+## Table of contents
+
+- [Unreleased](#unreleased)
+- [To 2.5.0](#to-250)
+- [To 2.4.0](#to-240)
+- [To 2.3.4](#to-234)
+- [To 2.3.3](#to-233)
+- [To 2.3.2](#to-232)
+- [From 2.3.0 to 2.3.1](#from-230-to-231)
+- [From 2.2.3 to 2.3.0](#from-223-to-230)
+- [From 2.2.2 to 2.2.3](#from-222-to-223)
+- [To 2.2.2](#to-222)
+- [To 2.2.1](#to-221)
+- [To 2.2.0](#to-220)
+- [2.1.0 (2026-07-29)](#210-2026-07-29)
+- [2.0.0 (2026-07-22)](#200-2026-07-22)
+- [1.0.0 (2026-07-03)](#100-2026-07-03)
+- [1.1.0 (2026-07-09)](#110-2026-07-09)
+- [1.2.0 (2026-07-13)](#120-2026-07-13)
+- [1.3.0 (2026-07-16)](#130-2026-07-16)
+- [Unreleased / 2.x](#unreleased--2x)
+  - [Twig Extra Bundle (REQ-TWIG-004)](#twig-extra-bundle-req-twig-004)
+  - [Twig-CS-Fixer (maintainers)](#twig-cs-fixer-maintainers)
+
 ## Unreleased
 
 ## To 2.5.0
@@ -56,26 +80,6 @@ php bin/console cache:clear
 - No application upgrade steps for require-dev Igor tooling (REQ-CS-008). Consumers do not pull `igor-php/igor-php` transitively.
 
 This document describes how to upgrade between versions of Password Strength Bundle.
-
-## Table of contents
-
-- [To 2.5.0](#to-250)
-- [To 2.4.0](#to-240)
-- [To 2.3.4](#to-234)
-- [To 2.3.3](#to-233)
-- [From 2.3.0 to 2.3.1](#from-230-to-231)
-- [From 2.2.3 to 2.3.0](#from-223-to-230)
-- [From 2.2.2 to 2.2.3](#from-222-to-223)
-- [To 2.2.2](#to-222)
-- [To 2.2.1](#to-221)
-- [To 2.2.0](#to-220)
-- [2.1.0 (2026-07-29)](#210-2026-07-29)
-- [2.0.0 (2026-07-22)](#200-2026-07-22)
-- [1.0.0 (2026-07-03)](#100-2026-07-03)
-- [1.1.0 (2026-07-09)](#110-2026-07-09)
-- [1.2.0 (2026-07-13)](#120-2026-07-13)
-- [1.3.0 (2026-07-16)](#130-2026-07-16)
-- [Unreleased / 2.x](#unreleased-2x)
 
 ## From 2.3.0 to 2.3.1
 
