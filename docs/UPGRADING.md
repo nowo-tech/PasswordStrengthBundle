@@ -2,6 +2,18 @@
 
 ## Unreleased
 
+## To 2.4.0
+
+From **2.3.4** — fixes - min_unique_chars and delimited regex patterns, attribute named arguments, translated validator message, default_level.
+
+```bash
+composer update nowo-tech/password-strength-bundle
+```
+
+- Policies using `min_unique_chars` no longer reject valid passwords (the generated pattern required a literal digit).
+- A `regex` with flags other than `u` (e.g. `/…/i`) no longer produces an HTML `pattern` attribute; the server and JS checks still apply.
+- The validator message now comes from the `validators` translation domain; `#[PasswordStrength(policyMode: …, level: …)]` named arguments now work.
+
 ## To 2.3.4
 
 From **2.3.3** — dependency refresh and repository maintenance.
@@ -37,6 +49,7 @@ This document describes how to upgrade between versions of Password Strength Bun
 
 ## Table of contents
 
+- [To 2.4.0](#to-240)
 - [To 2.3.4](#to-234)
 - [To 2.3.3](#to-233)
 - [From 2.3.0 to 2.3.1](#from-230-to-231)

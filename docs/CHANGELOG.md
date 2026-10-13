@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Table of contents
 
 - [[Unreleased]](#unreleased)
+- [[2.4.0] - 2026-10-13](#240---2026-10-13)
 - [[2.3.4] - 2026-10-13](#234---2026-10-13)
 - [[2.3.3] - 2026-10-09](#233---2026-10-09)
 - [[2.3.2] - 2026-09-27](#232---2026-09-27)
@@ -35,6 +36,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - [Requirements](#requirements)
 
 ## [Unreleased]
+
+## [2.4.0] - 2026-10-13
 
 ### Fixed
 
@@ -241,7 +244,8 @@ First stable release of **Password Strength Bundle**.
 - PHP >= 8.1, < 8.6
 - Symfony ^6.0 || ^7.0 || ^8.0
 
-[Unreleased]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v2.3.4...HEAD
+[Unreleased]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v2.4.0...HEAD
+[2.4.0]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v2.3.4...v2.4.0
 [2.3.4]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v2.3.3...v2.3.4
 [2.3.3]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v2.3.2...v2.3.3
 [2.3.1]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v2.3.0...v2.3.1
