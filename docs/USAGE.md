@@ -24,7 +24,7 @@ Cropped to the form widget (not the demo chrome):
 
 | Requirements met | Unmet feedback |
 |------------------|----------------|
-| ![Requirements met](images/demo/overview.png) | ![Unmet feedback](images/demo/interaction.png) |
+| ![Requirements met](images/demo/overview.webp) | ![Unmet feedback](images/demo/interaction.webp) |
 
 Regenerate with `make -C demo/symfony8 demo-screenshots` (REQ-DEMO-013).
 

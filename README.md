@@ -13,11 +13,11 @@ This bundle is **FrankenPHP worker mode friendly**.
 <table>
   <tr>
     <td align="center" width="50%">
-      <img src="docs/images/demo/overview.png" alt="Password strength field with all requirements met" />
+      <img src="docs/images/demo/overview.webp" alt="Password strength field with all requirements met" />
       <br /><sub>Live requirements — all checks met</sub>
     </td>
     <td align="center" width="50%">
-      <img src="docs/images/demo/interaction.png" alt="Password strength field showing unmet requirements" />
+      <img src="docs/images/demo/interaction.webp" alt="Password strength field showing unmet requirements" />
       <br /><sub>Live requirements — unmet feedback</sub>
     </td>
   </tr>
@@ -209,7 +209,7 @@ Playwright e2e + README screenshots (**REQ-DEMO-013**):
 
 ```bash
 make -C demo/symfony8 test-e2e
-make -C demo/symfony8 demo-screenshots   # refreshes docs/images/demo/*.png
+make -C demo/symfony8 demo-screenshots   # refreshes docs/images/demo/*.webp
 ```
 ## Documentation
 
