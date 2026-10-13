@@ -3,6 +3,7 @@
 ## Table of contents
 
 - [Unreleased](#unreleased)
+- [To 2.5.1](#to-251)
 - [To 2.5.0](#to-250)
 - [To 2.4.0](#to-240)
 - [To 2.3.4](#to-234)
@@ -25,6 +26,16 @@
   - [Twig-CS-Fixer (maintainers)](#twig-cs-fixer-maintainers)
 
 ## Unreleased
+
+## To 2.5.1
+
+From **2.5.0** — generated password keeps the toggle state in sync
+
+```bash
+composer update nowo-tech/password-strength-bundle
+```
+
+- No breaking changes. No application upgrade steps.
 
 ## To 2.5.0
 
