@@ -3,6 +3,7 @@
 ## Table of contents
 
 - [Unreleased](#unreleased)
+- [To 2.5.3](#to-253)
 - [To 2.5.2](#to-252)
 - [To 2.5.1](#to-251)
 - [To 2.5.0](#to-250)
@@ -27,6 +28,14 @@
   - [Twig-CS-Fixer (maintainers)](#twig-cs-fixer-maintainers)
 
 ## Unreleased
+
+## To 2.5.3
+
+From **2.5.2**:
+
+```bash
+composer update nowo-tech/password-strength-bundle
+```
 
 No breaking changes and nothing to do if you registered a bundle theme (`@NowoPasswordStrengthBundle/Form/password_strength_theme*.html.twig`) in `twig.form_themes`: it keeps working, in any position, and no longer overrides your `form_row` / `form_label` / `form_errors` blocks. If you had moved it before your own theme only to work around that, you can leave it as is.
 
