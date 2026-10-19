@@ -7,6 +7,8 @@ export default defineConfig({
   test: {
     environment: 'happy-dom',
     globals: true,
+    // Real CSS for the `?raw` import of the shipped stylesheet (base styles injected by the widget).
+    css: { include: [/password-strength\.css/] },
     include: ['src/Resources/assets/**/*.test.ts'],
     coverage: {
       provider: 'v8',

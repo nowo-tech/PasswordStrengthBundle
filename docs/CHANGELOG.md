@@ -29,6 +29,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- **CSP:** `password-strength.js` injected its base `<style>` without a nonce, so hosts with a nonce-based `style-src` / `style-src-elem` got a CSP violation on every page with the widget. The injected element now carries a nonce read from `data-nonce` on the widget root (the form theme prints the `csp_nonce` request attribute there), then `<meta name="csp-nonce">`, then the nonce of the `<script>` that loaded the bundle. A host-declared `<style id="password-strength-inline-styles" nonce>` is still honoured (nothing is injected).
+
+### Added
+
+- `password-strength.css` (published with `assets:install`): link it from your layout and the script injects nothing. A linked `password-strength*.css` or the `--nowo-password-strength-css` marker of a bundled copy is detected.
+
 ## [2.5.1] - 2026-10-13
 
 ### Fixed

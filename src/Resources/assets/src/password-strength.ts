@@ -5,6 +5,7 @@ import {
   evaluatePassword,
   formatRequirementLabel,
 } from './password-strength-lib';
+import baseCss from '../css/password-strength.css?raw';
 import type { GeneratorMode, PasswordStrengthConfig, PasswordStrengthLabels, UiFramework } from './types';
 
 declare const __PASSWORD_STRENGTH_BUILD_TIME__: string;
@@ -15,8 +16,6 @@ const log = createBundleLogger('password-strength', {
       ? __PASSWORD_STRENGTH_BUILD_TIME__
       : undefined,
 });
-
-let stylesInjected = false;
 
 export const TAG_NOWO_PASSWORD_STRENGTH = 'nowo-password-strength';
 export const HOST_SELECTOR = `${TAG_NOWO_PASSWORD_STRENGTH}, [data-password-strength-field], [data-controller*="password-strength"], input.password-strength-widget`;
@@ -341,7 +340,7 @@ function openGeneratorModal(
   classes: (typeof FRAMEWORK_CLASSES)['default'],
   onApplied: () => void,
 ): void {
-  injectBaseStyles();
+  injectBaseStyles(input);
   const labels = config.labels;
   const passwords = generatePasswords(config.conditions, config.generatorCount);
 
@@ -492,32 +491,68 @@ function removeClasses(element: HTMLElement, classString: string): void {
   }
 }
 
-function injectBaseStyles(): void {
-  if (stylesInjected || document.getElementById('password-strength-inline-styles')) {
-    stylesInjected = true;
+/** Id of the injected (or host pre-declared) base `<style>` element. */
+export const BASE_STYLE_ID = 'password-strength-inline-styles';
+
+/** Custom property set by the shipped `password-strength.css` (detects a linked or bundled copy). */
+export const STYLESHEET_MARKER = '--nowo-password-strength-css';
+
+/**
+ * Nonce of the `<script>` that loaded this bundle, captured while it executes
+ * (`document.currentScript` is null once the script has run).
+ */
+const scriptNonce: string =
+  typeof document !== 'undefined' && document.currentScript instanceof HTMLScriptElement
+    ? document.currentScript.nonce || document.currentScript.getAttribute('nonce') || ''
+    : '';
+
+/**
+ * CSP nonce for the injected `<style>`: `data-nonce` on the widget root (printed by the form theme
+ * from the `csp_nonce` request attribute), then `<meta name="csp-nonce">`, then the loading script's nonce.
+ *
+ * @param root Widget root (optional); without it, the first widget root carrying `data-nonce` is used.
+ * @param fallback Nonce of the loading script.
+ */
+export function resolveCspNonce(root?: Element | null, fallback: string = scriptNonce): string {
+  const host =
+    root?.closest('[data-nonce]') ?? document.querySelector(`${TAG_NOWO_PASSWORD_STRENGTH}[data-nonce], [data-password-strength-field][data-nonce]`);
+  const fromRoot = host?.getAttribute('data-nonce');
+  if (fromRoot) return fromRoot;
+  const meta = document.querySelector<HTMLMetaElement>('meta[name="csp-nonce"]');
+  const fromMeta = meta ? meta.content || meta.nonce || meta.getAttribute('nonce') : '';
+  if (fromMeta) return fromMeta;
+
+  return fallback;
+}
+
+/** True when `password-strength.css` is linked or bundled by the host (no injection needed). */
+function stylesheetLoaded(): boolean {
+  if (document.querySelector('link[rel~="stylesheet"][href*="password-strength"][href*=".css"]')) {
+    return true;
+  }
+
+  return getComputedStyle(document.documentElement).getPropertyValue(STYLESHEET_MARKER).trim() !== '';
+}
+
+/**
+ * Injects the base styles once, unless the host links `password-strength.css` or pre-declares
+ * `<style id="password-strength-inline-styles">`. The injected element carries the CSP nonce.
+ *
+ * @param root Widget root used to read `data-nonce`.
+ */
+export function injectBaseStyles(root?: Element | null): void {
+  if (document.getElementById(BASE_STYLE_ID) || stylesheetLoaded()) {
     return;
   }
   const style = document.createElement('style');
-  style.id = 'password-strength-inline-styles';
-  style.textContent = `
-    .password-strength-input-row{display:flex;gap:.5rem;align-items:stretch;width:100%}
-    .password-strength-input-grow{flex:1 1 auto;min-width:0}
-    .password-strength-input-row--toggle .input-group,
-    .password-strength-input-row--toggle nowo-password-toggle{width:100%}
-    .password-strength-input-row .password-strength-widget,.password-strength-input-row input{flex:1 1 auto;min-width:0}
-    .password-strength-generate-btn{flex:0 0 auto;white-space:nowrap}
-    .password-strength-modal-overlay{position:fixed;inset:0;z-index:1050;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.45);padding:1rem}
-    .password-strength-modal{background:#fff;border-radius:.5rem;max-width:32rem;width:100%;box-shadow:0 .5rem 1rem rgba(0,0,0,.15);padding:1.25rem}
-    .password-strength-modal h2{font-size:1.125rem;margin:0 0 .5rem}
-    .password-strength-modal-hint{margin:0 0 .5rem;color:#6c757d;font-size:.9rem}
-    .password-strength-modal-list{list-style:none;margin:1rem 0;padding:0}
-    .password-strength-modal-item{display:flex;gap:.5rem;align-items:center;margin-bottom:.5rem;flex-wrap:wrap}
-    .password-strength-modal-item code{flex:1 1 12rem;word-break:break-all;padding:.35rem .5rem;background:#f8f9fa;border-radius:.25rem;font-size:.95rem}
-    .password-strength-modal-actions{display:flex;gap:.5rem;justify-content:flex-end;flex-wrap:wrap;margin-top:1rem}
-    nowo-password-strength{display:block}
-  `;
+  style.id = BASE_STYLE_ID;
+  const nonce = resolveCspNonce(root);
+  if (nonce) {
+    style.nonce = nonce;
+    style.setAttribute('nonce', nonce);
+  }
+  style.textContent = baseCss;
   document.head.appendChild(style);
-  stylesInjected = true;
 }
 
 if (typeof window !== 'undefined') {

@@ -27,6 +27,18 @@
 
 ## Unreleased
 
+No breaking changes. For a nonce-based Content Security Policy (`style-src` / `style-src-elem` with a nonce), either:
+
+- **link the stylesheet** (recommended, nothing is injected):
+
+  ```twig
+  <link rel="stylesheet" href="{{ asset('password-strength.css', 'nowo_password_strength') }}">
+  ```
+
+- or keep the injected `<style>`: set the `csp_nonce` request attribute (the UiKit/AuthKit convention) and the form theme prints it as `data-nonce` on `<nowo-password-strength>`; alternatively expose it as `<meta name="csp-nonce" content="…">` or load `password-strength.js` with a `nonce` attribute.
+
+A pre-declared `<style id="password-strength-inline-styles" nonce="…">` keeps working. If you copied `password_strength_theme.html.twig`, add the `data-nonce` attribute from the shipped theme to your `<nowo-password-strength>` root.
+
 ## To 2.5.1
 
 From **2.5.0** — generated password keeps the toggle state in sync
