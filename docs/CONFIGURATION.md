@@ -73,7 +73,7 @@ nowo_password_strength:
 
 ## `form_theme`
 
-The bundle maps `form_theme` to a dedicated Twig theme that extends your layout and adds `password_strength_widget`. Supported values include:
+The bundle maps `form_theme` to a dedicated Twig theme that adds `password_strength_widget` (and its feedback / generator blocks) on top of your layout. The theme does not extend any layout, so it never shadows your own `form_row` / `form_label` / `form_errors` blocks. Supported values include:
 
 - `form_div_layout.html.twig`, `form_table_layout.html.twig`
 - `bootstrap_3_layout.html.twig`, `bootstrap_4_layout.html.twig`, `bootstrap_5_layout.html.twig` (and horizontal variants)

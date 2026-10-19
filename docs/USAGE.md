@@ -149,6 +149,17 @@ templates/bundles/NowoPasswordStrengthBundle/<subpath>
 
 Twig namespace: `@NowoPasswordStrengthBundle/Form/...` (registered via `TwigPathsPass`).
 
+The themes ship **only** the bundle's own blocks (`password_strength_widget`, `password_strength_feedback`, `password_strength_generate_button_class`) and never `extends` a Symfony layout, so they cannot shadow your `form_row` / `form_label` / `form_errors` blocks wherever they sit in `twig.form_themes`. You can also pull them into your own form theme:
+
+```twig
+{# templates/form/app_theme.html.twig #}
+{% use '@NowoPasswordStrengthBundle/Form/password_strength_theme_bootstrap5.html.twig' %}
+
+{% block form_row %}...{% endblock %}
+```
+
+If you override a theme file, keep it free of `{% extends %}` for the same reason.
+
 ## Translation overrides (REQ-I18N-001)
 
 Domain: **`NowoPasswordStrengthBundle`** (same as `translation_domain` on the form type).

@@ -28,6 +28,12 @@
 
 ## Unreleased
 
+No breaking changes and nothing to do if you registered a bundle theme (`@NowoPasswordStrengthBundle/Form/password_strength_theme*.html.twig`) in `twig.form_themes`: it keeps working, in any position, and no longer overrides your `form_row` / `form_label` / `form_errors` blocks. If you had moved it before your own theme only to work around that, you can leave it as is.
+
+- The themes no longer `extends` a Symfony layout, so they rely on the base layout of your `twig.form_themes` (Symfony always registers `form_div_layout.html.twig` first) for shared blocks like `widget_attributes`.
+- You can now `{% use '@NowoPasswordStrengthBundle/Form/password_strength_theme.html.twig' %}` (or any framework variant) inside your own form theme.
+- If you overrode a theme under `templates/bundles/NowoPasswordStrengthBundle/Form/` and it starts with `{% extends 'form_div_layout.html.twig' %}`, remove that line (or switch it to `{% use %}` of the shipped theme); otherwise it still shadows your blocks.
+
 ## To 2.5.2
 
 From **2.5.1**:

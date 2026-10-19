@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- **Form themes no longer shadow the host's blocks:** `password_strength_theme.html.twig` extended `form_div_layout.html.twig`, so registering it in `twig.form_themes` after the host's own theme replaced the host's `form_row` / `form_label` / `form_errors` blocks (labels lost their classes, errors rendered above the input). Every shipped theme now contains only the bundle's blocks (no `extends`; the framework variants `{% use %}` the base theme) and works both in `twig.form_themes` (any position) and through `{% use %}`. Shared blocks such as `widget_attributes` resolve from the host's base layout. The CSP `data-nonce` from 2.5.2 is unchanged. Regression test renders a host theme plus every bundle theme and asserts the host's row, label, errors markup and order win.
+
 ## [2.5.2] - 2026-10-19
 
 CSP nonce on the injected base style; optional password-strength.css. See [UPGRADING](UPGRADING.md#to-252).
