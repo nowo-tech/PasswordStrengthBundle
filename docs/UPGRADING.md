@@ -3,6 +3,7 @@
 ## Table of contents
 
 - [Unreleased](#unreleased)
+- [To 2.5.2](#to-252)
 - [To 2.5.1](#to-251)
 - [To 2.5.0](#to-250)
 - [To 2.4.0](#to-240)
@@ -26,6 +27,14 @@
   - [Twig-CS-Fixer (maintainers)](#twig-cs-fixer-maintainers)
 
 ## Unreleased
+
+## To 2.5.2
+
+From **2.5.1**:
+
+```bash
+composer update nowo-tech/password-strength-bundle
+```
 
 No breaking changes. For a nonce-based Content Security Policy (`style-src` / `style-src-elem` with a nonce), either:
 
