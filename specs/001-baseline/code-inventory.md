@@ -2,7 +2,7 @@
 
 **Baseline spec**: [`spec.md`](spec.md)  
 **Package**: `nowo-tech/password-strength-bundle`  
-**Last audited**: 2026-09-24
+**Last audited**: 2026-10-20 (audit: `git ls-files src | wc -l` → 62)
 
 This file proves that **every source artifact** under `src/` is referenced by the baseline specification. Co-located Vitest files (`*.test.ts`) enforce frontend contracts; PHPUnit covers PHP under `tests/`.
 
@@ -33,22 +33,33 @@ This file proves that **every source artifact** under `src/` is referenced by th
 
 | Source file | Spec section | Requirement IDs |
 | --- | --- | --- |
-| `index.ts` | IIFE bootstrap | FR-UI-001 |
-| `password-strength.ts` | DOM widget & generator UI | FR-UI-002 |
-| `password-strength-lib.ts` | Evaluation & labels | FR-UI-003 |
-| `password-generator.ts` | Compliant password generation | FR-GEN-001 |
-| `password-pattern-builder.ts` | Client pattern (mirror PHP) | FR-PAT-002 |
-| `types.ts` | Shared TS interfaces | FR-UI-004 |
-| `logger.ts` | Debug logging | FR-UI-005 |
+| `Resources/assets/src/index.ts` | IIFE bootstrap | FR-UI-001 |
+| `Resources/assets/src/password-strength.ts` | DOM widget, `<nowo-password-strength>` element & generator UI | FR-UI-002 |
+| `Resources/assets/src/password-strength-lib.ts` | Evaluation & labels | FR-UI-003 |
+| `Resources/assets/src/password-generator.ts` | Compliant password generation | FR-GEN-001 |
+| `Resources/assets/src/password-pattern-builder.ts` | Client pattern (mirror PHP) | FR-PAT-002 |
+| `Resources/assets/src/types.ts` | Shared TS interfaces | FR-UI-004 |
+| `Resources/assets/src/css-raw.d.ts` | Type declaration for `*.css?raw` imports | FR-UI-004, FR-UI-006 |
+| `Resources/assets/src/logger.ts` | Debug logging | FR-UI-005 |
 
 ## Vitest co-located (`src/Resources/assets/src/*.test.ts`)
 
 | Source file | Spec section | Requirement IDs |
 | --- | --- | --- |
-| `logger.test.ts` | Logger contract tests | FR-UI-005 |
-| `password-generator.test.ts` | Generator tests | FR-GEN-001 |
-| `password-strength-dom.test.ts` | DOM widget tests | FR-UI-002 |
-| `password-strength-lib.test.ts` | Evaluator tests | FR-UI-003 |
+| `Resources/assets/src/logger.test.ts` | Logger contract tests | FR-UI-005 |
+| `Resources/assets/src/password-generator.test.ts` | Generator tests | FR-GEN-001 |
+| `Resources/assets/src/password-strength-dom.test.ts` | DOM widget tests | FR-UI-002 |
+| `Resources/assets/src/password-strength-lib.test.ts` | Evaluator tests | FR-UI-003 |
+| `Resources/assets/src/nowo-password-strength-element.test.ts` | Custom element tests | FR-UI-001, FR-UI-002 |
+| `Resources/assets/src/password-strength-csp.test.ts` | Stylesheet / CSP tests | FR-UI-006 |
+| `Resources/assets/src/password-strength-toggle.test.ts` | Password toggle integration tests | FR-INT-002 |
+
+## Stylesheets (`src/Resources/assets/css/`, `src/Resources/public/`)
+
+| Source file | Spec section | Requirement IDs |
+| --- | --- | --- |
+| `Resources/assets/css/password-strength.css` | Base stylesheet (source) | FR-UI-006 |
+| `Resources/public/password-strength.css` | Shipped stylesheet (copy of the source by `pnpm run build`) | FR-UI-006 |
 
 ## Legacy JavaScript (`src/Resources/public/`)
 
@@ -66,39 +77,47 @@ This file proves that **every source artifact** under `src/` is referenced by th
 
 | Source file | Spec section | Requirement IDs |
 | --- | --- | --- |
-| `password_strength_theme.html.twig` | Default div layout | FR-TWIG-002 |
-| `password_strength_theme_bootstrap3.html.twig` | Bootstrap 3 | FR-TWIG-003 |
-| `password_strength_theme_bootstrap3_horizontal.html.twig` | Bootstrap 3 horizontal | FR-TWIG-003 |
-| `password_strength_theme_bootstrap4.html.twig` | Bootstrap 4 | FR-TWIG-003 |
-| `password_strength_theme_bootstrap4_horizontal.html.twig` | Bootstrap 4 horizontal | FR-TWIG-003 |
-| `password_strength_theme_bootstrap5.html.twig` | Bootstrap 5 | FR-TWIG-003 |
-| `password_strength_theme_bootstrap5_horizontal.html.twig` | Bootstrap 5 horizontal | FR-TWIG-003 |
-| `password_strength_theme_foundation5.html.twig` | Foundation 5 | FR-TWIG-004 |
-| `password_strength_theme_foundation6.html.twig` | Foundation 6 | FR-TWIG-004 |
-| `password_strength_theme_table.html.twig` | Table layout | FR-TWIG-005 |
-| `password_strength_theme_tailwind2.html.twig` | Tailwind 2 | FR-TWIG-006 |
+| `Resources/views/Form/password_strength_theme.html.twig` | Default div layout | FR-TWIG-002 |
+| `Resources/views/Form/password_strength_theme_bootstrap3.html.twig` | Bootstrap 3 | FR-TWIG-003 |
+| `Resources/views/Form/password_strength_theme_bootstrap3_horizontal.html.twig` | Bootstrap 3 horizontal | FR-TWIG-003 |
+| `Resources/views/Form/password_strength_theme_bootstrap4.html.twig` | Bootstrap 4 | FR-TWIG-003 |
+| `Resources/views/Form/password_strength_theme_bootstrap4_horizontal.html.twig` | Bootstrap 4 horizontal | FR-TWIG-003 |
+| `Resources/views/Form/password_strength_theme_bootstrap5.html.twig` | Bootstrap 5 | FR-TWIG-003 |
+| `Resources/views/Form/password_strength_theme_bootstrap5_horizontal.html.twig` | Bootstrap 5 horizontal | FR-TWIG-003 |
+| `Resources/views/Form/password_strength_theme_foundation5.html.twig` | Foundation 5 | FR-TWIG-004 |
+| `Resources/views/Form/password_strength_theme_foundation6.html.twig` | Foundation 6 | FR-TWIG-004 |
+| `Resources/views/Form/password_strength_theme_table.html.twig` | Table layout | FR-TWIG-005 |
+| `Resources/views/Form/password_strength_theme_tailwind2.html.twig` | Tailwind 2 | FR-TWIG-006 |
 
 ## Translations (`src/Resources/translations/`)
 
 | Source file | Spec section | Requirement IDs |
 | --- | --- | --- |
-| `NowoPasswordStrengthBundle.en.yaml` | i18n | FR-I18N-001 |
-| `NowoPasswordStrengthBundle.es.yaml` | i18n | FR-I18N-001 |
-| `NowoPasswordStrengthBundle.de.yaml` | i18n | FR-I18N-001 |
-| `NowoPasswordStrengthBundle.fr.yaml` | i18n | FR-I18N-001 |
-| `NowoPasswordStrengthBundle.it.yaml` | i18n | FR-I18N-001 |
-| `NowoPasswordStrengthBundle.nl.yaml` | i18n | FR-I18N-001 |
-| `NowoPasswordStrengthBundle.pt.yaml` | i18n | FR-I18N-001 |
+| `Resources/translations/NowoPasswordStrengthBundle.de.yaml` | UI i18n | FR-I18N-001 |
+| `Resources/translations/NowoPasswordStrengthBundle.en.yaml` | UI i18n | FR-I18N-001 |
+| `Resources/translations/NowoPasswordStrengthBundle.es.yaml` | UI i18n | FR-I18N-001 |
+| `Resources/translations/NowoPasswordStrengthBundle.fr.yaml` | UI i18n | FR-I18N-001 |
+| `Resources/translations/NowoPasswordStrengthBundle.it.yaml` | UI i18n | FR-I18N-001 |
+| `Resources/translations/NowoPasswordStrengthBundle.nl.yaml` | UI i18n | FR-I18N-001 |
+| `Resources/translations/NowoPasswordStrengthBundle.pt.yaml` | UI i18n | FR-I18N-001 |
+| `Resources/translations/validators.de.yaml` | Constraint message i18n | FR-I18N-001, FR-VAL-002 |
+| `Resources/translations/validators.en.yaml` | Constraint message i18n | FR-I18N-001, FR-VAL-002 |
+| `Resources/translations/validators.es.yaml` | Constraint message i18n | FR-I18N-001, FR-VAL-002 |
+| `Resources/translations/validators.fr.yaml` | Constraint message i18n | FR-I18N-001, FR-VAL-002 |
+| `Resources/translations/validators.it.yaml` | Constraint message i18n | FR-I18N-001, FR-VAL-002 |
+| `Resources/translations/validators.nl.yaml` | Constraint message i18n | FR-I18N-001, FR-VAL-002 |
+| `Resources/translations/validators.pt.yaml` | Constraint message i18n | FR-I18N-001, FR-VAL-002 |
 
 ## Coverage summary
 
 | Category | Files | Mapped |
 | --- | ---: | ---: |
 | PHP classes | 18 | 18 |
-| TypeScript production | 7 | 7 |
-| Vitest co-located | 4 | 4 |
+| TypeScript production | 8 | 8 |
+| Vitest co-located | 7 | 7 |
+| Stylesheets | 2 | 2 |
 | Legacy JS | 1 | 1 |
 | Symfony config | 1 | 1 |
 | Twig themes | 11 | 11 |
-| Translations | 7 | 7 |
-| **Total sources under `src/`** | **49** | **49** |
+| Translations | 14 | 14 |
+| **Total sources under `src/`** | **62** | **62** |

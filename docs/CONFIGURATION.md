@@ -8,7 +8,7 @@ Configuration lives under the `nowo_password_strength` key in `config/packages/n
 - [Full example](#full-example)
 - [Options](#options)
 - [Condition keys (levels or inline `conditions`)](#condition-keys-levels-or-inline-conditions)
-- [`form_theme`](#form-theme)
+- [`form_theme`](#form_theme)
 - [PasswordToggleBundle](#passwordtogglebundle)
 
 ## Full example

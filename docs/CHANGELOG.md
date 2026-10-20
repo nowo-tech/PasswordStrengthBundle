@@ -31,6 +31,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Documentation: wave-1 REQ compliance — README documentation list order, CONTRIBUTING Cursor Agent settings and post-release-commit trailer check, canonical bug-report template, demo compose project name `password-strength-bundle-demo-symfony-8`, doc TOCs, Spec Kit inventory refresh (62/62, new FR-UI-006 for the shipped stylesheet).
+
 ## [2.5.3] - 2026-10-19
 
 Form themes no longer shadow the host's form_row / form_label / form_errors blocks (no extends; usable in twig.form_themes or via {% use %}). See [UPGRADING](UPGRADING.md#to-253).

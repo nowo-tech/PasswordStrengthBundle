@@ -11,6 +11,7 @@
   - [AssetMapper](#assetmapper)
 - [Optional: PasswordToggleBundle](#optional-passwordtogglebundle)
 - [Twig and translation overrides](#twig-and-translation-overrides)
+- [Twig Extra Bundle (REQ-TWIG-004)](#twig-extra-bundle-req-twig-004)
 - [Next steps](#next-steps)
 
 ## Requirements

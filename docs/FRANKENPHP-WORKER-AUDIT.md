@@ -8,6 +8,17 @@
 | Method | Manual review of every PHP file under `src/` (services, form type, validator, DI extension, compiler pass, config) + PHPStan `ruleset-classic.neon` + `ruleset-worker-strict.neon` |
 | **Verdict** | ✅ **Viable** — all services are stateless or `readonly`; safe with or without kernel reset (`FRANKENPHP_RESET_KERNEL` unset / `false`) |
 
+## Table of contents
+
+- [Execution model assumed](#execution-model-assumed)
+- [Summary](#summary)
+- [Services reviewed](#services-reviewed)
+- [Findings](#findings)
+  - [W-01 — Validator context is framework-managed (Info)](#w-01--validator-context-is-framework-managed-info)
+  - [W-02 — Parent form type resolved at container build time (Info)](#w-02--parent-form-type-resolved-at-container-build-time-info)
+- [Usage recommendations in worker mode](#usage-recommendations-in-worker-mode)
+- [Re-audit triggers](#re-audit-triggers)
+
 ## Execution model assumed
 
 FrankenPHP worker mode boots the Symfony kernel once per worker and serves many requests with the same container. This audit assumes the **strict** variant: the kernel is **not** rebooted between requests, so every shared service, static property and PHP global survives from one request to the next. Two scenarios are evaluated:

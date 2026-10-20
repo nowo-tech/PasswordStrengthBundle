@@ -1,4 +1,4 @@
-name: password-strength-demo-symfony8
+name: password-strength-bundle-demo-symfony-8
 
 services:
   php:

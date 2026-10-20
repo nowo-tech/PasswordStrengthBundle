@@ -138,6 +138,7 @@ As an integrator, I select a form theme matching Bootstrap, Foundation, Tailwind
 - **FR-UI-003**: `password-strength-lib.ts` MUST mirror PHP evaluation rules and format requirement labels.
 - **FR-UI-004**: `types.ts` MUST define config, labels, and framework types shared across modules.
 - **FR-UI-005**: `logger.ts` MUST provide namespaced debug logger with test hook.
+- **FR-UI-006**: Base styles MUST ship as `public/password-strength.css` (copied from `assets/css/password-strength.css` by the build); when the page links it (detected through the `--nowo-password-strength-css` marker) the script MUST NOT inject a `<style>` element, so a nonce-based `style-src` CSP has nothing to block.
 - **FR-GEN-001**: `password-generator.ts` MUST generate passwords satisfying active `PasswordConditions`.
 - **FR-PAT-002**: `password-pattern-builder.ts` MUST build client-side pattern consistent with PHP builder.
 - **FR-LEGACY-001**: Committed `password-strength.js` MUST remain loadable without Vite build for downstream consumers.
@@ -158,7 +159,7 @@ As an integrator, I select a form theme matching Bootstrap, Foundation, Tailwind
 
 ## Success Criteria
 
-- **SC-001**: **49/49** files under `src/` mapped in [`code-inventory.md`](code-inventory.md).
+- **SC-001**: **62/62** files under `src/` mapped in [`code-inventory.md`](code-inventory.md).
 - **SC-002**: Config keys match `Configuration.php` and `docs/CONFIGURATION.md`.
 - **SC-003**: PHPUnit + PHPStan + Vitest pass (`make release-check`).
 - **SC-004**: PHP and TS evaluators agree on valid/invalid passwords for shared fixtures.

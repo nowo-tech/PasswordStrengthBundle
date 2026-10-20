@@ -8,10 +8,10 @@ The bundle includes a **Symfony 8** demo under `demo/symfony8/` using **FrankenP
 ## Table of contents
 
 - [Quick start (development)](#quick-start-development)
-- [Production / worker mode](#production-worker-mode)
+- [Production / worker mode](#production--worker-mode)
 - [Demo pages](#demo-pages)
 - [Commands](#commands)
-- [Switching classic vs worker (`FRANKENPHP_MODE`)](#switching-classic-vs-worker-frankenphp-mode)
+- [Switching classic vs worker (`FRANKENPHP_MODE`)](#switching-classic-vs-worker-frankenphp_mode)
 - [Troubleshooting](#troubleshooting)
 
 ## Quick start (development)
