@@ -4,6 +4,7 @@
 
 - [Unreleased](#unreleased)
 - [To 2.6.0](#to-260)
+- [To 2.6.0](#to-260-1)
 - [To 2.5.4](#to-254)
 - [To 2.5.3](#to-253)
 - [To 2.5.2](#to-252)
@@ -30,6 +31,14 @@
   - [Twig-CS-Fixer (maintainers)](#twig-cs-fixer-maintainers)
 
 ## Unreleased
+
+## To 2.6.0
+
+From **2.5.4**:
+
+```bash
+composer update nowo-tech/password-strength-bundle
+```
 
 ## To 2.6.0
 

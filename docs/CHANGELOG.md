@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Table of contents
 
 - [[Unreleased]](#unreleased)
+- [[2.6.0] - 2026-10-21](#260---2026-10-21)
 - [[2.5.4] - 2026-10-20](#254---2026-10-20)
 - [[2.5.3] - 2026-10-19](#253---2026-10-19)
 - [[2.5.2] - 2026-10-19](#252---2026-10-19)
@@ -31,6 +32,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [[1.0.0] - 2026-07-03](#100---2026-07-03)
 
 ## [Unreleased]
+
+## [2.6.0] - 2026-10-21
+
+The form type reads the CSP nonce from the request (csp_nonce_attribute) and stamps it on the input, so hosts drop their nonce include. See [UPGRADING](UPGRADING.md#to-260).
 
 ### Added
 
@@ -293,7 +298,8 @@ First stable release of **Password Strength Bundle**.
 - PHP >= 8.1, < 8.6
 - Symfony ^6.0 || ^7.0 || ^8.0
 
-[Unreleased]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v2.5.4...HEAD
+[Unreleased]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v2.6.0...HEAD
+[2.6.0]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v2.5.4...v2.6.0
 [2.5.4]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v2.5.3...v2.5.4
 [2.5.3]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v2.5.2...v2.5.3
 [2.5.2]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v2.5.1...v2.5.2
