@@ -506,11 +506,16 @@ const scriptNonce: string =
     ? document.currentScript.nonce || document.currentScript.getAttribute('nonce') || ''
     : '';
 
+/** Attribute the form type stamps on the password input (2.6+, the `csp_nonce_attribute` request attribute). */
+export const INPUT_NONCE_ATTRIBUTE = 'data-password-strength-nonce';
+
 /**
  * CSP nonce for the injected `<style>`: `data-nonce` on the widget root (printed by the form theme
- * from the `csp_nonce` request attribute), then `<meta name="csp-nonce">`, then the loading script's nonce.
+ * from the request attribute), then `data-password-strength-nonce` on the input (2.6+: set by the form
+ * type, so host themes that copy the widget block still carry it), then `<meta name="csp-nonce">`,
+ * then the loading script's nonce.
  *
- * @param root Widget root (optional); without it, the first widget root carrying `data-nonce` is used.
+ * @param root Widget root or input (optional); without it, the first widget root / input carrying a nonce is used.
  * @param fallback Nonce of the loading script.
  */
 export function resolveCspNonce(root?: Element | null, fallback: string = scriptNonce): string {
@@ -518,6 +523,11 @@ export function resolveCspNonce(root?: Element | null, fallback: string = script
     root?.closest('[data-nonce]') ?? document.querySelector(`${TAG_NOWO_PASSWORD_STRENGTH}[data-nonce], [data-password-strength-field][data-nonce]`);
   const fromRoot = host?.getAttribute('data-nonce');
   if (fromRoot) return fromRoot;
+  const input =
+    (root?.hasAttribute(INPUT_NONCE_ATTRIBUTE) ? root : root?.querySelector(`[${INPUT_NONCE_ATTRIBUTE}]`)) ??
+    document.querySelector(`[${INPUT_NONCE_ATTRIBUTE}]`);
+  const fromInput = input?.getAttribute(INPUT_NONCE_ATTRIBUTE);
+  if (fromInput) return fromInput;
   const meta = document.querySelector<HTMLMetaElement>('meta[name="csp-nonce"]');
   const fromMeta = meta ? meta.content || meta.nonce || meta.getAttribute('nonce') : '';
   if (fromMeta) return fromMeta;

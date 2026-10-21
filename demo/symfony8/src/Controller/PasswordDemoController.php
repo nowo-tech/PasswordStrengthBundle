@@ -14,6 +14,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
+use function base64_encode;
+use function random_bytes;
+use function rtrim;
+use function sprintf;
+use function strtr;
+
 /**
  * Demo routes for Password Strength Bundle (locale-prefixed).
  */
@@ -101,6 +107,37 @@ final class PasswordDemoController extends AbstractController
                 'use_password_toggle' => false,
             ],
         ]);
+    }
+
+    /**
+     * Strict nonce CSP on style-src-elem (2.6): the page sets the `csp_nonce` request attribute (what HttpHardeningBundle
+     * does on every request); the form type stamps it on the widget, so the base <style> injected by
+     * password-strength.js is allowed without a host sentinel <style> or `'unsafe-inline'`.
+     */
+    #[Route('/{_locale}/demo/csp', name: 'demo_csp', requirements: self::LOCALE_REQUIREMENT, defaults: ['_locale' => 'en'], methods: ['GET', 'POST'])]
+    public function csp(Request $request): Response
+    {
+        $nonce = rtrim(strtr(base64_encode(random_bytes(18)), '+/', '-_'), '=');
+        $request->attributes->set('csp_nonce', $nonce);
+
+        $response = $this->renderDemo($request, [
+            'page_title'       => 'demo.page_csp_title',
+            'page_lead'        => 'demo.page_csp_lead',
+            'hint'             => 'demo.hint_csp',
+            'badges'           => ['demo.badge_csp', 'demo.badge_level', 'demo.badge_generator_modal'],
+            'password_options' => [
+                'label'               => 'Password',
+                'policy_mode'         => 'level',
+                'level'               => 'medium',
+                'feedback_position'   => 'below',
+                'ui_framework'        => 'bootstrap5',
+                'generator_mode'      => 'modal',
+                'use_password_toggle' => true,
+            ],
+        ]);
+        $response->headers->set('Content-Security-Policy', sprintf("style-src-elem 'self' https://cdn.jsdelivr.net 'nonce-%s'; style-src-attr 'unsafe-inline'", $nonce));
+
+        return $response;
     }
 
     /**

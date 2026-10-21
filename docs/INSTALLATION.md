@@ -62,7 +62,7 @@ php bin/console assets:install
 <script src="{{ asset('password-strength.js', 'nowo_password_strength') }}" defer></script>
 ```
 
-Optionally link the stylesheet as well. Without it, the script injects the same rules in a `<style>` element; under a nonce-based CSP that element takes its nonce from `data-nonce` on the widget root (printed from the `csp_nonce` request attribute), `<meta name="csp-nonce">` or the loading `<script nonce>`:
+Optionally link the stylesheet as well. Without it, the script injects the same rules in a `<style>` element; under a nonce-based CSP that element takes its nonce from `data-nonce` on the widget root or `data-password-strength-nonce` on the input (both stamped by the form type from the request attribute `csp_nonce_attribute`, default `csp_nonce`), `<meta name="csp-nonce">` or the loading `<script nonce>` — no host sentinel `<style>` needed:
 
 ```twig
 <link rel="stylesheet" href="{{ asset('password-strength.css', 'nowo_password_strength') }}">

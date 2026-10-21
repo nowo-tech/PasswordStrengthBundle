@@ -23,6 +23,7 @@ nowo_password_strength:
   generator_mode: off
   generator_count: 3
   use_password_toggle: true
+  csp_nonce_attribute: csp_nonce   # request attribute with the CSP nonce; '' disables (2.6+)
   # parent_form_type: ~   # null = auto-detect parent PasswordType
   levels:
     weak:
@@ -53,6 +54,7 @@ nowo_password_strength:
 | `generator_count` | int (1–10) | `3` | Suggestions count in modal mode. |
 | `use_password_toggle` | bool | `true` | Use PasswordToggleBundle parent when installed. |
 | `parent_form_type` | string \| null | `null` | Force parent form type FQCN; `null` = auto. |
+| `csp_nonce_attribute` | string | `csp_nonce` | (2.6+) Request attribute holding the per-request CSP nonce (nowo-tech convention, set by HttpHardeningBundle / UiKit hosts). The form type reads it on every render (current request, then main request; nothing kept between requests) and stamps it as `data-nonce` on `<nowo-password-strength>` and `data-password-strength-nonce` on the input, so `password-strength.js` nonces the base `<style>` it injects — also when a host theme copies the widget block. `''` disables. |
 | `levels` | map | weak/medium/strong | Named level presets for `policy_mode: level`. |
 
 ## Condition keys (levels or inline `conditions`)

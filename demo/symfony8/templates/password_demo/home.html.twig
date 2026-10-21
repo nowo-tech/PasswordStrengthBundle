@@ -58,6 +58,18 @@
                 </a>
             </article>
         </div>
+        <div class="col-md-4">
+            <article class="demo-card">
+                <a class="demo-card-link" href="{{ path('demo_csp', { _locale: app.request.locale }) }}">
+                    <div class="demo-feature-list">
+                        <span class="badge text-bg-dark demo-badge">{{ 'demo.badge_csp'|trans({}, 'messages') }}</span>
+                        <span class="badge text-bg-info text-dark demo-badge">{{ 'demo.badge_generator_modal'|trans({}, 'messages') }}</span>
+                    </div>
+                    <h2 class="h5 fw-semibold mb-2">{{ 'demo.card_csp_title'|trans({}, 'messages') }}</h2>
+                    <p class="text-muted mb-0">{{ 'demo.card_csp_lead'|trans({}, 'messages') }}</p>
+                </a>
+            </article>
+        </div>
     </div>
 </div>
 {% endblock %}

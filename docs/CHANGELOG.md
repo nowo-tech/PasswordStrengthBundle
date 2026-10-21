@@ -32,6 +32,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **CSP nonce from the request (2.6):** new option `csp_nonce_attribute` (default `csp_nonce`, `''` disables). The form
+  type reads the nonce from that request attribute itself (current request, then main request; read on every render,
+  no state kept between requests — worker safe) and exposes it as the `csp_nonce` view variable (printed as
+  `data-nonce` on `<nowo-password-strength>`) and as `data-password-strength-nonce` on the password input.
+  `password-strength.js` also reads the input attribute, so host themes that copy the `password_strength_widget` block
+  without `data-nonce` keep a nonce on the injected base `<style>`. Hosts can delete their
+  `_password_strength_csp.html.twig` sentinel (see UPGRADING). Shipped `password-strength.js` rebuilt.
+
 ## [2.5.4] - 2026-10-20
 
 Dependency refresh (bundle and demos), php-cs-fixer ParallelConfig(2). See [UPGRADING](UPGRADING.md#to-254).

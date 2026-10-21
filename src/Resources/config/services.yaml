@@ -26,6 +26,8 @@ services:
       $defaultUsePasswordToggle: '%nowo_password_strength.use_password_toggle%'
       $parentFormType: '%nowo_password_strength.parent_form_type%'
       $defaultLevel: '%nowo_password_strength.default_level%'
+      $requestStack: '@?request_stack'
+      $cspNonceAttribute: '%nowo_password_strength.csp_nonce_attribute%'
     tags:
       - { name: form.type }
 

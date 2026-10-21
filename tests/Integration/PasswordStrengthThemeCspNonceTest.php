@@ -60,6 +60,60 @@ final class PasswordStrengthThemeCspNonceTest extends TestCase
         self::assertStringNotContainsString('data-nonce', $html);
     }
 
+    public function testTypeReadsTheNonceFromTheRequestStackAndStampsTheInput(): void
+    {
+        $request = new Request();
+        $request->attributes->set('csp_nonce', 'stack-nonce');
+        $stack = new RequestStack();
+        $stack->push($request);
+
+        // No app global: the type itself reads the request attribute (worker safe: read on every buildView).
+        $html = $this->render(null, false, $stack);
+
+        self::assertMatchesRegularExpression('#<nowo-password-strength [^>]*data-nonce="stack-nonce"#', $html);
+        self::assertMatchesRegularExpression('#<input [^>]*data-password-strength-nonce="stack-nonce"#', $html);
+    }
+
+    public function testCustomAttributeNameAndMainRequestFallback(): void
+    {
+        $main = new Request();
+        $main->attributes->set('app_nonce', 'main-nonce');
+        $stack = new RequestStack();
+        $stack->push($main);
+        $stack->push(new Request()); // sub-request (fragment) without the attribute
+
+        $html = $this->render(null, false, $stack, 'app_nonce');
+
+        self::assertStringContainsString('data-nonce="main-nonce"', $html);
+        self::assertStringContainsString('data-password-strength-nonce="main-nonce"', $html);
+    }
+
+    public function testEmptyAttributeNameDisablesTheNonce(): void
+    {
+        $request = new Request();
+        $request->attributes->set('csp_nonce', 'abc123');
+        $stack = new RequestStack();
+        $stack->push($request);
+
+        $html = $this->render($request, true, $stack, '');
+
+        self::assertStringNotContainsString('data-nonce', $html);
+        self::assertStringNotContainsString('data-password-strength-nonce', $html);
+    }
+
+    public function testNonStringOrEmptyNonceIsIgnored(): void
+    {
+        $request = new Request();
+        $request->attributes->set('csp_nonce', '');
+        $stack = new RequestStack();
+        $stack->push($request);
+
+        self::assertStringNotContainsString('nonce', $this->render(null, false, $stack));
+
+        $request->attributes->set('csp_nonce', 42);
+        self::assertStringNotContainsString('nonce', $this->render(null, false, $stack));
+    }
+
     public function testNonceIsEscaped(): void
     {
         $request = new Request();
@@ -70,7 +124,7 @@ final class PasswordStrengthThemeCspNonceTest extends TestCase
         self::assertStringContainsString('data-nonce="a&quot;b&lt;c"', $html);
     }
 
-    private function render(?Request $request, bool $withApp): string
+    private function render(?Request $request, bool $withApp, ?RequestStack $typeStack = null, string $attribute = 'csp_nonce'): string
     {
         $bundleRoot = dirname(__DIR__, 2);
         $loader     = new FilesystemLoader([
@@ -103,6 +157,8 @@ final class PasswordStrengthThemeCspNonceTest extends TestCase
             new PasswordStrengthEvaluator(new PasswordPatternBuilder()),
             new PasswordPatternBuilder(),
             parentFormType: PasswordType::class,
+            requestStack: $typeStack,
+            cspNonceAttribute: $attribute,
         );
         $form = Forms::createFormFactoryBuilder()->addType($type)->getFormFactory()
             ->createBuilder(FormType::class)

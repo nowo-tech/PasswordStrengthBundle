@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
-import { BASE_STYLE_ID, injectBaseStyles, resolveCspNonce, TAG_NOWO_PASSWORD_STRENGTH } from './password-strength';
+import { BASE_STYLE_ID, injectBaseStyles, INPUT_NONCE_ATTRIBUTE, resolveCspNonce, TAG_NOWO_PASSWORD_STRENGTH } from './password-strength';
 
 /**
  * Regression: the injected base <style> had no nonce, so hosts with a nonce-based
@@ -31,6 +31,26 @@ describe('CSP-safe base styles', () => {
     injectBaseStyles();
 
     expect(injected()?.nonce).toBe('field-nonce');
+  });
+
+  it('takes the nonce the form type stamps on the input (host theme without data-nonce)', () => {
+    document.body.innerHTML = `<${TAG_NOWO_PASSWORD_STRENGTH} data-password-strength-field><input id="pw" ${INPUT_NONCE_ATTRIBUTE}="input-nonce"></${TAG_NOWO_PASSWORD_STRENGTH}>`;
+    injectBaseStyles(document.getElementById('pw'));
+
+    expect(injected()?.nonce).toBe('input-nonce');
+  });
+
+  it('finds the input nonce inside a root, or anywhere without a root', () => {
+    document.body.innerHTML = `<div id="root"><input ${INPUT_NONCE_ATTRIBUTE}="inner-nonce"></div>`;
+
+    expect(resolveCspNonce(document.getElementById('root'))).toBe('inner-nonce');
+    expect(resolveCspNonce(null)).toBe('inner-nonce');
+  });
+
+  it('prefers data-nonce on the widget root over the input nonce', () => {
+    document.body.innerHTML = `<${TAG_NOWO_PASSWORD_STRENGTH} data-nonce="root-nonce"><input id="pw" ${INPUT_NONCE_ATTRIBUTE}="input-nonce"></${TAG_NOWO_PASSWORD_STRENGTH}>`;
+
+    expect(resolveCspNonce(document.getElementById('pw'))).toBe('root-nonce');
   });
 
   it('falls back to <meta name="csp-nonce">', () => {

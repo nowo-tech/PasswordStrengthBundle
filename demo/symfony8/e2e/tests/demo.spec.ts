@@ -21,4 +21,20 @@ test.describe('PasswordStrength demo', () => {
     await expect(page.locator('form').first()).toBeVisible();
     await expect(page.locator('input[type="password"], input[type="text"]').first()).toBeVisible();
   });
+
+  test('strict style CSP demo: the injected base <style> carries the request nonce', async ({ page }) => {
+    const violations: string[] = [];
+    page.on('console', (msg) => {
+      if (msg.type() === 'error' && /Content Security Policy|CSP/i.test(msg.text())) violations.push(msg.text());
+    });
+    const response = await page.goto('/en/demo/csp');
+    expect(response?.ok()).toBeTruthy();
+    // The form type stamps the request nonce on the widget root and the input.
+    const nonce = (await page.locator('input[data-password-strength-nonce]').first().getAttribute('data-password-strength-nonce')) ?? '';
+    expect(nonce).not.toBe('');
+    await expect(page.locator('nowo-password-strength[data-nonce]').first()).toHaveAttribute('data-nonce', nonce);
+    await expect(page.locator('#password-strength-inline-styles')).toHaveCount(1);
+    expect(await page.locator('#password-strength-inline-styles').evaluate((el) => (el as HTMLStyleElement).nonce)).toBe(nonce);
+    expect(violations).toEqual([]);
+  });
 });

@@ -28,8 +28,13 @@ final class PasswordStrengthExtensionTest extends TestCase
             'generator_mode'      => 'modal',
             'generator_count'     => 5,
             'use_password_toggle' => false,
+            'csp_nonce_attribute' => ' app_nonce ',
             'levels'              => ['weak' => ['min_length' => 6]],
         ]], $container);
+
+        self::assertSame('app_nonce', $container->getParameter('nowo_password_strength.csp_nonce_attribute'));
+        self::assertSame('%nowo_password_strength.csp_nonce_attribute%', $container->getDefinition(PasswordStrengthType::class)->getArgument('$cspNonceAttribute'));
+        self::assertSame('request_stack', (string) $container->getDefinition(PasswordStrengthType::class)->getArgument('$requestStack'));
 
         self::assertSame('bootstrap_5_layout.html.twig', $container->getParameter('nowo_password_strength.form_theme'));
         self::assertSame('above', $container->getParameter('nowo_password_strength.feedback_position'));

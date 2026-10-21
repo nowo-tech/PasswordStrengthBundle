@@ -16,9 +16,11 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType as SymfonyPasswordType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+use function is_string;
 use function json_encode;
 
 use const JSON_THROW_ON_ERROR;
@@ -48,6 +50,8 @@ final class PasswordStrengthType extends AbstractType
         private readonly bool $defaultUsePasswordToggle = true,
         private readonly string $parentFormType = SymfonyPasswordType::class,
         private readonly string $defaultLevel = 'medium',
+        private readonly ?RequestStack $requestStack = null,
+        private readonly string $cspNonceAttribute = 'csp_nonce',
     ) {
     }
 
@@ -104,6 +108,15 @@ final class PasswordStrengthType extends AbstractType
         $view->vars['attr']['data-password-strength-config-value'] = $json;
         $view->vars['attr']['class']                               = trim(($view->vars['attr']['class'] ?? '') . ' password-strength-input');
         $view->vars['attr']['autocomplete'] ??= 'new-password';
+
+        // CSP (2.6+): the per-request nonce, read on every render (nothing kept between requests). The theme prints it as
+        // data-nonce on the widget root; the input attribute keeps it when a host theme copies the widget block.
+        $nonce                             = $this->cspNonce();
+        $view->vars['csp_nonce']           = $nonce;
+        $view->vars['csp_nonce_attribute'] = $this->cspNonceAttribute;
+        if ($nonce !== null) {
+            $view->vars['attr']['data-password-strength-nonce'] = $nonce;
+        }
         if ($pattern !== '') {
             $view->vars['attr']['pattern'] = $pattern;
         } else {
@@ -151,6 +164,26 @@ final class PasswordStrengthType extends AbstractType
                 return $value ?? true;
             });
         }
+    }
+
+    /**
+     * Nonce from the configured request attribute of the current request, else of the main request (sub-requests such
+     * as fragments do not copy attributes). Null when the attribute name is empty or no nonce is set.
+     */
+    private function cspNonce(): ?string
+    {
+        if ($this->cspNonceAttribute === '' || !$this->requestStack instanceof RequestStack) {
+            return null;
+        }
+
+        foreach ([$this->requestStack->getCurrentRequest(), $this->requestStack->getMainRequest()] as $request) {
+            $nonce = $request?->attributes->get($this->cspNonceAttribute);
+            if (is_string($nonce) && $nonce !== '') {
+                return $nonce;
+            }
+        }
+
+        return null;
     }
 
     public function getParent(): string

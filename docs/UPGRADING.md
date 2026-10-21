@@ -3,6 +3,7 @@
 ## Table of contents
 
 - [Unreleased](#unreleased)
+- [To 2.6.0](#to-260)
 - [To 2.5.4](#to-254)
 - [To 2.5.3](#to-253)
 - [To 2.5.2](#to-252)
@@ -29,6 +30,27 @@
   - [Twig-CS-Fixer (maintainers)](#twig-cs-fixer-maintainers)
 
 ## Unreleased
+
+## To 2.6.0
+
+From **2.5.x**:
+
+```bash
+composer update nowo-tech/password-strength-bundle
+```
+
+No breaking change: the default `csp_nonce_attribute: csp_nonce` keeps the 2.5 behaviour (the nonce of the `csp_nonce`
+request attribute on the injected base `<style>`). Hosts whose nonce lives in another request attribute set
+`csp_nonce_attribute: <name>`; `csp_nonce_attribute: ''` turns the nonce off.
+
+**Retire the CSP sentinel.** If your app pre-declares `<style id="password-strength-inline-styles" nonce="…"></style>`
+(e.g. `templates/_password_strength_csp.html.twig`) so the script does not inject a `<style>` that a nonce-based
+`style-src-elem` would block, delete that template and every `{% include '_password_strength_csp.html.twig' %}`: the
+bundle now stamps the request nonce on the element it injects, also when your form theme overrides the
+`password_strength_widget` block (the nonce travels on the input as `data-password-strength-nonce`). No configuration
+is needed with the default `csp_nonce` attribute. Note that the injected base rules then apply (input row, generator
+modal); keep your own CSS for anything you style differently, or link `bundles/passwordstrength/password-strength.css`
+to skip the injection entirely.
 
 ## To 2.5.4
 
