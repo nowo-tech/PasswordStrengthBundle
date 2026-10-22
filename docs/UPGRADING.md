@@ -3,6 +3,7 @@
 ## Table of contents
 
 - [Unreleased](#unreleased)
+- [To 2.7.0](#to-270)
 - [To 2.6.0](#to-260)
 - [To 2.6.0](#to-260-1)
 - [To 2.5.4](#to-254)
@@ -31,6 +32,14 @@
   - [Twig-CS-Fixer (maintainers)](#twig-cs-fixer-maintainers)
 
 ## Unreleased
+
+## To 2.7.0
+
+From **2.6.0**:
+
+```bash
+composer update nowo-tech/password-strength-bundle
+```
 
 - `nowo_password_strength.levels` is validated: only the documented condition keys (`min_length`, `max_length`, `require_lowercase`, `require_uppercase`, `require_digit`, `require_special`, `special_chars`, `disallow_whitespace`, `not_contain`, `min_unique_chars`, `regex`, `regex_message`, and the short aliases `lowercase`, `uppercase`, `digit`, `special`, `no_whitespace`) are accepted. Fix any misspelled key reported at `cache:clear`.
 
