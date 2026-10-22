@@ -136,7 +136,7 @@ final class PasswordStrengthThemeCspNonceTest extends TestCase
         $twig = new Environment($loader, ['strict_variables' => true]);
         if ($withApp) {
             $stack = new RequestStack();
-            if ($request !== null) {
+            if ($request instanceof Request) {
                 $stack->push($request);
             }
             $app = new AppVariable();

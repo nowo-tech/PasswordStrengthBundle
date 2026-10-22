@@ -782,7 +782,25 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     use_password_toggle?: bool|Param, // When true, use PasswordToggleBundle as parent if installed; ignored when parent_form_type is set explicitly. // Default: true
  *     csp_nonce_attribute?: scalar|Param|null, // Request attribute holding the per-request CSP nonce (nowo-tech convention: csp_nonce, set by HttpHardeningBundle). The form type stamps it on the widget (data-nonce, data-password-strength-nonce) so password-strength.js nonces the <style> it injects. Empty string disables. // Default: "csp_nonce"
  *     parent_form_type?: scalar|Param|null, // Parent form type FQCN. null = auto: Symfony PasswordType, or PasswordToggleBundle PasswordType when installed and use_password_toggle is true. // Default: null
- *     levels?: array<string, mixed>,
+ *     levels?: array<string, array{ // Default: {"weak":{"min_length":6},"medium":{"min_length":8,"require_lowercase":true,"require_uppercase":true,"require_digit":true},"strong":{"min_length":12,"require_lowercase":true,"require_uppercase":true,"require_digit":true,"require_special":true}}
+ *         min_length?: int|Param,
+ *         max_length?: int|Param,
+ *         require_lowercase?: bool|Param,
+ *         require_uppercase?: bool|Param,
+ *         require_digit?: bool|Param,
+ *         require_special?: bool|Param,
+ *         special_chars?: scalar|Param|null,
+ *         disallow_whitespace?: bool|Param,
+ *         not_contain?: list<scalar|Param|null>,
+ *         min_unique_chars?: int|Param,
+ *         regex?: scalar|Param|null,
+ *         regex_message?: scalar|Param|null,
+ *         lowercase?: bool|Param,
+ *         uppercase?: bool|Param,
+ *         digit?: bool|Param,
+ *         special?: bool|Param,
+ *         no_whitespace?: bool|Param,
+ *     }>,
  * }
  * @psalm-type NowoPasswordToggleConfig = array{
  *     toggle?: bool|Param, // Enable/disable toggle functionality by default // Default: true

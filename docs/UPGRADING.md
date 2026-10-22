@@ -32,6 +32,8 @@
 
 ## Unreleased
 
+- `nowo_password_strength.levels` is validated: only the documented condition keys (`min_length`, `max_length`, `require_lowercase`, `require_uppercase`, `require_digit`, `require_special`, `special_chars`, `disallow_whitespace`, `not_contain`, `min_unique_chars`, `regex`, `regex_message`, and the short aliases `lowercase`, `uppercase`, `digit`, `special`, `no_whitespace`) are accepted. Fix any misspelled key reported at `cache:clear`.
+
 ## To 2.6.0
 
 From **2.5.4**:

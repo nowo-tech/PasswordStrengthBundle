@@ -8,11 +8,11 @@
     "packages": [
         {
             "name": "nowo-tech/password-strength-bundle",
-            "version": "dev-main",
+            "version": "dev-chore/req-wave2",
             "dist": {
                 "type": "path",
                 "url": "/var/password-strength-bundle",
-                "reference": "d8d49fb39a015724bc82cad7635b0c22dbe3cf57"
+                "reference": "97768fcbdac828bdaa6d1d8db024b0da58468b18"
             },
             "require": {
                 "php": ">=8.2 <8.6",
@@ -74,7 +74,7 @@
                     "@php vendor/bin/phpunit --color=always"
                 ],
                 "test-coverage": [
-                    "@php vendor/bin/phpunit --color=always --coverage-html coverage --coverage-clover coverage.xml --coverage-text"
+                    "@php vendor/bin/phpunit --colors=always --coverage-html coverage --coverage-clover coverage.xml --coverage-text"
                 ],
                 "cs-check": [
                     "@php vendor/bin/php-cs-fixer fix --dry-run --diff"

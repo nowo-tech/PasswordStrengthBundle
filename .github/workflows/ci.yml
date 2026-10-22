@@ -31,6 +31,7 @@ jobs:
       fail-fast: false
       matrix:
         php: ['8.2', '8.3', '8.4', '8.5']
+        # Every symfony/* 8.0.x release has security advisories, so the 8.0 cells resolve to 8.1 (REQ-SF-002).
         symfony: ['7.4', '8.0', '8.1']
         exclude:
           - php: '8.2'
@@ -105,6 +106,35 @@ jobs:
             exit 1
           fi
           echo "✅ Coverage generated"
+
+  static-analysis:
+    name: Static analysis (PHPStan, Rector, Igor)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          tools: composer:v2
+          coverage: none
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-interaction
+
+      # REQ-CS-006: PHPStan errors fail the build (ignoreErrors: [], no baseline).
+      - name: PHPStan
+        run: composer phpstan
+
+      - name: Rector (dry run)
+        run: composer rector-dry
+
+      # REQ-CS-008: FrankenPHP worker-state audit.
+      - name: Igor
+        run: composer igor
 
   code-style:
     name: Code Style

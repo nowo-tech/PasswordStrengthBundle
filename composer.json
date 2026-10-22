@@ -98,7 +98,7 @@
     },
     "scripts": {
         "test": "@php vendor/bin/phpunit --color=always",
-        "test-coverage": "@php vendor/bin/phpunit --color=always --coverage-html coverage --coverage-clover coverage.xml --coverage-text",
+        "test-coverage": "@php vendor/bin/phpunit --colors=always --coverage-html coverage --coverage-clover coverage.xml --coverage-text",
         "cs-check": "@php vendor/bin/php-cs-fixer fix --dry-run --diff",
         "cs-fix": "@php vendor/bin/php-cs-fixer fix",
         "rector": "@php vendor/bin/rector process",

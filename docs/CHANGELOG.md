@@ -33,6 +33,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- `nowo_password_strength.levels` entries are now validated key by key (known condition keys and short aliases only, non-negative lengths) instead of an unvalidated variable prototype; a typo such as `min_lenght` now fails at container compile time (REQ-SF-006). See [UPGRADING](UPGRADING.md).
+- `make validate-translations` checks key parity of both domains (`NowoPasswordStrengthBundle`, `validators`) against `en`; `release-check` starts with `ensure-up` and runs `check-no-raw-html-form` (REQ-MAKE-002, REQ-MAKE-004); `make help` no longer mentions a non-existent `demo/symfony7` (REQ-MAKE-001).
+- Demo `release-verify` / `release-check` sync the bundle, run the demo checks and require a final HTTP 200 (REQ-DEMO-007); CI runs PHPStan, Rector (dry run) and Igor (REQ-CS-006); the matrix documents that the Symfony 8.0 cells resolve to 8.1 (REQ-SF-002).
+- USAGE documents the `validators` domain used by the constraint message (REQ-I18N-003); README publishes the measured coverage (REQ-TEST-007); the co-author check accepts git worktrees.
+
 ## [2.6.0] - 2026-10-21
 
 The form type reads the CSP nonce from the request (csp_nonce_attribute) and stamps it on the input, so hosts drop their nonce include. See [UPGRADING](UPGRADING.md#to-260).

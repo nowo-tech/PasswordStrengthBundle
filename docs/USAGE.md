@@ -164,6 +164,8 @@ If you override a theme file, keep it free of `{% extends %}` for the same reaso
 
 Domain: **`NowoPasswordStrengthBundle`** (same as `translation_domain` on the form type).
 
+The `PasswordStrength` constraint message (`password_strength.invalid`) lives in Symfony's **`validators`** domain (`src/Resources/translations/validators.<locale>.yaml`), because the validator component translates every violation message in that domain. Override it in your application's `translations/validators.<locale>.yaml`. Both domains ship the same locales (en, es, fr, de, it, pt, nl) and `make validate-translations` checks that every locale has the same keys as `en`.
+
 **Procedure**
 
 1. Create `translations/NowoPasswordStrengthBundle.<locale>.yaml` in your application.
