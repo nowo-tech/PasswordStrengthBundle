@@ -12,7 +12,7 @@
             "dist": {
                 "type": "path",
                 "url": "/var/password-strength-bundle",
-                "reference": "97768fcbdac828bdaa6d1d8db024b0da58468b18"
+                "reference": "75f267c1d6d7b96d196c55a3055c9bd318531756"
             },
             "require": {
                 "php": ">=8.2 <8.6",
@@ -146,20 +146,21 @@
         },
         {
             "name": "nowo-tech/password-toggle-bundle",
-            "version": "v2.4.1",
+            "version": "v2.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nowo-tech/PasswordToggleBundle.git",
-                "reference": "8048d9ff58d98ec255db4ed0834625fd012b431c"
+                "reference": "997ebdcb9362f0d3ee558ee88b59855332dc367a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nowo-tech/PasswordToggleBundle/zipball/8048d9ff58d98ec255db4ed0834625fd012b431c",
-                "reference": "8048d9ff58d98ec255db4ed0834625fd012b431c",
+                "url": "https://api.github.com/repos/nowo-tech/PasswordToggleBundle/zipball/997ebdcb9362f0d3ee558ee88b59855332dc367a",
+                "reference": "997ebdcb9362f0d3ee558ee88b59855332dc367a",
                 "shasum": ""
             },
             "require": {
                 "php": ">=8.2 <8.6",
+                "psr/log": "^1.1 || ^2.0 || ^3.0",
                 "symfony/form": "^7.4 || ^8.0",
                 "symfony/framework-bundle": "^7.4 || ^8.0",
                 "symfony/twig-bundle": "^7.4 || ^8.0",
@@ -174,7 +175,6 @@
                 "phpstan/phpstan-phpunit": "^2.0",
                 "phpstan/phpstan-symfony": "^2.0",
                 "phpunit/phpunit": "^10.0",
-                "psr/log": "^3.0",
                 "rector/rector": "^2.0",
                 "symfony/asset": "^7.4 || ^8.0",
                 "symfony/console": "^7.4 || ^8.0",
@@ -225,6 +225,7 @@
                 "visibility"
             ],
             "support": {
+                "docs": "https://github.com/nowo-tech/PasswordToggleBundle/tree/main/docs",
                 "issues": "https://github.com/nowo-tech/PasswordToggleBundle/issues",
                 "source": "https://github.com/nowo-tech/PasswordToggleBundle"
             },
@@ -234,7 +235,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-10-13T12:06:37+00:00"
+            "time": "2026-10-22T06:00:18+00:00"
         },
         {
             "name": "psr/cache",
@@ -4682,16 +4683,16 @@
     "packages-dev": [
         {
             "name": "nowo-tech/hot-reload-bundle",
-            "version": "v1.6.1",
+            "version": "v1.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nowo-tech/HotReloadBundle.git",
-                "reference": "6d3117328bd9d7f55a70743567d04ee25d6bc366"
+                "reference": "cf84e69a6f93f95f06876638337f9f792b2bcb0a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nowo-tech/HotReloadBundle/zipball/6d3117328bd9d7f55a70743567d04ee25d6bc366",
-                "reference": "6d3117328bd9d7f55a70743567d04ee25d6bc366",
+                "url": "https://api.github.com/repos/nowo-tech/HotReloadBundle/zipball/cf84e69a6f93f95f06876638337f9f792b2bcb0a",
+                "reference": "cf84e69a6f93f95f06876638337f9f792b2bcb0a",
                 "shasum": ""
             },
             "require": {
@@ -4769,7 +4770,7 @@
                 "issues": "https://github.com/nowo-tech/HotReloadBundle/issues",
                 "source": "https://github.com/nowo-tech/HotReloadBundle"
             },
-            "time": "2026-10-13T10:57:34+00:00"
+            "time": "2026-10-21T05:26:17+00:00"
         },
         {
             "name": "nowo-tech/twig-inspector-bundle",

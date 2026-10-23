@@ -3666,16 +3666,16 @@
         },
         {
             "name": "composer/semver",
-            "version": "3.5.1",
+            "version": "3.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/semver.git",
-                "reference": "528948210cc46f967a4b98e83b19e76f2b504993"
+                "reference": "9dfce66f1e97360ea5e6d3e38ab14277e4cc591e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/semver/zipball/528948210cc46f967a4b98e83b19e76f2b504993",
-                "reference": "528948210cc46f967a4b98e83b19e76f2b504993",
+                "url": "https://api.github.com/repos/composer/semver/zipball/9dfce66f1e97360ea5e6d3e38ab14277e4cc591e",
+                "reference": "9dfce66f1e97360ea5e6d3e38ab14277e4cc591e",
                 "shasum": ""
             },
             "require": {
@@ -3727,7 +3727,7 @@
             "support": {
                 "irc": "ircs://irc.libera.chat:6697/composer",
                 "issues": "https://github.com/composer/semver/issues",
-                "source": "https://github.com/composer/semver/tree/3.5.1"
+                "source": "https://github.com/composer/semver/tree/3.5.2"
             },
             "funding": [
                 {
@@ -3739,7 +3739,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-10-05T13:12:12+00:00"
+            "time": "2026-10-22T15:37:26+00:00"
         },
         {
             "name": "composer/xdebug-handler",
@@ -4325,20 +4325,21 @@
         },
         {
             "name": "nowo-tech/password-toggle-bundle",
-            "version": "v2.4.1",
+            "version": "v2.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nowo-tech/PasswordToggleBundle.git",
-                "reference": "8048d9ff58d98ec255db4ed0834625fd012b431c"
+                "reference": "997ebdcb9362f0d3ee558ee88b59855332dc367a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nowo-tech/PasswordToggleBundle/zipball/8048d9ff58d98ec255db4ed0834625fd012b431c",
-                "reference": "8048d9ff58d98ec255db4ed0834625fd012b431c",
+                "url": "https://api.github.com/repos/nowo-tech/PasswordToggleBundle/zipball/997ebdcb9362f0d3ee558ee88b59855332dc367a",
+                "reference": "997ebdcb9362f0d3ee558ee88b59855332dc367a",
                 "shasum": ""
             },
             "require": {
                 "php": ">=8.2 <8.6",
+                "psr/log": "^1.1 || ^2.0 || ^3.0",
                 "symfony/form": "^7.4 || ^8.0",
                 "symfony/framework-bundle": "^7.4 || ^8.0",
                 "symfony/twig-bundle": "^7.4 || ^8.0",
@@ -4353,7 +4354,6 @@
                 "phpstan/phpstan-phpunit": "^2.0",
                 "phpstan/phpstan-symfony": "^2.0",
                 "phpunit/phpunit": "^10.0",
-                "psr/log": "^3.0",
                 "rector/rector": "^2.0",
                 "symfony/asset": "^7.4 || ^8.0",
                 "symfony/console": "^7.4 || ^8.0",
@@ -4404,6 +4404,7 @@
                 "visibility"
             ],
             "support": {
+                "docs": "https://github.com/nowo-tech/PasswordToggleBundle/tree/main/docs",
                 "issues": "https://github.com/nowo-tech/PasswordToggleBundle/issues",
                 "source": "https://github.com/nowo-tech/PasswordToggleBundle"
             },
@@ -4413,20 +4414,20 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-10-13T12:06:37+00:00"
+            "time": "2026-10-22T06:00:18+00:00"
         },
         {
             "name": "nowo-tech/phpstan-frankenphp",
-            "version": "v1.3.0",
+            "version": "v1.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nowo-tech/PhpStanFrankenPhp.git",
-                "reference": "8ad8c62f3c5decfd92332f70d599b6dad1e68820"
+                "reference": "943010bc203ce403c4c6e808eadc9c2c868c7c49"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nowo-tech/PhpStanFrankenPhp/zipball/8ad8c62f3c5decfd92332f70d599b6dad1e68820",
-                "reference": "8ad8c62f3c5decfd92332f70d599b6dad1e68820",
+                "url": "https://api.github.com/repos/nowo-tech/PhpStanFrankenPhp/zipball/943010bc203ce403c4c6e808eadc9c2c868c7c49",
+                "reference": "943010bc203ce403c4c6e808eadc9c2c868c7c49",
                 "shasum": ""
             },
             "require": {
@@ -4500,7 +4501,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-10-13T10:11:25+00:00"
+            "time": "2026-10-22T05:58:06+00:00"
         },
         {
             "name": "phar-io/manifest",
