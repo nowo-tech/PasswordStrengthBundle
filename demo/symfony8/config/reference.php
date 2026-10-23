@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 // This file is auto-generated and is for apps only. Bundles SHOULD NOT rely on its content.
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
@@ -780,6 +778,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     generator_mode?: "off"|"input"|"modal"|Param, // Default password generator: off, fill input (visible), or modal with copy. // Default: "off"
  *     generator_count?: int|Param, // Number of suggestions in modal mode. // Default: 3
  *     use_password_toggle?: bool|Param, // When true, use PasswordToggleBundle as parent if installed; ignored when parent_form_type is set explicitly. // Default: true
+ *     ui_translation_domain?: scalar|Param|null, // Translation domain of the widget copy (requirements, generator). null = the field translation_domain (default NowoPasswordStrengthBundle); set NowoPasswordStrengthBundle when your forms use another domain for labels (2.8). // Default: null
  *     csp_nonce_attribute?: scalar|Param|null, // Request attribute holding the per-request CSP nonce (nowo-tech convention: csp_nonce, set by HttpHardeningBundle). The form type stamps it on the widget (data-nonce, data-password-strength-nonce) so password-strength.js nonces the <style> it injects. Empty string disables. // Default: "csp_nonce"
  *     parent_form_type?: scalar|Param|null, // Parent form type FQCN. null = auto: Symfony PasswordType, or PasswordToggleBundle PasswordType when installed and use_password_toggle is true. // Default: null
  *     levels?: array<string, array{ // Default: {"weak":{"min_length":6},"medium":{"min_length":8,"require_lowercase":true,"require_uppercase":true,"require_digit":true},"strong":{"min_length":12,"require_lowercase":true,"require_uppercase":true,"require_digit":true,"require_special":true}}
