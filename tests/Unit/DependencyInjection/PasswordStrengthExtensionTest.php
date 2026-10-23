@@ -20,17 +20,21 @@ final class PasswordStrengthExtensionTest extends TestCase
         $extension = new PasswordStrengthExtension();
 
         $extension->load([[
-            'form_theme'          => 'bootstrap_5_layout.html.twig',
-            'feedback_position'   => 'above',
-            'show_requirements'   => false,
-            'live_feedback'       => false,
-            'default_level'       => 'strong',
-            'generator_mode'      => 'modal',
-            'generator_count'     => 5,
-            'use_password_toggle' => false,
-            'csp_nonce_attribute' => ' app_nonce ',
-            'levels'              => ['weak' => ['min_length' => 6]],
+            'form_theme'            => 'bootstrap_5_layout.html.twig',
+            'feedback_position'     => 'above',
+            'show_requirements'     => false,
+            'live_feedback'         => false,
+            'default_level'         => 'strong',
+            'generator_mode'        => 'modal',
+            'generator_count'       => 5,
+            'use_password_toggle'   => false,
+            'csp_nonce_attribute'   => ' app_nonce ',
+            'ui_translation_domain' => 'NowoPasswordStrengthBundle',
+            'levels'                => ['weak' => ['min_length' => 6]],
         ]], $container);
+
+        self::assertSame('NowoPasswordStrengthBundle', $container->getParameter('nowo_password_strength.ui_translation_domain'));
+        self::assertSame('%nowo_password_strength.ui_translation_domain%', $container->getDefinition(PasswordStrengthType::class)->getArgument('$defaultUiTranslationDomain'));
 
         self::assertSame('app_nonce', $container->getParameter('nowo_password_strength.csp_nonce_attribute'));
         self::assertSame('%nowo_password_strength.csp_nonce_attribute%', $container->getDefinition(PasswordStrengthType::class)->getArgument('$cspNonceAttribute'));

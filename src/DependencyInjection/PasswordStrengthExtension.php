@@ -47,6 +47,7 @@ final class PasswordStrengthExtension extends Extension implements PrependExtens
         $container->setParameter(Configuration::ALIAS . '.generator_mode', $config['generator_mode'] ?? 'off');
         $container->setParameter(Configuration::ALIAS . '.generator_count', $config['generator_count'] ?? 3);
         $container->setParameter(Configuration::ALIAS . '.use_password_toggle', $config['use_password_toggle'] ?? true);
+        $container->setParameter(Configuration::ALIAS . '.ui_translation_domain', $config['ui_translation_domain'] ?? null);
         $container->setParameter(Configuration::ALIAS . '.csp_nonce_attribute', trim((string) ($config['csp_nonce_attribute'] ?? 'csp_nonce')));
 
         $resolvedParent = ParentFormTypeResolver::resolve(

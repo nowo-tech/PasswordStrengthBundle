@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Table of contents
 
 - [[Unreleased]](#unreleased)
+- [[2.8.0] - 2026-10-23](#280---2026-10-23)
 - [[2.7.0] - 2026-10-22](#270---2026-10-22)
 - [[2.6.0] - 2026-10-21](#260---2026-10-21)
 - [[2.5.4] - 2026-10-20](#254---2026-10-20)
@@ -33,6 +34,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [[1.0.0] - 2026-07-03](#100---2026-07-03)
 
 ## [Unreleased]
+
+## [2.8.0] - 2026-10-23
+
+### Added
+
+- `ui_translation_domain` (form option and `nowo_password_strength.ui_translation_domain`): the domain of the widget copy
+  (requirements, generator), kept apart from the label's `translation_domain`. Hosts that translate labels in another
+  domain no longer copy `password_strength_widget` to keep the bundle copy. `null` (default) keeps the 2.7 behaviour.
 
 ## [2.7.0] - 2026-10-22
 

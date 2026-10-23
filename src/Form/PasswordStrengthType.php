@@ -52,6 +52,7 @@ final class PasswordStrengthType extends AbstractType
         private readonly string $defaultLevel = 'medium',
         private readonly ?RequestStack $requestStack = null,
         private readonly string $cspNonceAttribute = 'csp_nonce',
+        private readonly ?string $defaultUiTranslationDomain = null,
     ) {
     }
 
@@ -87,13 +88,17 @@ final class PasswordStrengthType extends AbstractType
             $evaluation->requirements,
         );
 
+        // 2.8: the widget copy may use another domain than the field label (e.g. a FormKit `form` domain for labels).
+        $uiDomain                            = $options['ui_translation_domain'] ?? $options['translation_domain'];
+        $view->vars['ui_translation_domain'] = $uiDomain;
+
         $payload = [
             'conditions'              => $conditions->toArray(),
             'pattern'                 => $pattern,
             'feedbackPosition'        => $feedbackPosition->value,
             'showRequirements'        => (bool) $options['show_requirements'],
             'liveFeedback'            => (bool) $options['live_feedback'],
-            'translationDomain'       => $options['translation_domain'],
+            'translationDomain'       => $uiDomain,
             'uiFramework'             => $options['ui_framework'],
             'generatorMode'           => $generatorMode->value,
             'generatorCount'          => $view->vars['generator_count'],
@@ -128,19 +133,20 @@ final class PasswordStrengthType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'policy_mode'         => PolicyMode::Level->value,
-            'level'               => $this->defaultLevel,
-            'conditions'          => null,
-            'feedback_position'   => null,
-            'show_requirements'   => $this->defaultShowRequirements,
-            'live_feedback'       => $this->defaultLiveFeedback,
-            'ui_framework'        => 'default',
-            'generator_mode'      => null,
-            'generator_count'     => null,
-            'use_password_toggle' => $this->defaultUsePasswordToggle,
-            'translation_domain'  => 'NowoPasswordStrengthBundle',
-            'always_empty'        => true,
-            'trim'                => true,
+            'policy_mode'           => PolicyMode::Level->value,
+            'level'                 => $this->defaultLevel,
+            'conditions'            => null,
+            'feedback_position'     => null,
+            'show_requirements'     => $this->defaultShowRequirements,
+            'live_feedback'         => $this->defaultLiveFeedback,
+            'ui_framework'          => 'default',
+            'generator_mode'        => null,
+            'generator_count'       => null,
+            'use_password_toggle'   => $this->defaultUsePasswordToggle,
+            'translation_domain'    => 'NowoPasswordStrengthBundle',
+            'ui_translation_domain' => $this->defaultUiTranslationDomain,
+            'always_empty'          => true,
+            'trim'                  => true,
         ]);
 
         $resolver->setAllowedValues('policy_mode', [PolicyMode::Level->value, PolicyMode::Conditions->value]);
@@ -148,6 +154,7 @@ final class PasswordStrengthType extends AbstractType
         $resolver->setAllowedTypes('conditions', ['null', 'array']);
         $resolver->setAllowedTypes('level', ['string']);
         $resolver->setAllowedTypes('ui_framework', ['string']);
+        $resolver->setAllowedTypes('ui_translation_domain', ['null', 'string']);
         $resolver->setAllowedTypes('use_password_toggle', 'bool');
         $resolver->setAllowedValues('generator_mode', [null, GeneratorMode::Off->value, GeneratorMode::Input->value, GeneratorMode::Modal->value]);
         $resolver->setAllowedTypes('generator_count', ['null', 'int']);

@@ -19,6 +19,8 @@ use Symfony\Component\Form\Forms;
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Symfony\Component\Validator\Validation;
 
+use const JSON_THROW_ON_ERROR;
+
 final class PasswordStrengthTypeTest extends TestCase
 {
     private FormFactoryInterface $factory;
@@ -69,6 +71,30 @@ final class PasswordStrengthTypeTest extends TestCase
         self::assertArrayHasKey('data-password-strength-config-value', $view['password']->vars['attr']);
         self::assertSame('off', $view['password']->vars['generator_mode']);
         self::assertSame(PolicyMode::Level->value, $view['password']->vars['policy_mode']);
+    }
+
+    public function testUiTranslationDomainFallsBackToTheFieldDomainAndCanBeSetApart(): void
+    {
+        $config = static fn (array $vars): array => json_decode($vars['attr']['data-password-strength-config-value'], true, 512, JSON_THROW_ON_ERROR);
+
+        $default = $this->factory->createBuilder(FormType::class)->add('password', PasswordStrengthType::class, ['translation_domain' => 'form'])->getForm()->createView()['password']->vars;
+        self::assertSame('form', $default['ui_translation_domain'], 'null = the field domain (1.x behaviour)');
+        self::assertSame('form', $config($default)['translationDomain']);
+
+        $apart = $this->factory->createBuilder(FormType::class)->add('password', PasswordStrengthType::class, ['translation_domain' => 'form', 'ui_translation_domain' => 'NowoPasswordStrengthBundle'])->getForm()->createView()['password']->vars;
+        self::assertSame('NowoPasswordStrengthBundle', $apart['ui_translation_domain']);
+        self::assertSame('NowoPasswordStrengthBundle', $config($apart)['translationDomain']);
+
+        $type = new PasswordStrengthType(
+            new PolicyResolver(['medium' => ['min_length' => 8]]),
+            new PasswordStrengthEvaluator(new PasswordPatternBuilder()),
+            new PasswordPatternBuilder(),
+            parentFormType: PasswordType::class,
+            defaultUiTranslationDomain: 'AppPasswords',
+        );
+        $configured = Forms::createFormFactoryBuilder()->addType($type)->getFormFactory()
+            ->createBuilder(FormType::class)->add('password', PasswordStrengthType::class, ['translation_domain' => 'form'])->getForm()->createView()['password']->vars;
+        self::assertSame('AppPasswords', $configured['ui_translation_domain'], 'nowo_password_strength.ui_translation_domain');
     }
 
     public function testDefaultLevelFromConfigurationIsUsed(): void
