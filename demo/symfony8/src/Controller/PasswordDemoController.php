@@ -192,12 +192,16 @@ final class PasswordDemoController extends AbstractController
         }
 
         $passwordOptions['constraints'] = $constraints;
+        // Row wrapper used by the demo layout (the template renders the form through the child loop, REQ-TWIG-003)
+        $passwordOptions['row_attr'] ??= ['class' => 'mb-3'];
 
         return $this->createFormBuilder()
             ->add('password', PasswordStrengthType::class, $passwordOptions)
             ->add('submit', SubmitType::class, [
                 'label'              => 'demo.submit',
                 'translation_domain' => 'messages',
+                'attr'               => ['class' => 'btn btn-primary px-4'],
+                'row_attr'           => ['class' => 'd-grid d-md-flex gap-2'],
             ])
             ->getForm();
     }

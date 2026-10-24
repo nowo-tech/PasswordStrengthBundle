@@ -35,6 +35,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Demo: `password_demo/show.html.twig` renders the form through the child loop instead of hard-coded `form_label` / `form_widget` / `form_errors` for `password` and `form_widget(form.submit)`; the row wrappers and the submit classes move to `row_attr` / `attr` in the demo form builder (REQ-TWIG-003).
+
 ## [2.8.0] - 2026-10-23
 
 ### Added

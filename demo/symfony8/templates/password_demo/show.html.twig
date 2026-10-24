@@ -28,14 +28,12 @@
 
         <div class="demo-form-panel">
             {{ form_start(form, { attr: { class: 'needs-validation', novalidate: 'novalidate' } }) }}
-                <div class="mb-3">
-                    {{ form_label(form.password) }}
-                    {{ form_widget(form.password) }}
-                    {{ form_errors(form.password) }}
-                </div>
-                <div class="d-grid d-md-flex gap-2">
-                    {{ form_widget(form.submit, { attr: { class: 'btn btn-primary px-4' } }) }}
-                </div>
+                {# REQ-TWIG-003: child loop (row wrappers and the submit classes come from the form builder row_attr / attr options) #}
+                {% for child in form %}
+                    {% if not child.rendered %}
+                        {{ form_row(child) }}
+                    {% endif %}
+                {% endfor %}
             {{ form_end(form) }}
         </div>
 
