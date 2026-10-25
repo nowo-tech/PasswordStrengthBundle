@@ -22,7 +22,7 @@
  *
  * 3. Call setDebug(true) to enable debug/info/warn/error output.
  *
- * 4. Inject build time in vite.config.ts:
+ * 4. Inject build id in vite.config.ts:
  *
  *    define: {
  *      __PASSWORD_STRENGTH_BUILD_TIME__: JSON.stringify(new Date().toISOString()),
@@ -36,7 +36,7 @@ export type BundleLoggerOptions = {
 };
 
 export type BundleLogger = {
-  /** Call once at startup. Logs "script loaded" and optional build time. Always shown. */
+  /** Call once at startup. Logs "script loaded" and optional build id. Always shown. */
   scriptLoaded: () => void;
   /** When false, debug/info/warn/error are no-ops (only scriptLoaded is shown). */
   setDebug: (enabled: boolean) => void;
@@ -83,7 +83,7 @@ export function createBundleLogger(name: string, options: BundleLoggerOptions = 
     scriptLoaded(): void {
       if (buildTime !== undefined && buildTime !== '') {
         console.log(
-          `%c${EMOJI.script} ${prefix} script loaded, build time: %c${buildTime}`,
+          `%c${EMOJI.script} ${prefix} script loaded, build: %c${buildTime}`,
           STYLES.script,
           'color:#059669',
         );

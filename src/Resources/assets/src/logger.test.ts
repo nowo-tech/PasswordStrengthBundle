@@ -10,7 +10,7 @@ describe('logger', () => {
     vi.spyOn(console, 'error').mockImplementation(() => {});
   });
 
-  it('scriptLoaded logs without build time when options empty', () => {
+  it('scriptLoaded logs without build id when options empty', () => {
     const log = createBundleLogger('password-strength');
     log.scriptLoaded();
     expect(console.log).toHaveBeenCalledWith(
@@ -19,7 +19,7 @@ describe('logger', () => {
     );
   });
 
-  it('scriptLoaded logs with build time when buildTime provided', () => {
+  it('scriptLoaded logs with build id when buildTime provided', () => {
     const log = createBundleLogger('password-strength', {
       buildTime: '2026-01-15T12:00:00.000Z',
     });

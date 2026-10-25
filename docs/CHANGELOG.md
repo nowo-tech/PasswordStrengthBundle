@@ -37,6 +37,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **Assets:** reproducible bundle build. `__PASSWORD_STRENGTH_BUILD_TIME__` now holds a build id (a hash of the TypeScript/CSS sources and `pnpm-lock.yaml`) instead of the build time, so rebuilding unchanged sources (`make assets`, `make release-check`) no longer rewrites the committed JS; the console line reads `script loaded, build: <id>`.
 - Demo: `password_demo/show.html.twig` renders the form through the child loop instead of hard-coded `form_label` / `form_widget` / `form_errors` for `password` and `form_widget(form.submit)`; the row wrappers and the submit classes move to `row_attr` / `attr` in the demo form builder (REQ-TWIG-003).
 
 ## [2.8.0] - 2026-10-23
