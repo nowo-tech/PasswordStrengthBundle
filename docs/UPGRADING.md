@@ -3,6 +3,7 @@
 ## Table of contents
 
 - [Unreleased](#unreleased)
+- [To 2.8.1](#to-281)
 - [To 2.8.0](#to-280)
 - [To 2.7.0](#to-270)
 - [To 2.6.0](#to-260)
@@ -33,6 +34,14 @@
   - [Twig-CS-Fixer (maintainers)](#twig-cs-fixer-maintainers)
 
 ## Unreleased
+
+## To 2.8.1
+
+From **2.8.0**:
+
+```bash
+composer update nowo-tech/password-strength-bundle
+```
 
 ## To 2.8.0
 
