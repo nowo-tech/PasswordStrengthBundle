@@ -22,7 +22,7 @@ final class PasswordStrength extends Constraint
     /**
      * @param array<string, mixed>|null $options Legacy options array (deprecated by Symfony 7.4+; prefer named arguments)
      * @param 'conditions'|'level' $policyMode
-     * @param string|null $level Level name; null = bundle `default_level`
+     * @param string|null $level Profile name; null = bundle `default_profile`
      * @param array<string, mixed>|null $conditions Inline conditions when $policyMode is 'conditions'
      * @param list<string>|null $groups
      */

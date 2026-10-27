@@ -776,14 +776,14 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     feedback_position?: "above"|"below"|Param, // Default: "below"
  *     show_requirements?: bool|Param, // Default: true
  *     live_feedback?: bool|Param, // Default: true
- *     default_level?: scalar|Param|null, // Default: "medium"
+ *     default_profile?: scalar|Param|null, // Profile used when a field or constraint gives no explicit level (REQ-CFG-001). Must exist under profiles. // Default: "medium"
  *     generator_mode?: "off"|"input"|"modal"|Param, // Default password generator: off, fill input (visible), or modal with copy. // Default: "off"
  *     generator_count?: int|Param, // Number of suggestions in modal mode. // Default: 3
  *     use_password_toggle?: bool|Param, // When true, use PasswordToggleBundle as parent if installed; ignored when parent_form_type is set explicitly. // Default: true
  *     ui_translation_domain?: scalar|Param|null, // Translation domain of the widget copy (requirements, generator). null = the field translation_domain (default NowoPasswordStrengthBundle); set NowoPasswordStrengthBundle when your forms use another domain for labels (2.8). // Default: null
  *     csp_nonce_attribute?: scalar|Param|null, // Request attribute holding the per-request CSP nonce (nowo-tech convention: csp_nonce, set by HttpHardeningBundle). The form type stamps it on the widget (data-nonce, data-password-strength-nonce) so password-strength.js nonces the <style> it injects. Empty string disables. // Default: "csp_nonce"
  *     parent_form_type?: scalar|Param|null, // Parent form type FQCN. null = auto: Symfony PasswordType, or PasswordToggleBundle PasswordType when installed and use_password_toggle is true. // Default: null
- *     levels?: array<string, array{ // Default: {"weak":{"min_length":6},"medium":{"min_length":8,"require_lowercase":true,"require_uppercase":true,"require_digit":true},"strong":{"min_length":12,"require_lowercase":true,"require_uppercase":true,"require_digit":true,"require_special":true}}
+ *     profiles?: array<string, array{ // Default: {"weak":{"min_length":6},"medium":{"min_length":8,"require_lowercase":true,"require_uppercase":true,"require_digit":true},"strong":{"min_length":12,"require_lowercase":true,"require_uppercase":true,"require_digit":true,"require_special":true}}
  *         min_length?: int|Param,
  *         max_length?: int|Param,
  *         require_lowercase?: bool|Param,

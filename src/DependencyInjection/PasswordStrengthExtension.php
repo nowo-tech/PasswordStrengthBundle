@@ -38,12 +38,17 @@ final class PasswordStrengthExtension extends Extension implements PrependExtens
 
         $config = $this->processConfiguration(new Configuration(), $configs);
 
-        $container->setParameter(Configuration::ALIAS . '.levels', $config['levels'] ?? []);
+        $profiles       = $config['profiles'] ?? Configuration::BUILTIN_PROFILES;
+        $defaultProfile = $config['default_profile'] ?? Configuration::DEFAULT_PROFILE;
+        $container->setParameter(Configuration::ALIAS . '.profiles', $profiles);
+        $container->setParameter(Configuration::ALIAS . '.default_profile', $defaultProfile);
+        // Former parameter names, kept as aliases for hosts that reference them.
+        $container->setParameter(Configuration::ALIAS . '.levels', $profiles);
+        $container->setParameter(Configuration::ALIAS . '.default_level', $defaultProfile);
         $container->setParameter(Configuration::ALIAS . '.form_theme', $config['form_theme'] ?? 'form_div_layout.html.twig');
         $container->setParameter(Configuration::ALIAS . '.feedback_position', $config['feedback_position'] ?? 'below');
         $container->setParameter(Configuration::ALIAS . '.show_requirements', $config['show_requirements'] ?? true);
         $container->setParameter(Configuration::ALIAS . '.live_feedback', $config['live_feedback'] ?? true);
-        $container->setParameter(Configuration::ALIAS . '.default_level', $config['default_level'] ?? 'medium');
         $container->setParameter(Configuration::ALIAS . '.generator_mode', $config['generator_mode'] ?? 'off');
         $container->setParameter(Configuration::ALIAS . '.generator_count', $config['generator_count'] ?? 3);
         $container->setParameter(Configuration::ALIAS . '.use_password_toggle', $config['use_password_toggle'] ?? true);

@@ -24,13 +24,13 @@ final class PasswordStrengthExtensionTest extends TestCase
             'feedback_position'     => 'above',
             'show_requirements'     => false,
             'live_feedback'         => false,
-            'default_level'         => 'strong',
+            'default_profile'       => 'admin',
             'generator_mode'        => 'modal',
             'generator_count'       => 5,
             'use_password_toggle'   => false,
             'csp_nonce_attribute'   => ' app_nonce ',
             'ui_translation_domain' => 'NowoPasswordStrengthBundle',
-            'levels'                => ['weak' => ['min_length' => 6]],
+            'profiles'              => ['admin' => ['min_length' => 16]],
         ]], $container);
 
         self::assertSame('NowoPasswordStrengthBundle', $container->getParameter('nowo_password_strength.ui_translation_domain'));
@@ -44,19 +44,28 @@ final class PasswordStrengthExtensionTest extends TestCase
         self::assertSame('above', $container->getParameter('nowo_password_strength.feedback_position'));
         self::assertFalse($container->getParameter('nowo_password_strength.show_requirements'));
         self::assertFalse($container->getParameter('nowo_password_strength.live_feedback'));
-        self::assertSame('strong', $container->getParameter('nowo_password_strength.default_level'));
+        self::assertSame('admin', $container->getParameter('nowo_password_strength.default_profile'));
+        self::assertSame(['min_length' => 16, 'not_contain' => []], $container->getParameter('nowo_password_strength.profiles')['admin'] ?? null);
+        self::assertArrayHasKey('medium', $container->getParameter('nowo_password_strength.profiles'));
+        // Former parameter names stay available as aliases.
+        self::assertSame('admin', $container->getParameter('nowo_password_strength.default_level'));
+        self::assertSame($container->getParameter('nowo_password_strength.profiles'), $container->getParameter('nowo_password_strength.levels'));
         self::assertSame('modal', $container->getParameter('nowo_password_strength.generator_mode'));
         self::assertSame(5, $container->getParameter('nowo_password_strength.generator_count'));
         self::assertFalse($container->getParameter('nowo_password_strength.use_password_toggle'));
         self::assertIsString($container->getParameter('nowo_password_strength.parent_form_type'));
 
-        // default_level must reach the services that fall back to it (used to be a dead parameter).
+        // default_profile must reach the services that fall back to it.
         self::assertSame(
-            '%nowo_password_strength.default_level%',
+            '%nowo_password_strength.profiles%',
+            $container->getDefinition(PolicyResolver::class)->getArgument('$levels'),
+        );
+        self::assertSame(
+            '%nowo_password_strength.default_profile%',
             $container->getDefinition(PolicyResolver::class)->getArgument('$defaultLevel'),
         );
         self::assertSame(
-            '%nowo_password_strength.default_level%',
+            '%nowo_password_strength.default_profile%',
             $container->getDefinition(PasswordStrengthType::class)->getArgument('$defaultLevel'),
         );
     }

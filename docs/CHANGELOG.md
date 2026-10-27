@@ -36,6 +36,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+Canonical named profiles (REQ-CFG-001 / REQ-CFG-002). Existing configuration keeps working. See [UPGRADING](UPGRADING.md#unreleased).
+
+### Added
+
+- **Configuration:** `default_profile` + `profiles` are the canonical keys for named condition sets (REQ-CFG-001). `default_profile` must name an existing profile; an unknown or empty name now fails at container compile with the list of available profiles, instead of silently resolving to an empty policy.
+- Container parameters `nowo_password_strength.profiles` and `nowo_password_strength.default_profile`.
+- `docs/CONFIGURATION.md` **Profiles** section (canonical keys, built-in profiles, runtime selection through the `level` option, legacy keys) and README pointer (REQ-CFG-002).
+
+### Changed
+
+- The built-in `weak`, `medium` and `strong` profiles are always available: configured profiles are added next to them (a profile with the same name replaces the built-in one). Before, configuring `levels` dropped the three defaults.
+
+### Deprecated
+
+- `default_level` and `levels` are legacy names, normalized onto `default_profile` / `profiles` (setting both names in one file is an error). The parameters `nowo_password_strength.default_level` / `nowo_password_strength.levels` stay as aliases. The recipe, README and demo use the canonical keys.
+
 ## [2.8.1] - 2026-10-25
 
 Reproducible JS bundle: the build stamp is a hash of the sources instead of the build time. See [UPGRADING](UPGRADING.md#to-281).

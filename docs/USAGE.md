@@ -54,9 +54,11 @@ The field value is a password string. The widget is the `<nowo-password-strength
 ```php
 $builder->add('password', PasswordStrengthType::class, [
     'policy_mode' => 'level',
-    'level' => 'strong', // weak | medium | strong | custom
+    'level' => 'strong', // a profile name: weak | medium | strong (built in) or one of your `profiles`
 ]);
 ```
+
+`level` names a profile from `nowo_password_strength.profiles`; omitted, `null` or unknown names use `default_profile`. See [Profiles](CONFIGURATION.md#profiles).
 
 ### Inline conditions
 

@@ -4,7 +4,7 @@
 
 > ⭐ **Found this useful?** Give it a **star** on [GitHub](https://github.com/nowo-tech/PasswordStrengthBundle) so more developers can find it.
 
-Symfony bundle that extends `PasswordType` with **100% configurable** password hardness: predefined **levels**, inline **conditions**, auto-built **HTML pattern**, live **TypeScript** feedback, and a **validator** constraint.
+Symfony bundle that extends `PasswordType` with **100% configurable** password hardness: named **profiles** (`weak` / `medium` / `strong` built in, plus your own), inline **conditions**, auto-built **HTML pattern**, live **TypeScript** feedback, and a **validator** constraint.
 
 ![FrankenPHP Friendly Worker Mode](docs/images/frankenphp-friendly.png)
 
@@ -39,7 +39,7 @@ This bundle is **FrankenPHP worker mode friendly**.
 ## Features
 
 - **PasswordStrengthType** — extends Symfony `PasswordType`
-- **Policy modes** — `level` (weak/medium/strong/custom) or inline `conditions`
+- **Policy modes** — `level` (a named profile: built-in weak/medium/strong or your own, see [Profiles](docs/CONFIGURATION.md#profiles)) or inline `conditions`
 - **HTML `pattern`** — built automatically from the active policy
 - **Live feedback** — TypeScript evaluates requirements and shows what is missing
 - **Feedback position** — configurable `above` or `below` the input
@@ -87,17 +87,10 @@ nowo_password_strength:
   feedback_position: below
   show_requirements: true
   live_feedback: true
-  default_level: medium
-  levels:
-    weak:
-      min_length: 6
-    medium:
-      min_length: 8
-      require_lowercase: true
-      require_uppercase: true
-      require_digit: true
-    strong:
-      min_length: 12
+  default_profile: medium   # must exist under profiles (weak / medium / strong are built in)
+  profiles:                 # add or override named condition profiles
+    admin:
+      min_length: 16
       require_lowercase: true
       require_uppercase: true
       require_digit: true
@@ -106,6 +99,8 @@ nowo_password_strength:
   # parent_form_type: ~      # null = auto; or set a FQCN to force a specific parent PasswordType
   generator_mode: off
 ```
+
+Profiles (`default_profile` + `profiles`, formerly `default_level` + `levels`) are described in [docs/CONFIGURATION.md#profiles](docs/CONFIGURATION.md#profiles).
 
 ## Usage
 
