@@ -2,7 +2,7 @@
 
 **Baseline spec**: [`spec.md`](spec.md)  
 **Package**: `nowo-tech/password-strength-bundle`  
-**Last audited**: 2026-10-20 (audit: `git ls-files src | wc -l` → 62)
+**Last audited**: 2026-10-27 (audit: `git ls-files src | wc -l` → 63)
 
 This file proves that **every source artifact** under `src/` is referenced by the baseline specification. Co-located Vitest files (`*.test.ts`) enforce frontend contracts; PHPUnit covers PHP under `tests/`.
 
@@ -49,6 +49,7 @@ This file proves that **every source artifact** under `src/` is referenced by th
 | `Resources/assets/src/logger.test.ts` | Logger contract tests | FR-UI-005 |
 | `Resources/assets/src/password-generator.test.ts` | Generator tests | FR-GEN-001 |
 | `Resources/assets/src/password-strength-dom.test.ts` | DOM widget tests | FR-UI-002 |
+| `Resources/assets/src/password-strength-lib.shared.test.ts` | Shared PHP/TS vectors (`tests/Fixtures/password-vectors.json`) | FR-UI-003, FR-PAT-002, SC-004 |
 | `Resources/assets/src/password-strength-lib.test.ts` | Evaluator tests | FR-UI-003 |
 | `Resources/assets/src/nowo-password-strength-element.test.ts` | Custom element tests | FR-UI-001, FR-UI-002 |
 | `Resources/assets/src/password-strength-csp.test.ts` | Stylesheet / CSP tests | FR-UI-006 |
@@ -114,10 +115,10 @@ This file proves that **every source artifact** under `src/` is referenced by th
 | --- | ---: | ---: |
 | PHP classes | 18 | 18 |
 | TypeScript production | 8 | 8 |
-| Vitest co-located | 7 | 7 |
+| Vitest co-located | 8 | 8 |
 | Stylesheets | 2 | 2 |
 | Legacy JS | 1 | 1 |
 | Symfony config | 1 | 1 |
 | Twig themes | 11 | 11 |
 | Translations | 14 | 14 |
-| **Total sources under `src/`** | **62** | **62** |
+| **Total sources under `src/`** | **63** | **63** |

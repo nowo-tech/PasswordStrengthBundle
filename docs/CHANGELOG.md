@@ -37,6 +37,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+Security hardening from the 2026-10-27 REQ-SEC-004 re-audit (Pass (good) / Low): server-side enforcement by default and no silent policy weakening. Hosts may need small changes — see [UPGRADING](UPGRADING.md#unreleased).
+
+### Security
+
+- **Server-side enforcement (L1):** `PasswordStrengthType` attaches the `PasswordStrength` constraint built from its `policy_mode` / `level` / `conditions` (new `enforce` option, default `true`). Before, the policy was only enforced when the host added the constraint itself.
+- **No silent weakening (L2):** an unknown `level` throws (`InvalidOptionsException` on the form type, `ConstraintDefinitionException` from the constraint) instead of falling back to the default profile; `policy_mode: conditions` without conditions, with unknown keys (e.g. `min_lenght`) or with no rule throws; a profile with no rule fails at container compile; a configured profile named like a built-in one is merged onto it instead of replacing it.
+- **Input cap (L3):** values over 4096 bytes are a `max_length` violation before any rule or regex runs (PHP and TypeScript); the unique-character count stops as soon as the minimum is reached.
+- **Escaping (L4):** the TypeScript evaluator and pattern builder escape `-` and `/` (the default special set `…+-=…` formed the range `+`..`=`, so digits counted as special characters). PHP and TypeScript share `escapeForCharClass()` / `escapeLiteral()`, whose output is valid under the browser's `v` flag for the HTML `pattern` (PHP used `preg_quote()`, whose `\-` / `\!` outside a class made the `pattern` invalid for `not_contain` fragments). Shared vectors in `tests/Fixtures/password-vectors.json` run in PHPUnit and Vitest. `password-strength.js` rebuilt.
+- **Docs (L5, I2, I4):** `docs/SECURITY.md` AI security audit section and findings, recommended host setup (`NotBlank`, `NotCompromisedPassword`, client-visible policy, validation groups); `.github/SECURITY.md` supported versions (2.x).
+
+### Changed
+
+- `trim` defaults to `false`, like Symfony's `PasswordType` (I1): surrounding spaces are part of the password.
+- The password generator produces at least 16 characters unless the policy's `max_length` is lower (I3).
+
 ## [2.9.0] - 2026-10-27
 
 Canonical default_profile/profiles config (REQ-CFG-001/002); legacy levels keys mapped; unknown default profile fails at compile See [UPGRADING](UPGRADING.md#to-290).

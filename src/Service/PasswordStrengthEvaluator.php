@@ -9,18 +9,24 @@ use Nowo\PasswordStrengthBundle\Model\PasswordConditions;
 use Nowo\PasswordStrengthBundle\Model\RequirementResult;
 
 use function count;
+use function mb_str_split;
 use function mb_strlen;
+use function md5;
 use function preg_match;
-use function preg_quote;
 use function str_contains;
-
-use const PREG_SPLIT_NO_EMPTY;
+use function strlen;
 
 /**
  * Evaluates a password against configured conditions (server-side mirror of the TypeScript evaluator).
  */
 final readonly class PasswordStrengthEvaluator
 {
+    /**
+     * Hard cap on the evaluated input, in bytes: longer values are rejected as a `max_length` violation before any
+     * regex runs (bounds the work a single request can cause; mirrored in password-strength-lib.ts).
+     */
+    public const MAX_BYTES = 4096;
+
     public function __construct(
         private PasswordPatternBuilder $patternBuilder,
     ) {
@@ -31,6 +37,15 @@ final readonly class PasswordStrengthEvaluator
         $value        = $password ?? '';
         $requirements = [];
         $missing      = [];
+
+        if (strlen($value) > self::MAX_BYTES) {
+            return new EvaluationResult(
+                false,
+                [new RequirementResult('max_length', 'requirement.max_length', false, strlen($value), self::MAX_BYTES)],
+                ['max_length'],
+                $this->patternBuilder->build($conditions),
+            );
+        }
 
         if ($conditions->minLength > 0) {
             $length         = mb_strlen($value);
@@ -75,8 +90,7 @@ final readonly class PasswordStrengthEvaluator
         }
 
         if ($conditions->requireSpecial) {
-            $escaped        = preg_quote($conditions->specialChars, '/');
-            $met            = preg_match('/[' . $escaped . ']/u', $value) === 1;
+            $met            = preg_match('/[' . PasswordPatternBuilder::escapeForCharClass($conditions->specialChars) . ']/u', $value) === 1;
             $requirements[] = new RequirementResult('require_special', 'requirement.special', $met);
             if (!$met) {
                 $missing[] = 'require_special';
@@ -104,7 +118,7 @@ final readonly class PasswordStrengthEvaluator
         }
 
         if ($conditions->minUniqueChars > 0) {
-            $unique         = count(array_unique(preg_split('//u', $value, -1, PREG_SPLIT_NO_EMPTY) ?: []));
+            $unique         = $this->countUniqueChars($value, $conditions->minUniqueChars);
             $met            = $unique >= $conditions->minUniqueChars;
             $requirements[] = new RequirementResult(
                 'min_unique_chars',
@@ -140,5 +154,21 @@ final readonly class PasswordStrengthEvaluator
         }
 
         return new EvaluationResult($valid, $requirements, $missing, $pattern);
+    }
+
+    /**
+     * Counts distinct characters, stopping as soon as $enough are found.
+     */
+    private function countUniqueChars(string $value, int $enough): int
+    {
+        $seen = [];
+        foreach (mb_str_split($value) as $char) {
+            $seen[$char] = true;
+            if (count($seen) >= $enough) {
+                break;
+            }
+        }
+
+        return count($seen);
     }
 }

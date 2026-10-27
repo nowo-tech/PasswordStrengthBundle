@@ -1,9 +1,41 @@
-import { buildPasswordPattern } from './password-pattern-builder';
+import { buildPasswordPattern, escapeForCharClass } from './password-pattern-builder';
 import type {
   EvaluationResult,
   PasswordConditionsConfig,
   RequirementResult,
 } from './types';
+
+/**
+ * Hard cap on the evaluated input, in UTF-8 bytes (mirror of PasswordStrengthEvaluator::MAX_BYTES): longer values
+ * are reported as a `max_length` violation before any regex runs.
+ */
+export const MAX_BYTES = 4096;
+
+/**
+ * @param value Input string.
+ * @returns Its UTF-8 byte length.
+ */
+function utf8Length(value: string): number {
+  return new TextEncoder().encode(value).length;
+}
+
+/**
+ * Count distinct characters, stopping as soon as `enough` are found (mirror of the PHP evaluator).
+ *
+ * @param value Input string.
+ * @param enough Number of distinct characters that satisfies the rule.
+ * @returns Distinct characters seen (at most `enough`).
+ */
+function countUniqueChars(value: string, enough: number): number {
+  const seen = new Set<string>();
+  for (const char of value) {
+    seen.add(char);
+    if (seen.size >= enough) {
+      break;
+    }
+  }
+  return seen.size;
+}
 
 /**
  * Normalize raw condition config (aliases and defaults).
@@ -43,6 +75,18 @@ export function evaluatePassword(
   const value = password ?? '';
   const requirements: RequirementResult[] = [];
   const missing: string[] = [];
+
+  const bytes = utf8Length(value);
+  if (bytes > MAX_BYTES) {
+    return {
+      valid: false,
+      missing: ['max_length'],
+      pattern: buildPasswordPattern(conditions),
+      requirements: [
+        { id: 'max_length', labelKey: 'requirement.max_length', met: false, current: bytes, required: MAX_BYTES },
+      ],
+    };
+  }
 
   if (conditions.min_length && conditions.min_length > 0) {
     const length = [...value].length;
@@ -89,8 +133,7 @@ export function evaluatePassword(
   }
 
   if (conditions.require_special) {
-    const escaped = (conditions.special_chars ?? '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    const met = new RegExp(`[${escaped}]`).test(value);
+    const met = new RegExp(`[${escapeForCharClass(conditions.special_chars ?? '')}]`).test(value);
     requirements.push({ id: 'require_special', labelKey: 'requirement.special', met });
     if (!met) missing.push('require_special');
   }
@@ -112,7 +155,7 @@ export function evaluatePassword(
   }
 
   if (conditions.min_unique_chars && conditions.min_unique_chars > 0) {
-    const unique = new Set([...value]).size;
+    const unique = countUniqueChars(value, conditions.min_unique_chars);
     const met = unique >= conditions.min_unique_chars;
     requirements.push({
       id: 'min_unique_chars',

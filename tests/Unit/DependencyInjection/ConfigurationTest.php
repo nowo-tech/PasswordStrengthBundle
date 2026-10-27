@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Nowo\PasswordStrengthBundle\Tests\Unit\DependencyInjection;
 
 use Nowo\PasswordStrengthBundle\DependencyInjection\Configuration;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\Definition\Processor;
@@ -67,8 +68,8 @@ final class ConfigurationTest extends TestCase
         self::assertSame('admin', $config['default_profile']);
         self::assertSame(['min_length' => 16, 'require_special' => true, 'not_contain' => []], $config['profiles']['admin']);
         self::assertSame(['min_length' => 4, 'not_contain' => []], $config['profiles']['kiosk']);
-        // A configured profile replaces the built-in one with the same name.
-        self::assertSame(['min_length' => 9, 'not_contain' => []], $config['profiles']['medium']);
+        // A configured profile named like a built-in one is merged onto it: only the keys it sets change.
+        self::assertSame(['min_length' => 9, 'require_lowercase' => true, 'require_uppercase' => true, 'require_digit' => true, 'not_contain' => []], $config['profiles']['medium']);
         self::assertSame(['weak', 'medium', 'strong', 'admin', 'kiosk'], array_keys($config['profiles']));
     }
 
@@ -129,6 +130,43 @@ final class ConfigurationTest extends TestCase
         $this->expectException(InvalidConfigurationException::class);
         $this->expectExceptionMessage('"levels" is the legacy name of "profiles"; set only "profiles"');
         $this->processConfiguration(['levels' => ['a' => ['min_length' => 1]], 'profiles' => ['b' => ['min_length' => 2]]]);
+    }
+
+    public function testBuiltInRuleCanBeTurnedOffExplicitly(): void
+    {
+        $config = $this->processConfiguration(['profiles' => ['medium' => ['require_uppercase' => false]]]);
+
+        self::assertFalse($config['profiles']['medium']['require_uppercase']);
+        self::assertSame(8, $config['profiles']['medium']['min_length']);
+    }
+
+    /**
+     * @return iterable<string, array{array<string, mixed>}>
+     */
+    public static function ruleLessProfileProvider(): iterable
+    {
+        yield 'empty' => [[]];
+        yield 'only special_chars' => [['special_chars' => '!?']];
+        yield 'only regex_message' => [['regex_message' => 'nope']];
+        yield 'all rules off' => [['min_length' => 0, 'require_digit' => false, 'not_contain' => []]];
+    }
+
+    /**
+     * @param array<string, mixed> $profile
+     */
+    #[DataProvider('ruleLessProfileProvider')]
+    public function testProfileWithoutRulesIsRejected(array $profile): void
+    {
+        $this->expectException(InvalidConfigurationException::class);
+        $this->expectExceptionMessage('nowo_password_strength.profiles.lax holds no rule');
+        $this->processConfiguration(['profiles' => ['lax' => $profile]]);
+    }
+
+    public function testBuiltInProfileWithEveryRuleTurnedOffIsRejected(): void
+    {
+        $this->expectException(InvalidConfigurationException::class);
+        $this->expectExceptionMessage('nowo_password_strength.profiles.weak holds no rule');
+        $this->processConfiguration(['profiles' => ['weak' => ['min_length' => 0]]]);
     }
 
     public function testUnknownProfileKeyIsRejected(): void

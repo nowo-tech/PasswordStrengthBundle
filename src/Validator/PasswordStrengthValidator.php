@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Nowo\PasswordStrengthBundle\Validator;
 
+use InvalidArgumentException;
 use Nowo\PasswordStrengthBundle\Model\PolicyMode;
 use Nowo\PasswordStrengthBundle\Service\PasswordStrengthEvaluator;
 use Nowo\PasswordStrengthBundle\Service\PolicyResolver;
@@ -42,10 +43,16 @@ final class PasswordStrengthValidator extends ConstraintValidator
 
         $mode = PolicyMode::tryFrom($constraint->policyMode)
             ?? throw new ConstraintDefinitionException(sprintf('Invalid policyMode "%s" for %s: expected one of "%s".', $constraint->policyMode, PasswordStrength::class, implode('", "', array_column(PolicyMode::cases(), 'value'))));
-        $conditions = $this->policyResolver->resolve($mode, [
-            'level'      => $constraint->level,
-            'conditions' => $constraint->conditions,
-        ]);
+
+        try {
+            $conditions = $this->policyResolver->resolve($mode, [
+                'level'      => $constraint->level,
+                'conditions' => $constraint->conditions,
+            ]);
+        } catch (InvalidArgumentException $e) {
+            // Unknown profile, missing/unknown inline conditions: a misconfigured constraint, never a weaker policy.
+            throw new ConstraintDefinitionException(sprintf('Invalid %s: %s', PasswordStrength::class, $e->getMessage()), 0, $e);
+        }
 
         $result = $this->evaluator->evaluate($value, $conditions);
 
