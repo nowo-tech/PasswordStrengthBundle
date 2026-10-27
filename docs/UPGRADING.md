@@ -35,6 +35,24 @@
 
 ## Unreleased
 
+Named condition sets now use the canonical `default_profile` + `profiles` keys (REQ-CFG-001). No change is required, but:
+
+1. **Rename (recommended).** In `config/packages/nowo_password_strength.yaml` rename `default_level` → `default_profile` and `levels` → `profiles`. The old names are still accepted and mapped onto the new ones; using both names in the same file fails at `cache:clear`.
+
+   ```yaml
+   nowo_password_strength:
+     default_profile: medium   # was default_level
+     profiles:                 # was levels
+       admin:
+         min_length: 16
+   ```
+
+2. **Built-in profiles stay available.** `weak`, `medium` and `strong` are now always defined; your profiles are added next to them and one with the same name replaces the built-in one. If you configured `levels` with only custom names, the three built-ins reappear (fields asking for `level: medium` now get the built-in medium policy instead of an empty one).
+3. **`default_profile` is validated.** It must name an existing profile (built-in or configured). A configuration whose `default_level` pointed at a missing name — which used to resolve to no conditions at all — now fails at `cache:clear` with `default_profile "…" must exist under nowo_password_strength.profiles`. Fix the name or add the profile.
+4. **Parameters.** Prefer `%nowo_password_strength.profiles%` / `%nowo_password_strength.default_profile%`; `%nowo_password_strength.levels%` / `%nowo_password_strength.default_level%` remain as aliases.
+
+The form and constraint option keeps its name: `level` selects a profile (`'level' => 'admin'`, `#[PasswordStrength(level: 'admin')]`).
+
 ## To 2.8.1
 
 From **2.8.0**:

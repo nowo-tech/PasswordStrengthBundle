@@ -11,12 +11,15 @@ use function is_array;
 use function is_string;
 
 /**
- * Resolves effective password conditions from global levels or inline field options.
+ * Resolves effective password conditions from the configured profiles (REQ-CFG-001) or inline field options.
+ *
+ * The `level` form / constraint option names a profile; omitted, null or unknown names use the default profile.
  */
 final readonly class PolicyResolver
 {
     /**
-     * @param array<string, array<string, mixed>> $levels
+     * @param array<string, array<string, mixed>> $levels Profiles map (`nowo_password_strength.profiles`)
+     * @param string $defaultLevel Default profile name (`nowo_password_strength.default_profile`)
      */
     public function __construct(
         private array $levels = [],

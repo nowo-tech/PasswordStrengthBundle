@@ -35,21 +35,23 @@ As a form author, I use `PasswordStrengthType` so users see which requirements a
 
 **Acceptance Scenarios**:
 
-1. **Given** `policy_mode=level` and `level=medium`, **When** field renders, **Then** `PolicyResolver` applies preset from `levels` config and `PasswordPatternBuilder` sets HTML pattern.
+1. **Given** `policy_mode=level` and `level=medium`, **When** field renders, **Then** `PolicyResolver` applies the profile from `profiles` config and `PasswordPatternBuilder` sets HTML pattern.
 2. **Given** `policy_mode=conditions`, **When** inline conditions provided, **Then** they override level presets for that field only.
 3. **Given** JavaScript disabled, **When** form submits invalid password, **Then** `PasswordStrengthValidator` rejects with `{{ missing }}` parameter.
 
 ---
 
-### User Story 2 — Preset policy levels (Priority: P1)
+### User Story 2 — Named policy profiles (Priority: P1)
 
 As an integrator, I configure weak/medium/strong defaults in YAML and pick a level per field.
 
 **Acceptance Scenarios**:
 
-1. **Given** `default_level=medium` in config, **When** field omits `level` option, **Then** medium preset applies.
-2. **Given** custom `levels` map in YAML, **When** extension loads, **Then** merged levels replace bundle defaults.
+1. **Given** `default_profile=medium` in config, **When** field omits `level` option, **Then** the medium profile applies.
+2. **Given** a custom `profiles` map in YAML, **When** extension loads, **Then** configured profiles are added to the built-in weak/medium/strong ones and replace a built-in profile with the same name.
 3. **Given** password meets all conditions, **When** evaluator runs, **Then** `EvaluationResult::valid` is true with empty `missing`.
+4. **Given** `default_profile` names a profile that does not exist, **When** the container compiles, **Then** an `InvalidConfigurationException` lists the available profiles.
+5. **Given** the legacy keys `default_level` / `levels`, **When** extension loads, **Then** they are normalized onto `default_profile` / `profiles`.
 
 ---
 
@@ -103,7 +105,7 @@ As an integrator, I select a form theme matching Bootstrap, Foundation, Tailwind
 
 - **FR-BUNDLE-001**: `PasswordStrengthBundle` MUST register `TwigPathsPass` and expose alias `nowo_password_strength`.
 - **FR-DI-001**: `services.yaml` MUST wire form type, resolver, evaluator, pattern builder, validator, and integration services.
-- **FR-CFG-001**: `Configuration` MUST define: `form_theme`, `feedback_position`, `show_requirements`, `live_feedback`, `default_level`, `generator_mode`, `generator_count`, `use_password_toggle`, `parent_form_type`, `levels`.
+- **FR-CFG-001**: `Configuration` MUST define: `form_theme`, `feedback_position`, `show_requirements`, `live_feedback`, `default_profile`, `generator_mode`, `generator_count`, `use_password_toggle`, `parent_form_type`, `profiles` (REQ-CFG-001; legacy `default_level` / `levels` normalized via `beforeNormalization`), and MUST reject a `default_profile` that is not a key of `profiles`.
 - **FR-CFG-002**: Extension MUST load services, set parameters from merged config, and register Twig path namespace.
 - **FR-TWIG-001**: `TwigPathsPass` MUST add `Resources/views` under bundle namespace for form theme overrides.
 
@@ -175,14 +177,14 @@ As an integrator, I select a form theme matching Bootstrap, Foundation, Tailwind
 | `feedback_position` | `below` | `above` \| `below` |
 | `show_requirements` | `true` | Show checklist UI |
 | `live_feedback` | `true` | Update on keystroke |
-| `default_level` | `medium` | Preset when field omits level |
+| `default_profile` | `medium` | Profile when field omits level; must exist under `profiles` (legacy `default_level`) |
 | `generator_mode` | `off` | `off` \| `input` \| `modal` |
 | `generator_count` | `3` | Modal suggestions (1–10) |
 | `use_password_toggle` | `true` | Auto parent when toggle installed |
 | `parent_form_type` | `null` | Explicit parent FQCN override |
-| `levels.weak` | min 6 | Preset conditions |
-| `levels.medium` | min 8 + classes | Preset conditions |
-| `levels.strong` | min 12 + special | Preset conditions |
+| `profiles.weak` | min 6 | Built-in profile (legacy `levels`) |
+| `profiles.medium` | min 8 + classes | Built-in profile |
+| `profiles.strong` | min 12 + special | Built-in profile |
 
 ---
 

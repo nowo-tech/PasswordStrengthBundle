@@ -13,8 +13,8 @@ services:
 
   Nowo\PasswordStrengthBundle\Service\PolicyResolver:
     arguments:
-      $levels: '%nowo_password_strength.levels%'
-      $defaultLevel: '%nowo_password_strength.default_level%'
+      $levels: '%nowo_password_strength.profiles%'
+      $defaultLevel: '%nowo_password_strength.default_profile%'
 
   Nowo\PasswordStrengthBundle\Form\PasswordStrengthType:
     arguments:
@@ -25,7 +25,7 @@ services:
       $defaultGeneratorCount: '%nowo_password_strength.generator_count%'
       $defaultUsePasswordToggle: '%nowo_password_strength.use_password_toggle%'
       $parentFormType: '%nowo_password_strength.parent_form_type%'
-      $defaultLevel: '%nowo_password_strength.default_level%'
+      $defaultLevel: '%nowo_password_strength.default_profile%'
       $requestStack: '@?request_stack'
       $cspNonceAttribute: '%nowo_password_strength.csp_nonce_attribute%'
       $defaultUiTranslationDomain: '%nowo_password_strength.ui_translation_domain%'
