@@ -3,6 +3,7 @@
 ## Table of contents
 
 - [Unreleased](#unreleased)
+- [To 2.9.0](#to-290)
 - [To 2.8.1](#to-281)
 - [To 2.8.0](#to-280)
 - [To 2.7.0](#to-270)
@@ -34,6 +35,14 @@
   - [Twig-CS-Fixer (maintainers)](#twig-cs-fixer-maintainers)
 
 ## Unreleased
+
+## To 2.9.0
+
+From **2.8.1**:
+
+```bash
+composer update nowo-tech/password-strength-bundle
+```
 
 Named condition sets now use the canonical `default_profile` + `profiles` keys (REQ-CFG-001). No change is required, but:
 
