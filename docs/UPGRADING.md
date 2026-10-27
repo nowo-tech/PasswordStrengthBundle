@@ -36,6 +36,19 @@
 
 ## Unreleased
 
+Security hardening (REQ-SEC-004 re-audit 2026-10-27). Check these points:
+
+1. **`enforce` (default `true`).** `PasswordStrengthType` now adds the `PasswordStrength` constraint for its own policy.
+   - If the mapped entity/DTO property already has `#[PasswordStrength]`, either remove the attribute or pass `'enforce' => false`; with both, each failure is reported twice.
+   - If the form validates custom `validation_groups` without `Default`, the attached constraint does not run: set `'enforce' => false` and add `new PasswordStrength(level: '…', groups: ['…'])` to `constraints`.
+   - The constraint accepts empty values: keep (or add) `NotBlank` where the password is required.
+2. **Unknown `level` throws.** A `level` that is not a configured profile now throws instead of using `default_profile`. Fix the name or add the profile under `nowo_password_strength.profiles`.
+3. **Inline `conditions` are checked.** With `policy_mode: conditions`, the `conditions` option (or constraint argument) must be present, use known keys only and contain at least one rule.
+4. **Profiles need a rule and built-in names merge.** A profile with no rule fails at `cache:clear`. A profile named `weak`, `medium` or `strong` is now merged onto the built-in one (2.9.0 replaced it): `medium: { min_length: 10 }` keeps the lowercase/uppercase/digit rules — set them to `false` explicitly to drop them.
+5. **`trim` defaults to `false`.** Leading/trailing spaces are no longer stripped (same as Symfony's `PasswordType`). Pass `'trim' => true` to keep the old behaviour; existing hashes of trimmed passwords still match for users who never typed surrounding spaces.
+6. **4096-byte cap.** Longer values are rejected as `max_length`.
+7. **Assets.** Run `php bin/console assets:install` (the rebuilt `password-strength.js` fixes special-character escaping and generates passwords of at least 16 characters).
+
 ## To 2.9.0
 
 From **2.8.1**:

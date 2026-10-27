@@ -82,13 +82,14 @@ nowo_password_strength:
       min_unique_chars: 8
 ```
 
-- **Built-in profiles.** `weak`, `medium` and `strong` (values in the [full example](#full-example)) are always available. A profile you configure with one of those names replaces the built-in one entirely; any other name is added next to them. The example above therefore ends up with `weak`, `medium`, `strong`, `standard` and `admin`.
+- **Built-in profiles.** `weak`, `medium` and `strong` (values in the [full example](#full-example)) are always available. A profile you configure with one of those names is **merged** onto the built-in one: only the keys you set change (e.g. `medium: { min_length: 10 }` keeps the lowercase/uppercase/digit rules; set `require_uppercase: false` to drop one). Any other name is added next to them. The example above therefore ends up with `weak`, `medium`, `strong`, `standard` and `admin`.
+- **Every profile needs a rule.** A profile (after merging) with no rule — empty, or only `special_chars` / `regex_message`, or every rule off — fails at container compile: it would accept every password.
 - **Default profile.** `default_profile` (default `medium`) MUST name an existing profile — built-in or configured. An unknown or empty name fails at container compile (`cache:clear`) with `default_profile "…" must exist under nowo_password_strength.profiles (available: …)`.
 - **Runtime selection.** The profile is picked per field or per constraint, by name, through the `level` option (kept for backward compatibility):
   - form type: `PasswordStrengthType` with `'policy_mode' => 'level', 'level' => 'admin'`;
   - constraint: `#[PasswordStrength(level: 'admin')]`.
 
-  When `level` is omitted or `null`, `default_profile` applies. An unknown `level` name also falls back to `default_profile` (it never disables the policy). `policy_mode: conditions` ignores profiles and uses the inline `conditions` option.
+  When `level` is omitted or `null`, `default_profile` applies. An **unknown** `level` name is an error — an `InvalidOptionsException` on the form type, a `ConstraintDefinitionException` from the constraint — never a silent fallback. `policy_mode: conditions` ignores profiles and uses the inline `conditions` option, which must be present, use known keys only and hold at least one rule.
 - **Legacy keys.** The former names are still accepted and normalized onto the canonical keys: `levels` → `profiles`, `default_level` → `default_profile`. Setting both the legacy and the canonical key in the same file is a configuration error. The container parameters `nowo_password_strength.levels` and `nowo_password_strength.default_level` remain as aliases of `nowo_password_strength.profiles` / `nowo_password_strength.default_profile`.
 - **Container parameters.** `nowo_password_strength.profiles` (the merged map, built-ins included) and `nowo_password_strength.default_profile`.
 

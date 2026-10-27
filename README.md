@@ -1,6 +1,6 @@
 # Password Strength Bundle
 
-[![CI](https://github.com/nowo-tech/PasswordStrengthBundle/actions/workflows/ci.yml/badge.svg)](https://github.com/nowo-tech/PasswordStrengthBundle/actions/workflows/ci.yml) [![Packagist Version](https://img.shields.io/packagist/v/nowo-tech/password-strength-bundle.svg?style=flat)](https://packagist.org/packages/nowo-tech/password-strength-bundle) [![Packagist Downloads](https://img.shields.io/packagist/dt/nowo-tech/password-strength-bundle.svg)](https://packagist.org/packages/nowo-tech/password-strength-bundle) [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE) [![PHP](https://img.shields.io/badge/PHP-8.2%2B-777BB4?logo=php)](https://php.net) [![Symfony](https://img.shields.io/badge/Symfony-7.4%2B%20%7C%208.0%20%7C%208.1%2B-000000?logo=symfony)](https://symfony.com) [![GitHub stars](https://img.shields.io/github/stars/nowo-tech/password-strength-bundle.svg?style=social&label=Star)](https://github.com/nowo-tech/PasswordStrengthBundle) [![Coverage](https://img.shields.io/badge/Coverage-99.16%25%20PHP%20%7C%2090%25%20TS-brightgreen)](#tests-and-coverage)
+[![CI](https://github.com/nowo-tech/PasswordStrengthBundle/actions/workflows/ci.yml/badge.svg)](https://github.com/nowo-tech/PasswordStrengthBundle/actions/workflows/ci.yml) [![Packagist Version](https://img.shields.io/packagist/v/nowo-tech/password-strength-bundle.svg?style=flat)](https://packagist.org/packages/nowo-tech/password-strength-bundle) [![Packagist Downloads](https://img.shields.io/packagist/dt/nowo-tech/password-strength-bundle.svg)](https://packagist.org/packages/nowo-tech/password-strength-bundle) [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE) [![PHP](https://img.shields.io/badge/PHP-8.2%2B-777BB4?logo=php)](https://php.net) [![Symfony](https://img.shields.io/badge/Symfony-7.4%2B%20%7C%208.0%20%7C%208.1%2B-000000?logo=symfony)](https://symfony.com) [![GitHub stars](https://img.shields.io/github/stars/nowo-tech/password-strength-bundle.svg?style=social&label=Star)](https://github.com/nowo-tech/PasswordStrengthBundle) [![Coverage](https://img.shields.io/badge/Coverage-99.31%25%20PHP%20%7C%2096.75%25%20TS-brightgreen)](#tests-and-coverage)
 
 > ⭐ **Found this useful?** Give it a **star** on [GitHub](https://github.com/nowo-tech/PasswordStrengthBundle) so more developers can find it.
 
@@ -140,6 +140,8 @@ use Nowo\PasswordStrengthBundle\Validator\PasswordStrength;
 public ?string $plainPassword = null;
 ```
 
+`PasswordStrengthType` attaches this constraint itself (`enforce: true`, default), so a field rendered with the form type is validated server-side without the attribute; use the attribute for entities / DTOs that do not go through the form type (not both, or failures are reported twice). Add `NotBlank` and `NotCompromisedPassword` as needed — see [Server-side enforcement](docs/USAGE.md#server-side-enforcement-enforce) and [SECURITY](docs/SECURITY.md#recommended-host-setup).
+
 ### Available condition keys
 
 | Key | Type | Description |
@@ -233,8 +235,8 @@ make -C demo/symfony8 demo-screenshots   # refreshes docs/images/demo/*.webp
 
 | Language | Coverage (measured) |
 |----------|-------------------|
-| PHP | **99.16%** lines (`make coverage-check`, gate ≥99%) |
-| TypeScript | **100%** lines, 95.33% min of statements/branches/functions/lines (`make test-ts`) |
+| PHP | **99.31%** lines (`make coverage-check`, gate ≥99%) |
+| TypeScript | **100%** lines, 96.75% min of statements/branches/functions/lines (`make test-ts`) |
 | Python | N/A |
 
 ```bash

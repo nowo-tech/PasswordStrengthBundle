@@ -1,13 +1,30 @@
 import type { PasswordConditionsConfig } from './types';
 
 /**
- * Escape characters for use inside a RegExp character class.
+ * Escape a character set for use inside `[...]` (mirror of PasswordPatternBuilder::escapeForCharClass()).
+ *
+ * Every syntax character, `-` and `/`, and the class-set punctuators that the `v` flag reserves when doubled are
+ * escaped, so the result is valid in a plain RegExp, in PCRE and in the HTML `pattern` attribute (compiled with `v`).
+ * Without escaping `-`, the default set `…+-=…` would form the range `+`..`=` and accept digits as special characters.
  *
  * @param value Raw special-character set from configuration.
  * @returns Escaped string safe for `[...]`.
  */
-function escapeForCharClass(value: string): string {
-  return value.replace(/[\\^$.*+?()[\]{}|]/g, '\\$&');
+export function escapeForCharClass(value: string): string {
+  return value.replace(/[\\^$.*+?()[\]{}|/\-&!#%,:;<=>@`~]/g, '\\$&');
+}
+
+/**
+ * Escape a literal fragment for use outside a character class (mirror of PasswordPatternBuilder::escapeLiteral()).
+ *
+ * Only syntax characters and `/` are escaped: other identity escapes (e.g. `\-`, `\!`) are invalid in the `u`/`v`
+ * modes used for the HTML `pattern` attribute.
+ *
+ * @param value Raw fragment.
+ * @returns Escaped fragment.
+ */
+export function escapeLiteral(value: string): string {
+  return value.replace(/[\\^$.*+?()[\]{}|/]/g, '\\$&');
 }
 
 /**
@@ -37,7 +54,7 @@ export function buildPasswordPattern(conditions: PasswordConditionsConfig): stri
   }
   for (const fragment of conditions.not_contain ?? []) {
     if (fragment) {
-      lookaheads.push(`(?!.*${fragment.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`);
+      lookaheads.push(`(?!.*${escapeLiteral(fragment)})`);
     }
   }
 

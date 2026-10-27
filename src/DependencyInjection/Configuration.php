@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Nowo\PasswordStrengthBundle\DependencyInjection;
 
+use Nowo\PasswordStrengthBundle\Model\PasswordConditions;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
@@ -28,7 +29,7 @@ final class Configuration implements ConfigurationInterface
     public const DEFAULT_PROFILE = 'medium';
 
     /**
-     * Built-in profiles, always available (a configured profile with the same name replaces one).
+     * Built-in profiles, always available (a configured profile with the same name is merged onto one).
      *
      * @var array<string, array<string, bool|int>>
      */
@@ -130,7 +131,7 @@ final class Configuration implements ConfigurationInterface
                     ->info('Parent form type FQCN. null = auto: Symfony PasswordType, or PasswordToggleBundle PasswordType when installed and use_password_toggle is true.')
                 ->end()
                 ->arrayNode('profiles')
-                    ->info('Named condition profiles for policy_mode: level (REQ-CFG-001). The built-in weak, medium and strong profiles are always available; an entry with the same name overrides one. Every key is validated (REQ-SF-006).')
+                    ->info('Named condition profiles for policy_mode: level (REQ-CFG-001). The built-in weak, medium and strong profiles are always available; an entry with the same name is merged onto it. Every profile needs at least one rule. Every key is validated (REQ-SF-006).')
                     ->useAttributeAsKey('name')
                     ->arrayPrototype()
                         ->children()
@@ -160,8 +161,16 @@ final class Configuration implements ConfigurationInterface
             ->validate()
                 ->always(static function (array $v): array {
                     /** @var array<string, array<string, mixed>> $profiles */
-                    $profiles      = is_array($v['profiles'] ?? null) ? $v['profiles'] : [];
-                    $v['profiles'] = array_replace(self::BUILTIN_PROFILES, $profiles);
+                    $profiles = is_array($v['profiles'] ?? null) ? $v['profiles'] : [];
+                    $merged   = self::BUILTIN_PROFILES;
+                    foreach ($profiles as $name => $profile) {
+                        // A profile named like a built-in one is merged onto it: only the keys you set change.
+                        $merged[$name] = array_replace(self::BUILTIN_PROFILES[$name] ?? [], $profile);
+                        if (!PasswordConditions::fromArray($merged[$name])->hasRules()) {
+                            throw new InvalidConfigurationException(sprintf('nowo_password_strength.profiles.%s holds no rule (min_length, max_length, require_*, disallow_whitespace, not_contain, min_unique_chars or regex): such a profile would accept every password.', $name));
+                        }
+                    }
+                    $v['profiles'] = $merged;
 
                     return $v;
                 })

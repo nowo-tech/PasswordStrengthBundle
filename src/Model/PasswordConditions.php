@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Nowo\PasswordStrengthBundle\Model;
 
+use function array_diff;
+use function array_keys;
+use function array_values;
 use function is_array;
 use function is_int;
 use function is_string;
@@ -13,6 +16,18 @@ use function is_string;
  */
 final readonly class PasswordConditions
 {
+    /**
+     * Every condition key accepted in profiles and inline `conditions` (short aliases included).
+     *
+     * @var list<string>
+     */
+    public const KNOWN_KEYS = [
+        'min_length', 'max_length',
+        'require_lowercase', 'require_uppercase', 'require_digit', 'require_special',
+        'special_chars', 'disallow_whitespace', 'not_contain', 'min_unique_chars', 'regex', 'regex_message',
+        'lowercase', 'uppercase', 'digit', 'special', 'no_whitespace',
+    ];
+
     /**
      * @param list<string> $notContain
      */
@@ -30,6 +45,36 @@ final readonly class PasswordConditions
         public ?string $regexMessage = null,
         public int $minUniqueChars = 0,
     ) {
+    }
+
+    /**
+     * Keys of $data that are not condition keys (typos such as `min_lenght`).
+     *
+     * @param array<array-key, mixed> $data
+     *
+     * @return list<array-key>
+     */
+    public static function unknownKeys(array $data): array
+    {
+        return array_values(array_diff(array_keys($data), self::KNOWN_KEYS));
+    }
+
+    /**
+     * Whether at least one rule is active. A policy without rules accepts every password, so profiles and inline
+     * `conditions` must never resolve to one (`special_chars` / `regex_message` alone are not rules).
+     */
+    public function hasRules(): bool
+    {
+        return $this->minLength > 0
+            || $this->maxLength !== null
+            || $this->requireLowercase
+            || $this->requireUppercase
+            || $this->requireDigit
+            || $this->requireSpecial
+            || $this->disallowWhitespace
+            || $this->notContain !== []
+            || $this->regex !== null
+            || $this->minUniqueChars > 0;
     }
 
     /**

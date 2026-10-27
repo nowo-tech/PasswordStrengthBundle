@@ -94,17 +94,27 @@ function buildPools(conditions: ReturnType<typeof normalizeConditions>): {
 }
 
 /**
+ * Minimum length of generated passwords (unless the policy's `max_length` is lower).
+ */
+export const GENERATOR_MIN_LENGTH = 16;
+
+/**
  * Resolve target password length from conditions.
+ *
+ * At least {@link GENERATOR_MIN_LENGTH} characters (or the policy minimum / unique-character count when higher),
+ * capped by `max_length` when the policy sets one below that floor.
  *
  * @param conditions Normalized policy.
  * @returns Length for generated password.
  */
 function resolveLength(conditions: ReturnType<typeof normalizeConditions>): number {
-  const min = Math.max(conditions.min_length ?? 8, 8);
   const max = conditions.max_length ?? null;
-  const floor = Math.max(min, conditions.min_unique_chars ?? 0, 1);
+  const floor = Math.max(conditions.min_length ?? 0, conditions.min_unique_chars ?? 0, GENERATOR_MIN_LENGTH);
 
-  if (max !== null && max > 0 && max >= floor) {
+  if (max !== null && max > 0) {
+    if (max < floor) {
+      return max;
+    }
     const span = max - floor + 1;
     return floor + randomIndex(span);
   }

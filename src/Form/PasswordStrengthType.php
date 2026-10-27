@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Nowo\PasswordStrengthBundle\Form;
 
+use InvalidArgumentException;
 use Nowo\PasswordStrengthBundle\Integration\PasswordToggleIntegration;
 use Nowo\PasswordStrengthBundle\Model\FeedbackPosition;
 use Nowo\PasswordStrengthBundle\Model\GeneratorMode;
@@ -12,16 +13,21 @@ use Nowo\PasswordStrengthBundle\Model\RequirementResult;
 use Nowo\PasswordStrengthBundle\Service\PasswordPatternBuilder;
 use Nowo\PasswordStrengthBundle\Service\PasswordStrengthEvaluator;
 use Nowo\PasswordStrengthBundle\Service\PolicyResolver;
+use Nowo\PasswordStrengthBundle\Validator\PasswordStrength;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType as SymfonyPasswordType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+use function implode;
+use function is_array;
 use function is_string;
 use function json_encode;
+use function sprintf;
 
 use const JSON_THROW_ON_ERROR;
 use const JSON_UNESCAPED_UNICODE;
@@ -29,7 +35,9 @@ use const JSON_UNESCAPED_UNICODE;
 /**
  * Password form type with configurable strength policy and live feedback.
  *
- * When PasswordToggleBundle is installed, extends its PasswordType for show/hide toggle.
+ * When PasswordToggleBundle is installed, extends its PasswordType for show/hide toggle. With `enforce` (default true)
+ * the field also carries the {@see PasswordStrength} constraint for the same policy, so a submit that bypasses the
+ * browser checks is still rejected server-side.
  *
  * @extends AbstractType<string>
  */
@@ -146,8 +154,50 @@ final class PasswordStrengthType extends AbstractType
             'translation_domain'    => 'NowoPasswordStrengthBundle',
             'ui_translation_domain' => $this->defaultUiTranslationDomain,
             'always_empty'          => true,
-            'trim'                  => true,
+            // Like Symfony's PasswordType: leading/trailing spaces are part of the password (was true before).
+            'trim' => false,
+            // Attach the PasswordStrength constraint built from policy_mode / level / conditions.
+            'enforce' => true,
         ]);
+
+        $resolver->setAllowedTypes('enforce', 'bool');
+        $resolver->setNormalizer('level', function (Options $options, string $level): string {
+            if (!$this->policyResolver->hasProfile($level)) {
+                throw new InvalidOptionsException(sprintf('The option "level" names an unknown password strength profile "%s" (available: %s).', $level, implode(', ', $this->policyResolver->profileNames())));
+            }
+
+            return $level;
+        });
+        $resolver->setNormalizer('conditions', static function (Options $options, ?array $conditions): ?array {
+            if ($options['policy_mode'] !== PolicyMode::Conditions->value) {
+                return $conditions;
+            }
+
+            try {
+                PolicyResolver::inlineConditions($conditions);
+            } catch (InvalidArgumentException $e) {
+                throw new InvalidOptionsException(sprintf('The option "conditions" is invalid: %s', $e->getMessage()), 0, $e);
+            }
+
+            return $conditions;
+        });
+        if ($resolver->isDefined('constraints')) {
+            // Server-side enforcement: the same policy the widget shows, checked on submit (NotBlank stays separate).
+            $resolver->addNormalizer('constraints', static function (Options $options, mixed $constraints): mixed {
+                if ($options['enforce'] !== true) {
+                    return $constraints;
+                }
+
+                $constraints   = is_array($constraints) ? $constraints : ($constraints === null ? [] : [$constraints]);
+                $constraints[] = new PasswordStrength(
+                    policyMode: $options['policy_mode'] === PolicyMode::Conditions->value ? 'conditions' : 'level',
+                    level: (string) $options['level'],
+                    conditions: $options['conditions'],
+                );
+
+                return $constraints;
+            });
+        }
 
         $resolver->setAllowedValues('policy_mode', [PolicyMode::Level->value, PolicyMode::Conditions->value]);
         $resolver->setAllowedValues('feedback_position', [null, FeedbackPosition::Above->value, FeedbackPosition::Below->value]);

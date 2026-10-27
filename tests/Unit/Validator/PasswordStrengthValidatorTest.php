@@ -9,6 +9,7 @@ use Nowo\PasswordStrengthBundle\Service\PasswordStrengthEvaluator;
 use Nowo\PasswordStrengthBundle\Service\PolicyResolver;
 use Nowo\PasswordStrengthBundle\Validator\PasswordStrength;
 use Nowo\PasswordStrengthBundle\Validator\PasswordStrengthValidator;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Translation\Loader\YamlFileLoader;
 use Symfony\Component\Translation\Translator;
@@ -158,5 +159,43 @@ final class PasswordStrengthValidatorTest extends TestCase
 
         $this->validator->initialize($context);
         $this->validator->validate('short', $constraint);
+    }
+
+    /**
+     * @return iterable<string, array{PasswordStrength, string}>
+     */
+    public static function misconfiguredConstraintProvider(): iterable
+    {
+        yield 'unknown level' => [new PasswordStrength(level: 'strnog'), 'Unknown password strength profile "strnog"'];
+        yield 'conditions mode without conditions' => [new PasswordStrength(policyMode: 'conditions'), 'requires a non-empty "conditions" array'];
+        yield 'inline conditions without rules' => [new PasswordStrength(policyMode: 'conditions', conditions: ['special_chars' => '!']), 'hold no rule'];
+        yield 'unknown inline key' => [new PasswordStrength(policyMode: 'conditions', conditions: ['min_lenght' => 12]), 'Unknown password condition key(s) "min_lenght"'];
+    }
+
+    #[DataProvider('misconfiguredConstraintProvider')]
+    public function testMisconfiguredConstraintThrowsInsteadOfWeakening(PasswordStrength $constraint, string $message): void
+    {
+        $this->validator->initialize($this->createStub(ExecutionContextInterface::class));
+
+        $this->expectException(ConstraintDefinitionException::class);
+        $this->expectExceptionMessage($message);
+        $this->validator->validate('whatever-Value-1', $constraint);
+    }
+
+    public function testValueOverTheByteCapIsAViolation(): void
+    {
+        $builder = $this->createMock(ConstraintViolationBuilderInterface::class);
+        $builder->method('setParameter')->willReturnCallback(static function (string $key, string $value) use ($builder): ConstraintViolationBuilderInterface {
+            self::assertSame('max_length', $value);
+
+            return $builder;
+        });
+        $builder->expects(self::once())->method('addViolation');
+
+        $context = $this->createMock(ExecutionContextInterface::class);
+        $context->expects(self::once())->method('buildViolation')->willReturn($builder);
+
+        $this->validator->initialize($context);
+        $this->validator->validate(str_repeat('a1', PasswordStrengthEvaluator::MAX_BYTES), new PasswordStrength(level: 'medium'));
     }
 }

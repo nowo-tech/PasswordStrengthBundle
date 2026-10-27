@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Nowo\PasswordStrengthBundle\Form\PasswordStrengthType;
-use Nowo\PasswordStrengthBundle\Validator\PasswordStrength;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormInterface;
@@ -176,22 +175,9 @@ final class PasswordDemoController extends AbstractController
      */
     private function createDemoForm(array $passwordOptions): FormInterface
     {
-        $constraints = [new NotBlank()];
-        $policyMode  = (string) ($passwordOptions['policy_mode'] ?? 'level');
-
-        if ($policyMode === 'conditions') {
-            $constraints[] = new PasswordStrength(
-                policyMode: 'conditions',
-                conditions: $passwordOptions['conditions'] ?? [],
-            );
-        } else {
-            $constraints[] = new PasswordStrength(
-                policyMode: 'level',
-                level: (string) ($passwordOptions['level'] ?? 'medium'),
-            );
-        }
-
-        $passwordOptions['constraints'] = $constraints;
+        // PasswordStrengthType attaches the PasswordStrength constraint for its own policy (enforce: true);
+        // the demo only adds NotBlank (the strength constraint accepts empty values).
+        $passwordOptions['constraints'] = [new NotBlank()];
         // Row wrapper used by the demo layout (the template renders the form through the child loop, REQ-TWIG-003)
         $passwordOptions['row_attr'] ??= ['class' => 'mb-3'];
 
