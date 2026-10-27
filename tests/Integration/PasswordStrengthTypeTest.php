@@ -10,6 +10,9 @@ use Nowo\PasswordStrengthBundle\Model\PolicyMode;
 use Nowo\PasswordStrengthBundle\Service\PasswordPatternBuilder;
 use Nowo\PasswordStrengthBundle\Service\PasswordStrengthEvaluator;
 use Nowo\PasswordStrengthBundle\Service\PolicyResolver;
+use Nowo\PasswordStrengthBundle\Validator\PasswordStrength;
+use Nowo\PasswordStrengthBundle\Validator\PasswordStrengthValidator;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -17,6 +20,8 @@ use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\Forms;
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\ConstraintValidatorFactory;
 use Symfony\Component\Validator\Validation;
 
 use const JSON_THROW_ON_ERROR;
@@ -209,7 +214,7 @@ final class PasswordStrengthTypeTest extends TestCase
     public function testDefaultGeneratorModeFromConstructor(): void
     {
         $type = new PasswordStrengthType(
-            new PolicyResolver([]),
+            new PolicyResolver(),
             new PasswordStrengthEvaluator(new PasswordPatternBuilder()),
             new PasswordPatternBuilder(),
             defaultGeneratorMode: 'input',
@@ -259,7 +264,7 @@ final class PasswordStrengthTypeTest extends TestCase
     public function testBlockPrefixAndParent(): void
     {
         $type = new PasswordStrengthType(
-            new PolicyResolver([]),
+            new PolicyResolver(),
             new PasswordStrengthEvaluator(new PasswordPatternBuilder()),
             new PasswordPatternBuilder(),
             parentFormType: PasswordType::class,
@@ -276,7 +281,7 @@ final class PasswordStrengthTypeTest extends TestCase
         }
 
         $type = new PasswordStrengthType(
-            new PolicyResolver([]),
+            new PolicyResolver(),
             new PasswordStrengthEvaluator(new PasswordPatternBuilder()),
             new PasswordPatternBuilder(),
             parentFormType: PasswordToggleIntegration::TOGGLE_PASSWORD_TYPE,
@@ -304,7 +309,7 @@ final class PasswordStrengthTypeTest extends TestCase
         }
 
         $type = new PasswordStrengthType(
-            new PolicyResolver([]),
+            new PolicyResolver(),
             new PasswordStrengthEvaluator(new PasswordPatternBuilder()),
             new PasswordPatternBuilder(),
             parentFormType: PasswordToggleIntegration::TOGGLE_PASSWORD_TYPE,
@@ -323,5 +328,119 @@ final class PasswordStrengthTypeTest extends TestCase
             ->getForm();
 
         self::assertTrue($form->get('password')->getConfig()->getOption('toggle'));
+    }
+
+    private function enforcingFactory(): FormFactoryInterface
+    {
+        $resolver  = new PolicyResolver(['medium' => ['min_length' => 8, 'require_digit' => true], 'strong' => ['min_length' => 12]]);
+        $evaluator = new PasswordStrengthEvaluator(new PasswordPatternBuilder());
+        $validator = Validation::createValidatorBuilder()
+            ->setConstraintValidatorFactory(new ConstraintValidatorFactory([
+                PasswordStrengthValidator::class => new PasswordStrengthValidator($resolver, $evaluator),
+            ]))
+            ->getValidator();
+
+        return Forms::createFormFactoryBuilder()
+            ->addExtension(new ValidatorExtension($validator))
+            ->addType(new PasswordStrengthType($resolver, $evaluator, new PasswordPatternBuilder(), parentFormType: PasswordType::class))
+            ->getFormFactory();
+    }
+
+    public function testEnforceAttachesThePolicyConstraintAndRejectsAWeakSubmit(): void
+    {
+        $form = $this->enforcingFactory()->create(PasswordStrengthType::class, null, ['level' => 'medium']);
+
+        $constraints = $form->getConfig()->getOption('constraints');
+        self::assertCount(1, $constraints);
+        self::assertInstanceOf(PasswordStrength::class, $constraints[0]);
+        self::assertSame('level', $constraints[0]->policyMode);
+        self::assertSame('medium', $constraints[0]->level);
+
+        $form->submit('weak');
+        self::assertFalse($form->isValid());
+        self::assertCount(1, $form->getErrors());
+
+        $ok = $this->enforcingFactory()->create(PasswordStrengthType::class, null, ['level' => 'medium']);
+        $ok->submit('long-enough-1');
+        self::assertTrue($ok->isValid());
+    }
+
+    public function testEnforceUsesInlineConditionsAndKeepsHostConstraints(): void
+    {
+        $form = $this->enforcingFactory()->create(PasswordStrengthType::class, null, [
+            'policy_mode' => 'conditions',
+            'conditions'  => ['min_length' => 20],
+            'constraints' => new NotBlank(),
+        ]);
+
+        $constraints = $form->getConfig()->getOption('constraints');
+        self::assertCount(2, $constraints);
+        self::assertInstanceOf(NotBlank::class, $constraints[0]);
+        self::assertSame(['min_length' => 20], $constraints[1]->conditions);
+
+        $form->submit('only-sixteen-chr');
+        self::assertFalse($form->isValid());
+    }
+
+    public function testEnforceFalseLeavesTheConstraintsUntouched(): void
+    {
+        $form = $this->enforcingFactory()->create(PasswordStrengthType::class, null, ['enforce' => false]);
+
+        self::assertSame([], $form->getConfig()->getOption('constraints'));
+        $form->submit('weak');
+        self::assertTrue($form->isValid());
+    }
+
+    public function testEnforceIsSkippedWithoutTheValidatorExtension(): void
+    {
+        $form = Forms::createFormFactoryBuilder()
+            ->addType(new PasswordStrengthType(new PolicyResolver(), new PasswordStrengthEvaluator(new PasswordPatternBuilder()), new PasswordPatternBuilder(), parentFormType: PasswordType::class))
+            ->getFormFactory()
+            ->create(PasswordStrengthType::class);
+
+        self::assertFalse($form->getConfig()->hasOption('constraints'));
+    }
+
+    public function testSurroundingSpacesAreKeptLikeSymfonyPasswordType(): void
+    {
+        $form = $this->enforcingFactory()->create(PasswordStrengthType::class, null, ['enforce' => false]);
+        $form->submit('  spaced  ');
+
+        self::assertSame('  spaced  ', $form->getData());
+    }
+
+    public function testUnknownLevelIsRejected(): void
+    {
+        $this->expectException(InvalidOptionsException::class);
+        $this->expectExceptionMessage('unknown password strength profile "strnog" (available: medium, strong)');
+        $this->enforcingFactory()->create(PasswordStrengthType::class, null, ['level' => 'strnog']);
+    }
+
+    /**
+     * @return iterable<string, array{array<string, mixed>|null, string}>
+     */
+    public static function invalidInlineConditionsProvider(): iterable
+    {
+        yield 'missing' => [null, 'requires a non-empty "conditions" array'];
+        yield 'no rule' => [['special_chars' => '!'], 'hold no rule'];
+        yield 'typo' => [['min_lenght' => 12], 'Unknown password condition key(s) "min_lenght"'];
+    }
+
+    /**
+     * @param array<string, mixed>|null $conditions
+     */
+    #[DataProvider('invalidInlineConditionsProvider')]
+    public function testInvalidInlineConditionsAreRejected(?array $conditions, string $message): void
+    {
+        $this->expectException(InvalidOptionsException::class);
+        $this->expectExceptionMessage($message);
+        $this->enforcingFactory()->create(PasswordStrengthType::class, null, ['policy_mode' => 'conditions', 'conditions' => $conditions]);
+    }
+
+    public function testConditionsAreIgnoredInLevelMode(): void
+    {
+        $form = $this->enforcingFactory()->create(PasswordStrengthType::class, null, ['conditions' => ['min_lenght' => 1]]);
+
+        self::assertSame(['min_lenght' => 1], $form->getConfig()->getOption('conditions'));
     }
 }

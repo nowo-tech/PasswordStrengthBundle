@@ -112,20 +112,23 @@ As an integrator, I select a form theme matching Bootstrap, Foundation, Tailwind
 ### Form type
 
 - **FR-FORM-001**: `PasswordStrengthType` MUST resolve policy via `PolicyResolver`, expose pattern/conditions/generator vars to Twig, extend resolved parent type (Symfony or toggle PasswordType).
+- **FR-FORM-002**: With `enforce` (default `true`) and the validator form extension present, `PasswordStrengthType` MUST append a `PasswordStrength` constraint built from its `policy_mode` / `level` / `conditions` to the host `constraints`; an unknown `level` or invalid inline `conditions` MUST raise `InvalidOptionsException`. `trim` MUST default to `false`.
 - **FR-INT-001**: `ParentFormTypeResolver` MUST choose parent FQCN from config, toggle availability, and `use_password_toggle` flag.
 - **FR-INT-002**: `PasswordToggleIntegration` MUST detect toggle form type class and expose helper for Twig/TS.
 
 ### Policy engine (PHP)
 
 - **FR-POL-001**: `PolicyResolver` MUST merge `PolicyMode::Level` presets or `PolicyMode::Conditions` inline rules into `PasswordConditions`.
+- **FR-POL-002**: `PolicyResolver` MUST throw (never fall back) on an unknown profile name and on inline conditions that are missing, carry unknown keys or hold no rule; `Configuration` MUST reject profiles without rules and merge profiles named like a built-in onto it.
 - **FR-EVAL-001**: `PasswordStrengthEvaluator` MUST evaluate min length, character classes, and return `EvaluationResult` with `missing` labels.
+- **FR-EVAL-002**: Values over 4096 bytes MUST be reported as `max_length` before any rule or regex runs (PHP and TypeScript).
 - **FR-PAT-001**: `PasswordPatternBuilder` (PHP) MUST emit HTML5-compatible pattern string from conditions.
 - **FR-MODEL-001**–**FR-MODEL-006**: Model enums/DTOs (`EvaluationResult`, `FeedbackPosition`, `GeneratorMode`, `PasswordConditions`, `PolicyMode`, `RequirementResult`) MUST type policy state shared by PHP and TS.
 
 ### Validation
 
 - **FR-VAL-001**: `PasswordStrength` constraint MUST carry `policyMode`, `level`, `conditions`, `message`.
-- **FR-VAL-002**: `PasswordStrengthValidator` MUST reuse resolver + evaluator and build violation with missing requirements list.
+- **FR-VAL-002**: `PasswordStrengthValidator` MUST reuse resolver + evaluator and build violation with missing requirements list; a misconfigured constraint (unknown level, invalid inline conditions) MUST raise `ConstraintDefinitionException`.
 
 ### FrankenPHP worker
 
@@ -141,8 +144,8 @@ As an integrator, I select a form theme matching Bootstrap, Foundation, Tailwind
 - **FR-UI-004**: `types.ts` MUST define config, labels, and framework types shared across modules.
 - **FR-UI-005**: `logger.ts` MUST provide namespaced debug logger with test hook.
 - **FR-UI-006**: Base styles MUST ship as `public/password-strength.css` (copied from `assets/css/password-strength.css` by the build); when the page links it (detected through the `--nowo-password-strength-css` marker) the script MUST NOT inject a `<style>` element, so a nonce-based `style-src` CSP has nothing to block.
-- **FR-GEN-001**: `password-generator.ts` MUST generate passwords satisfying active `PasswordConditions`.
-- **FR-PAT-002**: `password-pattern-builder.ts` MUST build client-side pattern consistent with PHP builder.
+- **FR-GEN-001**: `password-generator.ts` MUST generate passwords satisfying active `PasswordConditions`, at least 16 characters long unless `max_length` is lower.
+- **FR-PAT-002**: `password-pattern-builder.ts` MUST build client-side pattern consistent with PHP builder: identical escaping (`escapeForCharClass` / `escapeLiteral`, valid under the HTML `pattern` `v` flag), checked by the shared vectors in `tests/Fixtures/password-vectors.json` (PHPUnit + Vitest).
 - **FR-LEGACY-001**: Committed `password-strength.js` MUST remain loadable without Vite build for downstream consumers.
 
 ### Twig themes
@@ -161,7 +164,7 @@ As an integrator, I select a form theme matching Bootstrap, Foundation, Tailwind
 
 ## Success Criteria
 
-- **SC-001**: **62/62** files under `src/` mapped in [`code-inventory.md`](code-inventory.md).
+- **SC-001**: **63/63** files under `src/` mapped in [`code-inventory.md`](code-inventory.md).
 - **SC-002**: Config keys match `Configuration.php` and `docs/CONFIGURATION.md`.
 - **SC-003**: PHPUnit + PHPStan + Vitest pass (`make release-check`).
 - **SC-004**: PHP and TS evaluators agree on valid/invalid passwords for shared fixtures.

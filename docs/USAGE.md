@@ -8,6 +8,7 @@
 - [Policy modes](#policy-modes)
   - [Level (preset)](#level-preset)
   - [Inline conditions](#inline-conditions)
+- [Server-side enforcement (`enforce`)](#server-side-enforcement-enforce)
 - [Validator constraint](#validator-constraint)
 - [Generator](#generator)
 - [Feedback position](#feedback-position)
@@ -58,7 +59,7 @@ $builder->add('password', PasswordStrengthType::class, [
 ]);
 ```
 
-`level` names a profile from `nowo_password_strength.profiles`; omitted, `null` or unknown names use `default_profile`. See [Profiles](CONFIGURATION.md#profiles).
+`level` names a profile from `nowo_password_strength.profiles`; omitted or `null` uses `default_profile`, an unknown name throws an `InvalidOptionsException`. See [Profiles](CONFIGURATION.md#profiles).
 
 ### Inline conditions
 
@@ -76,9 +77,33 @@ $builder->add('password', PasswordStrengthType::class, [
 ]);
 ```
 
+Inline `conditions` must use known keys (typos such as `min_lenght` throw) and hold at least one rule.
+
+## Server-side enforcement (`enforce`)
+
+By default (`enforce: true`) the field carries the `PasswordStrength` constraint built from its own `policy_mode` / `level` / `conditions`, so a submit that bypasses the browser checks is rejected server-side. Your own `constraints` are kept.
+
+```php
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\NotCompromisedPassword;
+
+$builder->add('plainPassword', PasswordStrengthType::class, [
+    'level' => 'strong',
+    'mapped' => false,
+    'constraints' => [new NotBlank(), new NotCompromisedPassword()], // PasswordStrength is added for you
+]);
+```
+
+- **Entity constraint as well?** If the mapped property already has `#[PasswordStrength]`, set `'enforce' => false` (or drop the attribute): with both, every failure is reported twice.
+- **Custom `validation_groups`:** the attached constraint is in the `Default` group. If the form validates other groups only, set `'enforce' => false` and add `new PasswordStrength(level: 'strong', groups: ['registration'])` to `constraints`.
+- `PasswordStrength` accepts an empty value: add `NotBlank` when the password is required, and `NotCompromisedPassword` for account passwords.
+- Values over **4096 bytes** are always rejected (`max_length`), before any rule runs.
+- `trim` defaults to `false` (like Symfony's `PasswordType`): surrounding spaces are part of the password.
+- The conditions are serialized into the widget for live feedback: do not put secrets in `not_contain` or `regex`.
+
 ## Validator constraint
 
-Use on entity or DTO for server-side validation (recommended alongside the form type):
+Use on an entity or DTO (for example when the password does not go through `PasswordStrengthType`, or for API input). With the form type, `enforce` already attaches it — use one or the other:
 
 ```php
 use Nowo\PasswordStrengthBundle\Validator\PasswordStrength;

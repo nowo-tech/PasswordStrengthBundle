@@ -9,7 +9,7 @@ use Nowo\PasswordStrengthBundle\Model\PasswordConditions;
 use function count;
 use function implode;
 use function preg_match;
-use function preg_quote;
+use function preg_replace;
 use function str_replace;
 
 /**
@@ -31,14 +31,13 @@ final readonly class PasswordPatternBuilder
             $lookaheads[] = '(?=.*\d)';
         }
         if ($conditions->requireSpecial) {
-            $escaped      = preg_quote($conditions->specialChars, '/');
-            $lookaheads[] = '(?=.*[' . $escaped . '])';
+            $lookaheads[] = '(?=.*[' . self::escapeForCharClass($conditions->specialChars) . '])';
         }
         if ($conditions->disallowWhitespace) {
             $lookaheads[] = '(?!.*\s)';
         }
         foreach ($conditions->notContain as $fragment) {
-            $lookaheads[] = '(?!.*' . preg_quote($fragment, '/') . ')';
+            $lookaheads[] = '(?!.*' . self::escapeLiteral($fragment) . ')';
         }
         // min_unique_chars has no portable lookahead form; it is enforced by the evaluators (PHP + TS).
 
@@ -64,6 +63,27 @@ final readonly class PasswordPatternBuilder
         }
 
         return $pattern;
+    }
+
+    /**
+     * Escapes a character set for use inside `[...]`, identically to `escapeForCharClass()` in
+     * password-pattern-builder.ts. The result is valid in PCRE (`/…/u`), in JavaScript RegExp and in the browser's
+     * HTML `pattern` attribute (compiled with the `v` flag): every syntax character, `-` and `/`, and the
+     * class-set punctuators that `v` reserves when doubled are escaped.
+     */
+    public static function escapeForCharClass(string $chars): string
+    {
+        return (string) preg_replace('/[\\\\^$.*+?()\[\]{}|\/\-&!#%,:;<=>@`~]/u', '\\\\$0', $chars);
+    }
+
+    /**
+     * Escapes a literal fragment for use outside a character class (mirror of `escapeLiteral()` in TS). Only syntax
+     * characters and `/` are escaped: escaping anything else (e.g. `\-`, `\!`) is invalid in the `u`/`v` modes the
+     * browser uses for HTML `pattern`.
+     */
+    public static function escapeLiteral(string $fragment): string
+    {
+        return (string) preg_replace('/[\\\\^$.*+?()\[\]{}|\/]/u', '\\\\$0', $fragment);
     }
 
     /**
