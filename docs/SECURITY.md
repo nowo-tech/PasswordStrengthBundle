@@ -76,7 +76,7 @@ Before tagging a release, confirm:
 | **Dependencies** | `composer audit` run in CI / locally. |
 | **Logging** | No password values in bundle logs. |
 | **Cryptography** | Generator uses secure random APIs in the browser only. |
-| **REQ-SEC-004 (AI audit)** | **Pass (good)** — risk **Low**, re-audit 2026-10-27 (v2.9.0); see [AI security audit](#ai-security-audit) and monorepo `BUNDLES_SECURITY_ANALYSIS.md` (Appendix AI). |
+| **REQ-SEC-004 (AI audit)** | **Pass (good)** — risk **Low**, re-audit 2026-10-27 (v2.9.0, fixes verified for 2.10.0); see [AI security audit](#ai-security-audit) and monorepo `BUNDLES_SECURITY_ANALYSIS.md` (Appendix AI). |
 
 Record confirmation in the release PR or tag notes.
 
@@ -84,14 +84,14 @@ Record confirmation in the release PR or tag notes.
 
 | Field | Value |
 | ----- | ----- |
-| Latest audit | 2026-10-27 (re-audit of v2.9.0) |
+| Latest audit | 2026-10-27 (re-audit of v2.9.0; fixes verified in PR #66, head `001f917`, released as 2.10.0) |
 | Method | Independent Claude Code security review (static: `src/`, configuration tree, form type, validator, Twig themes, TypeScript, security docs) |
 | Grade | **Pass (good)** |
 | Risk | Low |
 | Record | `BUNDLES_SECURITY_ANALYSIS.md` (Nowo bundles monorepo), REQ-SEC-004 table, Appendix AI |
-| Residual | The policy is client-visible by design (no secrets in `not_contain` / `regex`); with custom `validation_groups` the attached constraint needs the `Default` group (see [Recommended host setup](#recommended-host-setup)); breached-password checks are the host's job (`NotCompromisedPassword`); a custom `regex` from configuration is trusted (no ReDoS analysis, bounded by the 4096-byte cap) |
+| Residual | The policy is client-visible by design (no secrets in `not_contain` / `regex`); with custom `validation_groups` the attached constraint needs the `Default` group (see [Recommended host setup](#recommended-host-setup)); breached-password checks are the host's job (`NotCompromisedPassword`); a custom `regex` from configuration is trusted (no ReDoS analysis, bounded by the 4096-byte cap); the HTML `pattern` uses escapes that need the browser's `v` flag — older browsers (Chrome < 112, Firefox < 116, Safari < 17) ignore it, the script and the server still enforce |
 
-### Findings (2026-10-27)
+### Findings (2026-10-27, all fixed in 2.10.0, PR #66)
 
 | Id | Severity | Finding | Status |
 | -- | -------- | ------- | ------ |
