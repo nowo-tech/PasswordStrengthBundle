@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Table of contents
 
 - [[Unreleased]](#unreleased)
+- [[2.10.0] - 2026-10-27](#2100---2026-10-27)
 - [[2.9.0] - 2026-10-27](#290---2026-10-27)
 - [[2.8.1] - 2026-10-25](#281---2026-10-25)
 - [[2.8.0] - 2026-10-23](#280---2026-10-23)
@@ -36,6 +37,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [[1.0.0] - 2026-07-03](#100---2026-07-03)
 
 ## [Unreleased]
+
+## [2.10.0] - 2026-10-27
+
+SEC-004 hardening: form type enforces the constraint (enforce), fail-loud policy resolution, 4096-byte cap, shared PHP/TS escaping, trim false, generator >= 16 See [UPGRADING](UPGRADING.md#to-2100).
 
 Security hardening from the 2026-10-27 REQ-SEC-004 re-audit (Pass (good) / Low): server-side enforcement by default and no silent policy weakening. Hosts may need small changes — see [UPGRADING](UPGRADING.md#unreleased).
 
@@ -365,7 +370,7 @@ First stable release of **Password Strength Bundle**.
 - PHP >= 8.1, < 8.6
 - Symfony ^6.0 || ^7.0 || ^8.0
 
-[Unreleased]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v2.9.0...HEAD
+[Unreleased]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v2.10.0...HEAD
 [2.7.0]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v2.6.0...v2.7.0
 [2.6.0]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v2.5.4...v2.6.0
 [2.5.4]: https://github.com/nowo-tech/PasswordStrengthBundle/compare/v2.5.3...v2.5.4

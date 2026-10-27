@@ -3,6 +3,7 @@
 ## Table of contents
 
 - [Unreleased](#unreleased)
+- [To 2.10.0](#to-2100)
 - [To 2.9.0](#to-290)
 - [To 2.8.1](#to-281)
 - [To 2.8.0](#to-280)
@@ -35,6 +36,14 @@
   - [Twig-CS-Fixer (maintainers)](#twig-cs-fixer-maintainers)
 
 ## Unreleased
+
+## To 2.10.0
+
+From **2.9.0**:
+
+```bash
+composer update nowo-tech/password-strength-bundle
+```
 
 Security hardening (REQ-SEC-004 re-audit 2026-10-27). Check these points:
 
