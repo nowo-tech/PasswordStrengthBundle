@@ -64,7 +64,7 @@ final class SharedVectorsTest extends TestCase
         $vectors = self::fixture()['vectors'];
         foreach ($vectors as $vector) {
             foreach ($vector['cases'] as $i => $case) {
-                $password = isset($case['repeat']) ? str_repeat((string) $case['repeat'], (int) $case['times']) : (string) $case['password'];
+                $password = isset($case['repeat']) ? str_repeat((string) $case['repeat'], (int) $case['times']) : (string) $case['value'];
                 /** @var list<string> $missing */
                 $missing = $case['missing'];
 

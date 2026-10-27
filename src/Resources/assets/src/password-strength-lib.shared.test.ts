@@ -9,7 +9,7 @@ import type { PasswordConditionsConfig } from './types';
  * Shared PHP/TypeScript vectors (tests/Fixtures/password-vectors.json, also run by SharedVectorsTest.php).
  */
 interface VectorCase {
-  password?: string;
+  value?: string;
   repeat?: string;
   times?: number;
   valid: boolean;
@@ -46,7 +46,7 @@ describe('shared policy vectors', () => {
 
     vector.cases.forEach((c, i) => {
       it(`evaluates like PHP: ${vector.name} #${i}`, () => {
-        const password = c.repeat !== undefined ? c.repeat.repeat(c.times ?? 0) : (c.password ?? '');
+        const password = c.repeat !== undefined ? c.repeat.repeat(c.times ?? 0) : (c.value ?? '');
         const result = evaluatePassword(password, vector.conditions);
         expect(result.valid).toBe(c.valid);
         expect(result.missing).toEqual(c.missing);
