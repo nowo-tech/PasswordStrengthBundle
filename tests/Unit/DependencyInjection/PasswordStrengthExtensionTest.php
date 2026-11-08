@@ -30,8 +30,12 @@ final class PasswordStrengthExtensionTest extends TestCase
             'use_password_toggle'   => false,
             'csp_nonce_attribute'   => ' app_nonce ',
             'ui_translation_domain' => 'NowoPasswordStrengthBundle',
+            'ui_classes'            => ['button_primary' => 'btn btn--primary', 'requirement_met' => 'is-met'],
             'profiles'              => ['admin' => ['min_length' => 16]],
         ]], $container);
+
+        self::assertSame(['button_primary' => 'btn btn--primary', 'requirement_met' => 'is-met'], $container->getParameter('nowo_password_strength.ui_classes'));
+        self::assertSame('%nowo_password_strength.ui_classes%', $container->getDefinition(PasswordStrengthType::class)->getArgument('$defaultUiClasses'));
 
         self::assertSame('NowoPasswordStrengthBundle', $container->getParameter('nowo_password_strength.ui_translation_domain'));
         self::assertSame('%nowo_password_strength.ui_translation_domain%', $container->getDefinition(PasswordStrengthType::class)->getArgument('$defaultUiTranslationDomain'));

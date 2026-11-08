@@ -37,6 +37,17 @@
 
 ## Unreleased
 
+No action required: without tokens or `ui_classes` the widget and the generator render as in 2.10.
+
+Hosts that restyle the generator with `!important` (the base `<style>` is injected after the host stylesheet, and the
+`tailwind2` / `bootstrap*` presets add their own button and colour utilities) can move to:
+
+- tokens on `:root` for what the base stylesheet sets (overlay, modal background / radius / width / shadow / padding,
+  title, hint, list margin, item gap / alignment / spacing, code box, actions gap): see
+  [USAGE — Styling](USAGE.md#styling-tokens-and-classes);
+- `ui_classes` for the preset classes (Generate, Use, Copy / Close buttons, requirement met / unmet, list, feedback);
+- plain rules (no `!important`) for the rest.
+
 ## To 2.10.0
 
 From **2.9.0**:
