@@ -11,6 +11,8 @@ use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
+use function is_string;
+
 /**
  * Loads bundle configuration, services, and prepends the form theme.
  */
@@ -53,6 +55,7 @@ final class PasswordStrengthExtension extends Extension implements PrependExtens
         $container->setParameter(Configuration::ALIAS . '.generator_count', $config['generator_count'] ?? 3);
         $container->setParameter(Configuration::ALIAS . '.use_password_toggle', $config['use_password_toggle'] ?? true);
         $container->setParameter(Configuration::ALIAS . '.ui_translation_domain', $config['ui_translation_domain'] ?? null);
+        $container->setParameter(Configuration::ALIAS . '.ui_classes', array_filter($config['ui_classes'] ?? [], is_string(...)));
         $container->setParameter(Configuration::ALIAS . '.csp_nonce_attribute', trim((string) ($config['csp_nonce_attribute'] ?? 'csp_nonce')));
 
         $resolvedParent = ParentFormTypeResolver::resolve(

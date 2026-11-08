@@ -26,6 +26,7 @@ nowo_password_strength:
   use_password_toggle: true
   csp_nonce_attribute: csp_nonce   # request attribute with the CSP nonce; '' disables (2.6+)
   ui_translation_domain: null      # domain of the widget copy; null = the field translation_domain (2.8+)
+  ui_classes: {}                   # 2.11: class strings replacing the ui_framework preset ones (see below)
   # parent_form_type: ~   # null = auto-detect parent PasswordType
   profiles:                        # weak / medium / strong are built in; list only the ones you add or override
     weak:
@@ -57,6 +58,7 @@ nowo_password_strength:
 | `use_password_toggle` | bool | `true` | Use PasswordToggleBundle parent when installed. |
 | `parent_form_type` | string \| null | `null` | Force parent form type FQCN; `null` = auto. |
 | `ui_translation_domain` | string\|null | `null` | (2.8+) Translation domain of the widget copy (requirements, generator, toggle labels) — also a form option. `null` = the field `translation_domain` (default `NowoPasswordStrengthBundle`). Set `NowoPasswordStrengthBundle` when your forms translate labels in another domain (e.g. FormKit's `form`), instead of overriding the widget. |
+| `ui_classes` | map | all `null` | (2.11) Class strings that replace the `ui_framework` preset ones, also a form option (a field value replaces the whole map). Keys: `generate_button` (Twig, the *Generate* button after `password-strength-generate-btn`), `button_primary` (*Use*), `button_secondary` (*Copy*, *Close*), `requirement_met`, `requirement_unmet`, `requirements_list`, `feedback` (live feedback wrapper), `alert` (wrapper above the field while a rule is unmet). Each value replaces the whole preset string: keep the `password-strength-*` classes you style. Unset keys keep the preset, so the default output is unchanged. |
 | `csp_nonce_attribute` | string | `csp_nonce` | (2.6+) Request attribute holding the per-request CSP nonce (nowo-tech convention, set by HttpHardeningBundle / UiKit hosts). The form type reads it on every render (current request, then main request; nothing kept between requests) and stamps it as `data-nonce` on `<nowo-password-strength>` and `data-password-strength-nonce` on the input, so `password-strength.js` nonces the base `<style>` it injects — also when a host theme copies the widget block. `''` disables. |
 | `profiles` | map | weak/medium/strong | (formerly `levels`) Named condition profiles for `policy_mode: level`. See [Profiles](#profiles). |
 

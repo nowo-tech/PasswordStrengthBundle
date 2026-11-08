@@ -164,7 +164,7 @@ export function initPasswordStrengthContainer(root: HTMLElement): void {
     input.getAttribute('data-password-strength-generator-count') ?? config.generatorCount ?? 3,
   );
 
-  const classes = FRAMEWORK_CLASSES[config.uiFramework] ?? FRAMEWORK_CLASSES.default;
+  const classes = { ...(FRAMEWORK_CLASSES[config.uiFramework] ?? FRAMEWORK_CLASSES.default), ...config.uiClasses };
 
   let feedbackHost =
     field.querySelector<HTMLElement>('[data-password-strength-feedback]') ??

@@ -38,6 +38,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `ui_classes` (bundle config and form option): class strings that replace the `ui_framework` preset ones for the
+  Generate button, the generator modal buttons, the requirement items and list, the feedback wrapper and the alert.
+  Unset keys keep the preset; the widget payload only carries `uiClasses` when one is set, so default markup is
+  unchanged.
+- Host tokens in `password-strength.css` (`--nowo-password-strength-*`: overlay, modal box, title, hint, list, item,
+  code, actions, row gap), never declared and read with the earlier values as fallbacks, so hosts restyle the
+  generator without `!important`. See [USAGE — Styling](USAGE.md#styling-tokens-and-classes).
+
 ## [2.10.0] - 2026-10-27
 
 SEC-004 hardening: form type enforces the constraint (enforce), fail-loud policy resolution, 4096-byte cap, shared PHP/TS escaping, trim false, generator >= 16 See [UPGRADING](UPGRADING.md#to-2100).

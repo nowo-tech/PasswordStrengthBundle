@@ -13,6 +13,7 @@
 - [Generator](#generator)
 - [Feedback position](#feedback-position)
 - [HTML pattern](#html-pattern)
+- [Styling: tokens and classes](#styling-tokens-and-classes)
 - [Overriding bundle templates (REQ-TWIG-001)](#overriding-bundle-templates-req-twig-001)
 - [Translation overrides (REQ-I18N-001)](#translation-overrides-req-i18n-001)
 - [Screenshots](#screenshots)
@@ -145,6 +146,53 @@ $builder->add('password', PasswordStrengthType::class, [
 ## HTML pattern
 
 The widget sets `pattern` on the input from the active policy. Browsers may use it for native validation; **always rely on the `PasswordStrength` validator** for authoritative checks.
+
+## Styling: tokens and classes
+
+2.11. The base stylesheet (`password-strength.css`, linked or injected) reads host tokens instead of fixed values, so a
+host restyles the generator modal and the input row without out-ranking it with `!important`. The tokens are never
+declared by the bundle (set them on `:root` or a parent); each falls back to the earlier value.
+
+| Token | Fallback | Where |
+| --- | --- | --- |
+| `--nowo-password-strength-row-gap` | `.5rem` | Input row (field + Generate) |
+| `--nowo-password-strength-modal-z-index` | `1050` | Generator overlay |
+| `--nowo-password-strength-overlay` / `-overlay-padding` | `rgba(0,0,0,.45)` / `1rem` | Generator overlay |
+| `--nowo-password-strength-modal-bg` / `-modal-radius` / `-modal-max-width` / `-modal-shadow` / `-modal-padding` | `#fff` / `.5rem` / `32rem` / `0 .5rem 1rem rgba(0,0,0,.15)` / `1.25rem` | Modal box |
+| `--nowo-password-strength-modal-title-size` / `-modal-title-margin` | `1.125rem` / `0 0 .5rem` | Modal title |
+| `--nowo-password-strength-modal-hint-margin` / `-modal-hint-color` / `-modal-hint-size` | `0 0 .5rem` / `#6c757d` / `.9rem` | Hint under the title |
+| `--nowo-password-strength-modal-list-margin` | `1rem 0` | Suggestions list |
+| `--nowo-password-strength-modal-item-gap` / `-modal-item-align` / `-modal-item-spacing` | `.5rem` / `center` / `.5rem` | One suggestion (code + buttons) |
+| `--nowo-password-strength-code-basis` / `-code-padding` / `-code-bg` / `-code-radius` / `-code-size` | `12rem` / `.35rem .5rem` / `#f8f9fa` / `.25rem` / `.95rem` | Suggested password |
+| `--nowo-password-strength-modal-actions-gap` / `-modal-actions-margin-top` | `.5rem` / `1rem` | Close row |
+
+Properties the base stylesheet does not set (the modal `color` and `border`, an item's border and background, the
+actions' border) are plain host rules. Buttons and requirement colours come from the `ui_framework` preset classes
+(Tailwind's `bg-blue-600`, Bootstrap's `btn-primary`); replace them with [`ui_classes`](CONFIGURATION.md) instead of
+fighting them in CSS.
+
+With UiKit (dark mode follows its tokens):
+
+```css
+:root {
+  --nowo-password-strength-overlay: var(--nowo-ui-overlay, rgba(0, 0, 0, 0.45));
+  --nowo-password-strength-modal-bg: var(--nowo-ui-surface, #fff);
+  --nowo-password-strength-modal-radius: var(--nowo-ui-modal-radius, 0.5rem);
+  --nowo-password-strength-modal-shadow: var(--nowo-ui-shadow-dialog, 0 0.5rem 1rem rgba(0, 0, 0, 0.15));
+  --nowo-password-strength-code-bg: var(--nowo-ui-surface-muted, #f8f9fa);
+  --nowo-password-strength-code-radius: var(--nowo-ui-radius, 0.25rem);
+}
+```
+
+```yaml
+nowo_password_strength:
+    ui_classes:
+        generate_button: nowo-ui-btn nowo-ui-btn--outline
+        button_primary: nowo-ui-btn nowo-ui-btn--primary nowo-ui-btn--sm
+        button_secondary: nowo-ui-btn nowo-ui-btn--outline nowo-ui-btn--sm
+        requirement_met: password-strength-requirement password-strength-requirement--met
+        requirement_unmet: password-strength-requirement password-strength-requirement--unmet
+```
 
 ## Overriding bundle templates (REQ-TWIG-001)
 

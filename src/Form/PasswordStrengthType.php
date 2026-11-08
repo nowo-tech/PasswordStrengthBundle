@@ -23,6 +23,8 @@ use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+use function array_diff;
+use function array_keys;
 use function implode;
 use function is_array;
 use function is_string;
@@ -44,7 +46,24 @@ use const JSON_UNESCAPED_UNICODE;
 final class PasswordStrengthType extends AbstractType
 {
     /**
+     * 2.11: `ui_classes` keys and the password-strength.js preset key each one replaces (null: Twig only).
+     *
+     * @var array<string, string|null>
+     */
+    public const UI_CLASS_KEYS = [
+        'generate_button'   => null,
+        'button_primary'    => 'btnPrimary',
+        'button_secondary'  => 'btnSecondary',
+        'requirement_met'   => 'itemMet',
+        'requirement_unmet' => 'itemUnmet',
+        'requirements_list' => 'list',
+        'feedback'          => 'wrapper',
+        'alert'             => 'alert',
+    ];
+
+    /**
      * @param class-string<AbstractType<mixed>> $parentFormType
+     * @param array<string, string> $defaultUiClasses 2.11: `ui_classes` (keys of {@see self::UI_CLASS_KEYS})
      */
     public function __construct(
         private readonly PolicyResolver $policyResolver,
@@ -61,6 +80,7 @@ final class PasswordStrengthType extends AbstractType
         private readonly ?RequestStack $requestStack = null,
         private readonly string $cspNonceAttribute = 'csp_nonce',
         private readonly ?string $defaultUiTranslationDomain = null,
+        private readonly array $defaultUiClasses = [],
     ) {
     }
 
@@ -114,6 +134,18 @@ final class PasswordStrengthType extends AbstractType
             'passwordToggleAvailable' => PasswordToggleIntegration::isToggleFormType($this->parentFormType),
         ];
 
+        // 2.11: only when set, so the default payload (and the rendered attribute) stays as before.
+        $view->vars['ui_classes'] = $options['ui_classes'];
+        $jsClasses                = [];
+        foreach ($options['ui_classes'] as $key => $classes) {
+            if (self::UI_CLASS_KEYS[$key] !== null) {
+                $jsClasses[self::UI_CLASS_KEYS[$key]] = $classes;
+            }
+        }
+        if ($jsClasses !== []) {
+            $payload['uiClasses'] = $jsClasses;
+        }
+
         $json = json_encode($payload, JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE);
 
         $view->vars['attr'] ??= [];
@@ -153,6 +185,7 @@ final class PasswordStrengthType extends AbstractType
             'use_password_toggle'   => $this->defaultUsePasswordToggle,
             'translation_domain'    => 'NowoPasswordStrengthBundle',
             'ui_translation_domain' => $this->defaultUiTranslationDomain,
+            'ui_classes'            => $this->defaultUiClasses,
             'always_empty'          => true,
             // Like Symfony's PasswordType: leading/trailing spaces are part of the password (was true before).
             'trim' => false,
@@ -205,6 +238,15 @@ final class PasswordStrengthType extends AbstractType
         $resolver->setAllowedTypes('level', ['string']);
         $resolver->setAllowedTypes('ui_framework', ['string']);
         $resolver->setAllowedTypes('ui_translation_domain', ['null', 'string']);
+        $resolver->setAllowedTypes('ui_classes', 'string[]');
+        $resolver->setNormalizer('ui_classes', static function (Options $options, array $classes): array {
+            $unknown = array_diff(array_keys($classes), array_keys(self::UI_CLASS_KEYS));
+            if ($unknown !== []) {
+                throw new InvalidOptionsException(sprintf('The option "ui_classes" has unknown keys "%s" (allowed: %s).', implode('", "', $unknown), implode(', ', array_keys(self::UI_CLASS_KEYS))));
+            }
+
+            return $classes;
+        });
         $resolver->setAllowedTypes('use_password_toggle', 'bool');
         $resolver->setAllowedValues('generator_mode', [null, GeneratorMode::Off->value, GeneratorMode::Input->value, GeneratorMode::Modal->value]);
         $resolver->setAllowedTypes('generator_count', ['null', 'int']);

@@ -29,6 +29,7 @@ services:
       $requestStack: '@?request_stack'
       $cspNonceAttribute: '%nowo_password_strength.csp_nonce_attribute%'
       $defaultUiTranslationDomain: '%nowo_password_strength.ui_translation_domain%'
+      $defaultUiClasses: '%nowo_password_strength.ui_classes%'
     tags:
       - { name: form.type }
 

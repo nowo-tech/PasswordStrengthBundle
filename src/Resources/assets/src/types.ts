@@ -65,4 +65,6 @@ export interface PasswordStrengthConfig {
   generatorMode: GeneratorMode;
   generatorCount: number;
   labels: PasswordStrengthLabels;
+  /** 2.11: class strings from `ui_classes` that replace the preset ones (absent when none is set). */
+  uiClasses?: Partial<Record<'wrapper' | 'list' | 'itemMet' | 'itemUnmet' | 'alert' | 'btnPrimary' | 'btnSecondary', string>>;
 }

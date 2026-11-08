@@ -28,6 +28,7 @@ final class ConfigurationTest extends TestCase
         self::assertArrayNotHasKey('levels', $config);
         self::assertArrayNotHasKey('default_level', $config);
         self::assertSame('csp_nonce', $config['csp_nonce_attribute']);
+        self::assertSame(['generate_button' => null, 'button_primary' => null, 'button_secondary' => null, 'requirement_met' => null, 'requirement_unmet' => null, 'requirements_list' => null, 'feedback' => null, 'alert' => null], $config['ui_classes']);
     }
 
     public function testCspNonceAttributeCanBeRenamedOrDisabled(): void
