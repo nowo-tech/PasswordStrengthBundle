@@ -39,6 +39,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Documentation
+
+- USAGE: new section "Using it from a DDD / hexagonal application" (where the bundle sits in a hexagonal host, the ports, events and DTOs to build an anti-corruption layer on, and the known limitations).
+
 ## [2.11.0] - 2026-11-08
 
 `ui_classes` and `--nowo-password-strength-*` tokens, so hosts restyle the meter and generator without `!important` (Beacon override E10 / PS-1). Audit: Appendix IL, Pass.
