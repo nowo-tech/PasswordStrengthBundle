@@ -18,6 +18,7 @@
 - [Translation overrides (REQ-I18N-001)](#translation-overrides-req-i18n-001)
 - [Screenshots](#screenshots)
 - [Demo routes](#demo-routes)
+- [Using it from a DDD / hexagonal application](#using-it-from-a-ddd--hexagonal-application)
 - [Related bundles](#related-bundles)
 
 ## Screenshots
@@ -265,6 +266,53 @@ See [DEMO-FRANKENPHP.md](DEMO-FRANKENPHP.md). Examples:
 - `/en/demo/level` — level presets
 - `/en/demo/conditions` — inline conditions
 - `/en/demo/plain` — Symfony `PasswordType` comparison
+
+## Using it from a DDD / hexagonal application
+
+The bundle is a **presentation** component (form field, live feedback, generator) with a stateless rules engine
+behind it. It has no entities, no Doctrine mapping and no events; the domain never needs to know it exists.
+
+- Put `PasswordStrengthType` (or `#[PasswordStrength]`) on a form DTO or command such as `RegisterUser::$plainPassword`,
+  not on your `User` entity. If the constraint must live with the domain class, declare it in external validator
+  mapping (`config/validator/*.yaml` or XML) so the domain class carries no Symfony attribute.
+- If your domain has its own password-policy port, implement it with the bundle's evaluator; it only takes and
+  returns plain values:
+
+```php
+namespace App\Infrastructure\Security;
+
+use App\Domain\User\PasswordPolicy;                 // your port
+use Nowo\PasswordStrengthBundle\Model\PasswordConditions;
+use Nowo\PasswordStrengthBundle\Model\PolicyMode;
+use Nowo\PasswordStrengthBundle\Service\PasswordStrengthEvaluator;
+use Nowo\PasswordStrengthBundle\Service\PolicyResolver;
+
+final class NowoPasswordPolicy implements PasswordPolicy
+{
+    public function __construct(
+        private PolicyResolver $policies,
+        private PasswordStrengthEvaluator $evaluator,
+    ) {}
+
+    /** @return list<string> condition keys not met (for example `min_length`), empty when acceptable */
+    public function violations(string $plainPassword): array
+    {
+        $conditions = $this->policies->resolve(PolicyMode::Level, ['level' => 'strong']);
+
+        return $this->evaluator->evaluate($plainPassword, $conditions)->missing;
+    }
+}
+```
+
+- A policy stored in your own database can be turned into `PasswordConditions::fromArray([...])` by your adapter and
+  passed to the evaluator, or to the field as inline `conditions`.
+
+Known limitations:
+
+- Named profiles (`level`) come from `nowo_password_strength.profiles` only; there is no provider interface for
+  profiles stored elsewhere yet.
+- `PasswordStrengthEvaluator` and `PolicyResolver` are final classes without interfaces; keep them behind your own port.
+- The conditions are serialized into the widget, so do not put secrets in `not_contain` or `regex`.
 
 ## Related bundles
 
