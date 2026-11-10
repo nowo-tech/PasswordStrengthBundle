@@ -11,10 +11,19 @@ services:
       - '../../PasswordStrengthBundle.php'
       - '../../Model/'
 
+  Nowo\PasswordStrengthBundle\Profile\ConfigPasswordProfileProvider:
+    arguments:
+      $levels: '%nowo_password_strength.profiles%'
+
+  # Port for the named profiles (policy_mode: level). Override this alias to serve profiles from your own store.
+  Nowo\PasswordStrengthBundle\Profile\PasswordProfileProviderInterface:
+    alias: Nowo\PasswordStrengthBundle\Profile\ConfigPasswordProfileProvider
+
   Nowo\PasswordStrengthBundle\Service\PolicyResolver:
     arguments:
       $levels: '%nowo_password_strength.profiles%'
       $defaultLevel: '%nowo_password_strength.default_profile%'
+      $profiles: '@Nowo\PasswordStrengthBundle\Profile\PasswordProfileProviderInterface'
 
   Nowo\PasswordStrengthBundle\Form\PasswordStrengthType:
     arguments:

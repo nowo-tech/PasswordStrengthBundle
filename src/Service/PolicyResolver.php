@@ -8,8 +8,9 @@ use InvalidArgumentException;
 use Nowo\PasswordStrengthBundle\DependencyInjection\Configuration;
 use Nowo\PasswordStrengthBundle\Model\PasswordConditions;
 use Nowo\PasswordStrengthBundle\Model\PolicyMode;
+use Nowo\PasswordStrengthBundle\Profile\ConfigPasswordProfileProvider;
+use Nowo\PasswordStrengthBundle\Profile\PasswordProfileProviderInterface;
 
-use function array_keys;
 use function array_map;
 use function implode;
 use function is_array;
@@ -17,7 +18,9 @@ use function is_string;
 use function sprintf;
 
 /**
- * Resolves effective password conditions from the configured profiles (REQ-CFG-001) or inline field options.
+ * Resolves effective password conditions from the named profiles (REQ-CFG-001) or inline field options.
+ *
+ * Named profiles come from {@see PasswordProfileProviderInterface}; the default provider reads the bundle configuration.
  *
  * The `level` form / constraint option names a profile; omitted or null uses the default profile. A policy is never
  * weakened silently: an unknown profile name, inline conditions that are missing, carry unknown keys or hold no rule
@@ -26,14 +29,21 @@ use function sprintf;
  */
 final readonly class PolicyResolver
 {
+    private PasswordProfileProviderInterface $profiles;
+
     /**
-     * @param array<string, array<string, mixed>> $levels Profiles map (`nowo_password_strength.profiles`)
+     * @param array<string, array<string, mixed>> $levels Profiles map (`nowo_password_strength.profiles`); used only
+     *                                                    when no profile provider is given
      * @param string $defaultLevel Default profile name (`nowo_password_strength.default_profile`)
+     * @param PasswordProfileProviderInterface|null $profiles Source of the named profiles (the container passes the
+     *                                                        `PasswordProfileProviderInterface` alias)
      */
     public function __construct(
-        private array $levels = Configuration::BUILTIN_PROFILES,
+        array $levels = Configuration::BUILTIN_PROFILES,
         private string $defaultLevel = Configuration::DEFAULT_PROFILE,
+        ?PasswordProfileProviderInterface $profiles = null,
     ) {
+        $this->profiles = $profiles ?? new ConfigPasswordProfileProvider($levels);
     }
 
     /**
@@ -48,14 +58,14 @@ final readonly class PolicyResolver
         }
 
         $levelName = is_string($options['level'] ?? null) ? $options['level'] : $this->defaultLevel;
-        $levelData = $this->profile($levelName);
 
-        return PasswordConditions::fromArray(is_array($levelData['conditions'] ?? null) ? $levelData['conditions'] : $levelData);
+        return $this->profiles->get($levelName)
+            ?? throw new InvalidArgumentException(sprintf('Unknown password strength profile "%s" (available: %s).', $levelName, implode(', ', $this->profileNames())));
     }
 
     public function hasProfile(string $name): bool
     {
-        return isset($this->levels[$name]);
+        return $this->profiles->get($name) instanceof PasswordConditions;
     }
 
     /**
@@ -63,7 +73,7 @@ final readonly class PolicyResolver
      */
     public function profileNames(): array
     {
-        return array_map(strval(...), array_keys($this->levels));
+        return $this->profiles->names();
     }
 
     /**
@@ -89,19 +99,5 @@ final readonly class PolicyResolver
         }
 
         return $resolved;
-    }
-
-    /**
-     * @throws InvalidArgumentException
-     *
-     * @return array<string, mixed>
-     */
-    private function profile(string $name): array
-    {
-        if (!isset($this->levels[$name])) {
-            throw new InvalidArgumentException(sprintf('Unknown password strength profile "%s" (available: %s).', $name, implode(', ', $this->profileNames())));
-        }
-
-        return $this->levels[$name];
     }
 }

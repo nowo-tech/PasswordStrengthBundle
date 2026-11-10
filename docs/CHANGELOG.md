@@ -39,6 +39,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+Target 2.12.0. See [UPGRADING](UPGRADING.md#to-2120).
+
+### Added
+
+- `PasswordProfileProviderInterface` (`get(string $name): ?PasswordConditions`, `names(): list<string>`): the port
+  `PolicyResolver` reads named profiles (`level`) from. The default `ConfigPasswordProfileProvider` serves
+  `nowo_password_strength.profiles` as before; override the alias to serve profiles from your own store (database,
+  per tenant). `PolicyResolver` takes the provider as an optional third constructor argument.
+
 ### Documentation
 
 - USAGE: new section "Using it from a DDD / hexagonal application" (where the bundle sits in a hexagonal host, the ports, events and DTOs to build an anti-corruption layer on, and the known limitations).

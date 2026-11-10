@@ -304,13 +304,48 @@ final class NowoPasswordPolicy implements PasswordPolicy
 }
 ```
 
-- A policy stored in your own database can be turned into `PasswordConditions::fromArray([...])` by your adapter and
-  passed to the evaluator, or to the field as inline `conditions`.
+- Named profiles stored in your own database (per tenant, admin-editable) plug in through
+  `Nowo\PasswordStrengthBundle\Profile\PasswordProfileProviderInterface`. The default provider
+  (`ConfigPasswordProfileProvider`) reads `nowo_password_strength.profiles`; override the alias and `level` /
+  `default_profile` resolve against your store, for the form field and the constraint alike:
+
+```php
+namespace App\Infrastructure\Security;
+
+use App\Domain\Tenant\PasswordRulesRepository;    // your port
+use Nowo\PasswordStrengthBundle\Model\PasswordConditions;
+use Nowo\PasswordStrengthBundle\Profile\PasswordProfileProviderInterface;
+
+final class TenantPasswordProfiles implements PasswordProfileProviderInterface
+{
+    public function __construct(private PasswordRulesRepository $rules) {}
+
+    public function get(string $name): ?PasswordConditions
+    {
+        $rules = $this->rules->forCurrentTenant($name); // e.g. ['min_length' => 14, 'require_digit' => true]
+
+        return null === $rules ? null : PasswordConditions::fromArray($rules);
+    }
+
+    public function names(): array
+    {
+        return $this->rules->profileNamesForCurrentTenant();
+    }
+}
+```
+
+```yaml
+# config/services.yaml
+services:
+    Nowo\PasswordStrengthBundle\Profile\PasswordProfileProviderInterface: '@App\Infrastructure\Security\TenantPasswordProfiles'
+```
+
+  Keep `get()` cheap (it runs on every form build and validation) and make sure the profile named by
+  `default_profile` exists in your store. A one-off policy can still be built with `PasswordConditions::fromArray([...])`
+  and passed to the evaluator, or to the field as inline `conditions`.
 
 Known limitations:
 
-- Named profiles (`level`) come from `nowo_password_strength.profiles` only; there is no provider interface for
-  profiles stored elsewhere yet.
 - `PasswordStrengthEvaluator` and `PolicyResolver` are final classes without interfaces; keep them behind your own port.
 - The conditions are serialized into the widget, so do not put secrets in `not_contain` or `regex`.
 

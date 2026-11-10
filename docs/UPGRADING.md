@@ -3,6 +3,7 @@
 ## Table of contents
 
 - [Unreleased](#unreleased)
+- [To 2.12.0](#to-2120)
 - [To 2.11.0](#to-2110)
 - [To 2.10.0](#to-2100)
 - [To 2.9.0](#to-290)
@@ -37,6 +38,23 @@
   - [Twig-CS-Fixer (maintainers)](#twig-cs-fixer-maintainers)
 
 ## Unreleased
+
+## To 2.12.0
+
+From **2.11.0**:
+
+```bash
+composer update nowo-tech/password-strength-bundle
+```
+
+No action required: the named profiles still come from `nowo_password_strength.profiles`, with the same errors for
+an unknown `level`.
+
+- `PolicyResolver` now reads profiles through `Nowo\PasswordStrengthBundle\Profile\PasswordProfileProviderInterface`
+  (default alias: `ConfigPasswordProfileProvider`). `new PolicyResolver($profiles, $defaultProfile)` keeps working; a
+  third argument takes a provider, and then the `$profiles` array is not used.
+- To serve profiles from your own store, implement the interface and override its alias (see USAGE, "Using it from
+  a DDD / hexagonal application").
 
 ## To 2.11.0
 
