@@ -39,6 +39,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+Target 2.12.0. See [UPGRADING](UPGRADING.md#to-2120).
+
+### Added
+
+- `PasswordProfileProviderInterface` (`get(string $name): ?PasswordConditions`, `names(): list<string>`): the port
+  `PolicyResolver` reads named profiles (`level`) from. The default `ConfigPasswordProfileProvider` serves
+  `nowo_password_strength.profiles` as before; override the alias to serve profiles from your own store (database,
+  per tenant). `PolicyResolver` takes the provider as an optional third constructor argument.
+- A named profile that holds no rule is refused when it is resolved (audit KK-P-M1): `PolicyResolver::resolve()`
+  throws `InvalidArgumentException`, the form type an `InvalidOptionsException` (option `level`), the constraint a
+  `ConstraintDefinitionException`. Configured profiles were already checked at compile time; this covers a host
+  provider's result (an empty row, `new PasswordConditions()`, a key typo that `fromArray()` drops).
+
 ### Documentation
 
 - USAGE: new section "Using it from a DDD / hexagonal application" (where the bundle sits in a hexagonal host, the ports, events and DTOs to build an anti-corruption layer on, and the known limitations).

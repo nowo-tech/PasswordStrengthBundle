@@ -199,6 +199,15 @@ final class PasswordStrengthType extends AbstractType
                 throw new InvalidOptionsException(sprintf('The option "level" names an unknown password strength profile "%s" (available: %s).', $level, implode(', ', $this->policyResolver->profileNames())));
             }
 
+            if ($options['policy_mode'] === PolicyMode::Level->value) {
+                try {
+                    // A profile from a host provider may hold no rule: refuse the field instead of accepting any password.
+                    $this->policyResolver->resolve(PolicyMode::Level, ['level' => $level]);
+                } catch (InvalidArgumentException $e) {
+                    throw new InvalidOptionsException(sprintf('The option "level" is invalid: %s', $e->getMessage()), 0, $e);
+                }
+            }
+
             return $level;
         });
         $resolver->setNormalizer('conditions', static function (Options $options, ?array $conditions): ?array {
