@@ -23,8 +23,8 @@ use function sprintf;
  * Named profiles come from {@see PasswordProfileProviderInterface}; the default provider reads the bundle configuration.
  *
  * The `level` form / constraint option names a profile; omitted or null uses the default profile. A policy is never
- * weakened silently: an unknown profile name, inline conditions that are missing, carry unknown keys or hold no rule
- * throw an {@see InvalidArgumentException} (the form type reports it as an invalid option, the validator as a
+ * weakened silently: an unknown profile name, a profile that holds no rule, inline conditions that are missing, carry
+ * unknown keys or hold no rule throw an {@see InvalidArgumentException} (the form type reports it as an invalid option, the validator as a
  * constraint definition error).
  */
 final readonly class PolicyResolver
@@ -59,8 +59,16 @@ final readonly class PolicyResolver
 
         $levelName = is_string($options['level'] ?? null) ? $options['level'] : $this->defaultLevel;
 
-        return $this->profiles->get($levelName)
+        $conditions = $this->profiles->get($levelName)
             ?? throw new InvalidArgumentException(sprintf('Unknown password strength profile "%s" (available: %s).', $levelName, implode(', ', $this->profileNames())));
+
+        // The configured map is checked at compile time; a provider's profile (an empty row, a typo in a key that
+        // fromArray() drops) is checked here, so a profile never silently accepts every password.
+        if (!$conditions->hasRules()) {
+            throw new InvalidArgumentException(sprintf('The password strength profile "%s" holds no rule (e.g. min_length, require_digit): such a policy would accept every password.', $levelName));
+        }
+
+        return $conditions;
     }
 
     public function hasProfile(string $name): bool

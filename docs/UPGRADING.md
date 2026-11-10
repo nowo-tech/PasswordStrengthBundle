@@ -55,6 +55,11 @@ an unknown `level`.
   third argument takes a provider, and then the `$profiles` array is not used.
 - To serve profiles from your own store, implement the interface and override its alias (see USAGE, "Using it from
   a DDD / hexagonal application").
+- A profile with no rule is refused when resolved (form: `InvalidOptionsException`, constraint:
+  `ConstraintDefinitionException`). Configured profiles already fail at compile time, so this only affects a
+  provider, or a `PolicyResolver` you build by hand with a ruleless profile array.
+- With your own provider, `default_profile` must still name a configured or built-in profile (compile-time check)
+  and your provider must serve it.
 
 ## To 2.11.0
 

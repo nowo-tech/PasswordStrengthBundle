@@ -322,9 +322,20 @@ final class TenantPasswordProfiles implements PasswordProfileProviderInterface
 
     public function get(string $name): ?PasswordConditions
     {
+        // Read the tenant on every call (request-scoped source); never keep it in a property: the provider is a
+        // shared service, and in a worker (FrankenPHP, RoadRunner) a cached tenant would serve its policy to others.
         $rules = $this->rules->forCurrentTenant($name); // e.g. ['min_length' => 14, 'require_digit' => true]
+        if (null === $rules) {
+            return null;
+        }
 
-        return null === $rules ? null : PasswordConditions::fromArray($rules);
+        // fromArray() ignores unknown keys: refuse a typo ('minLength') instead of silently dropping the rule.
+        $unknown = PasswordConditions::unknownKeys($rules);
+        if ([] !== $unknown) {
+            throw new \UnexpectedValueException(sprintf('Unknown password rule key(s) "%s" in profile "%s".', implode('", "', $unknown), $name));
+        }
+
+        return PasswordConditions::fromArray($rules);
     }
 
     public function names(): array
@@ -340,8 +351,12 @@ services:
     Nowo\PasswordStrengthBundle\Profile\PasswordProfileProviderInterface: '@App\Infrastructure\Security\TenantPasswordProfiles'
 ```
 
-  Keep `get()` cheap (it runs on every form build and validation) and make sure the profile named by
-  `default_profile` exists in your store. A one-off policy can still be built with `PasswordConditions::fromArray([...])`
+  Keep `get()` cheap (it runs on every form build and validation). A profile your provider returns with no rule
+  (an empty row, `new PasswordConditions()`) is refused: the form field throws `InvalidOptionsException` and the
+  constraint `ConstraintDefinitionException`, never accepting every password. `default_profile` must still name a
+  configured or built-in profile (it is checked at container compile time against `nowo_password_strength.profiles`)
+  **and** your provider must serve it; the built-in `weak` / `medium` / `strong` are not served by your provider
+  unless it returns them. A one-off policy can still be built with `PasswordConditions::fromArray([...])`
   and passed to the evaluator, or to the field as inline `conditions`.
 
 Known limitations:

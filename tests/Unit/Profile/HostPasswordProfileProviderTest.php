@@ -6,14 +6,27 @@ namespace Nowo\PasswordStrengthBundle\Tests\Unit\Profile;
 
 use InvalidArgumentException;
 use Nowo\PasswordStrengthBundle\DependencyInjection\PasswordStrengthExtension;
+use Nowo\PasswordStrengthBundle\Form\PasswordStrengthType;
 use Nowo\PasswordStrengthBundle\Model\PasswordConditions;
 use Nowo\PasswordStrengthBundle\Model\PolicyMode;
 use Nowo\PasswordStrengthBundle\Profile\ConfigPasswordProfileProvider;
 use Nowo\PasswordStrengthBundle\Profile\PasswordProfileProviderInterface;
+use Nowo\PasswordStrengthBundle\Service\PasswordPatternBuilder;
+use Nowo\PasswordStrengthBundle\Service\PasswordStrengthEvaluator;
 use Nowo\PasswordStrengthBundle\Service\PolicyResolver;
+use Nowo\PasswordStrengthBundle\Validator\PasswordStrength;
+use Nowo\PasswordStrengthBundle\Validator\PasswordStrengthValidator;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
+use Symfony\Component\Form\Forms;
+use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
+use Symfony\Component\Validator\ConstraintValidatorFactory;
+use Symfony\Component\Validator\Exception\ConstraintDefinitionException;
+use Symfony\Component\Validator\Validation;
 
 /**
  * A host serves the named profiles from its own store through PasswordProfileProviderInterface.
@@ -44,6 +57,93 @@ final class HostPasswordProfileProviderTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Unknown password strength profile "other" (available: tenant).');
         $resolver->resolve(PolicyMode::Level, ['level' => 'other']);
+    }
+
+    /**
+     * @return iterable<string, array{PasswordConditions}>
+     */
+    public static function rulelessConditions(): iterable
+    {
+        yield 'new PasswordConditions()' => [new PasswordConditions()];
+        yield 'empty row' => [PasswordConditions::fromArray([])];
+        yield 'typo in the keys (dropped by fromArray)' => [PasswordConditions::fromArray(['minLength' => 14, 'requireDigit' => true])];
+    }
+
+    #[DataProvider('rulelessConditions')]
+    public function testResolverRefusesAProviderProfileWithoutRules(PasswordConditions $conditions): void
+    {
+        $resolver = new PolicyResolver([], 'tenant', new TenantProfileProvider(['tenant' => $conditions]));
+
+        // Present, but unusable: resolving it fails closed.
+        self::assertTrue($resolver->hasProfile('tenant'));
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('The password strength profile "tenant" holds no rule');
+        $resolver->resolve(PolicyMode::Level, ['level' => 'tenant']);
+    }
+
+    #[DataProvider('rulelessConditions')]
+    public function testConstraintRefusesAProviderProfileWithoutRules(PasswordConditions $conditions): void
+    {
+        $validator = Validation::createValidatorBuilder()
+            ->setConstraintValidatorFactory(new ConstraintValidatorFactory([
+                PasswordStrengthValidator::class => new PasswordStrengthValidator(
+                    new PolicyResolver([], 'tenant', new TenantProfileProvider(['tenant' => $conditions])),
+                    new PasswordStrengthEvaluator(new PasswordPatternBuilder()),
+                ),
+            ]))
+            ->getValidator();
+
+        // The password "a" is never accepted: the misconfigured profile is a definition error.
+        $this->expectException(ConstraintDefinitionException::class);
+        $this->expectExceptionMessage('holds no rule');
+        $validator->validate('a', new PasswordStrength(level: 'tenant'));
+    }
+
+    #[DataProvider('rulelessConditions')]
+    public function testFormRefusesAProviderProfileWithoutRules(PasswordConditions $conditions): void
+    {
+        $type = new PasswordStrengthType(
+            new PolicyResolver([], 'tenant', new TenantProfileProvider(['tenant' => $conditions])),
+            new PasswordStrengthEvaluator(new PasswordPatternBuilder()),
+            new PasswordPatternBuilder(),
+            parentFormType: PasswordType::class,
+            defaultLevel: 'tenant',
+        );
+        $factory = Forms::createFormFactoryBuilder()
+            ->addExtension(new ValidatorExtension(Validation::createValidator()))
+            ->addType($type)
+            ->getFormFactory();
+
+        $this->expectException(InvalidOptionsException::class);
+        $this->expectExceptionMessage('The option "level" is invalid: The password strength profile "tenant" holds no rule');
+        $factory->create(PasswordStrengthType::class, null, ['level' => 'tenant']);
+    }
+
+    public function testFormAndConstraintEnforceAProviderProfileWithRules(): void
+    {
+        $resolver = new PolicyResolver([], 'tenant', new TenantProfileProvider(['tenant' => PasswordConditions::fromArray(['min_length' => 14])]));
+        $type     = new PasswordStrengthType(
+            $resolver,
+            new PasswordStrengthEvaluator(new PasswordPatternBuilder()),
+            new PasswordPatternBuilder(),
+            parentFormType: PasswordType::class,
+            defaultLevel: 'tenant',
+        );
+        $validator = Validation::createValidatorBuilder()
+            ->setConstraintValidatorFactory(new ConstraintValidatorFactory([
+                PasswordStrengthValidator::class => new PasswordStrengthValidator($resolver, new PasswordStrengthEvaluator(new PasswordPatternBuilder())),
+            ]))
+            ->getValidator();
+        $factory = Forms::createFormFactoryBuilder()
+            ->addExtension(new ValidatorExtension($validator))
+            ->addType($type)
+            ->getFormFactory();
+
+        $form = $factory->create(PasswordStrengthType::class, null, ['level' => 'tenant']);
+        self::assertSame(14, $form->createView()->vars['conditions']['min_length']);
+        $form->submit('a');
+        self::assertFalse($form->isValid());
+        self::assertCount(1, $validator->validate('a', new PasswordStrength(level: 'tenant')));
     }
 
     public function testDefaultAliasIsTheConfigProvider(): void
