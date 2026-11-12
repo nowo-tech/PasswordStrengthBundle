@@ -12,7 +12,7 @@ const outDir = process.env.SCREENSHOT_DIR
 
 /** Demo page card: badges, title, lead, form panel with the password widget. */
 function useCasePanel(page: import('@playwright/test').Page) {
-  return page.locator('.demo-page-card').first();
+  return page.locator('[data-testid="demo-case"]').first();
 }
 
 test.beforeAll(() => {

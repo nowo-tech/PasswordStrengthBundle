@@ -40,6 +40,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Demo uses the UiKit base style and FormKit forms (REQ-DEMO-014/015)
+
 ### Tests
 
 - Tests: kept-alive worker test `WorkerKeptAliveTest` (one kernel or one kept set of services, never reset, 1,200 alternating iterations, memory bound) and `docs/FRANKENPHP-WORKER-AUDIT.md` refreshed for v2.12.0; no runtime change.

@@ -2,46 +2,38 @@
 
 {% block title %}{{ page_title_key|trans({}, 'messages') }} – {{ 'demo.title'|trans({}, 'messages') }}{% endblock %}
 
+{% block nowo_ui_page_header %}
+    {{ include(nowo_ui_partial('page_header'), {
+        title: page_title_key|trans({}, 'messages'),
+    }) }}
+{% endblock %}
+
 {% block body %}
-<div class="container py-4 pb-5">
-    <a class="demo-back-link" href="{{ path('demo_home', { _locale: app.request.locale }) }}">
-        <span aria-hidden="true">←</span> {{ 'demo.back_home'|trans({}, 'messages') }}
-    </a>
+    <a class="nowo-ui-back-link" href="{{ path('demo_home', { _locale: app.request.locale }) }}">← {{ 'demo.back_home'|trans({}, 'messages') }}</a>
 
-    <div class="demo-page-card">
-        <header class="demo-page-header">
-            <div class="demo-feature-list">
+    <section class="nowo-ui-card" data-testid="demo-case">
+        <div class="nowo-ui-card__body">
+            <p class="nowo-ui-muted">{{ page_lead_key|trans({}, 'messages')|raw }}</p>
+            <p>
                 {% for badge_key in badge_keys %}
-                    <span class="badge text-bg-light border demo-badge">{{ badge_key|trans({}, 'messages') }}</span>
+                    <span class="nowo-ui-badge nowo-ui-badge--neutral">{{ badge_key|trans({}, 'messages') }}</span>
                 {% endfor %}
-            </div>
-            <h1>{{ page_title_key|trans({}, 'messages') }}</h1>
-            <p class="lead text-muted mb-0">{{ page_lead_key|trans({}, 'messages')|raw }}</p>
-        </header>
+            </p>
 
-        {% for message in app.flashes('success') %}
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                {{ message|trans({}, 'messages') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        {% endfor %}
-
-        <div class="demo-form-panel">
-            {{ form_start(form, { attr: { class: 'needs-validation', novalidate: 'novalidate' } }) }}
-                {# REQ-TWIG-003: child loop (row wrappers and the submit classes come from the form builder row_attr / attr options) #}
+            {{ form_start(form, { attr: { novalidate: 'novalidate' } }) }}
+                {# REQ-TWIG-003: child loop #}
                 {% for child in form %}
                     {% if not child.rendered %}
                         {{ form_row(child) }}
                     {% endif %}
                 {% endfor %}
             {{ form_end(form) }}
+
+            {% if hint_key is defined and hint_key %}
+                <p class="nowo-ui-muted">{{ hint_key|trans({}, 'messages') }}</p>
+            {% endif %}
         </div>
+    </section>
 
-        {% if hint_key is defined and hint_key %}
-            <p class="demo-hint mb-0">{{ hint_key|trans({}, 'messages') }}</p>
-        {% endif %}
-    </div>
-</div>
-
-<script src="{{ asset('password-strength.js', 'nowo_password_strength') }}" defer></script>
+    <script src="{{ asset('password-strength.js', 'nowo_password_strength') }}" defer></script>
 {% endblock %}
