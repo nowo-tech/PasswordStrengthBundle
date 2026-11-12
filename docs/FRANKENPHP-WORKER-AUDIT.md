@@ -50,12 +50,16 @@ A bundle that is safe under **B** is safe under **A** and under classic mode / P
 
 | Service | Shared | Mutable state | Scenario A | Scenario B |
 |---------|--------|---------------|------------|------------|
-| `Nowo\PasswordStrengthBundle\Service\PolicyResolver` | yes | none (`readonly` `$levels` from config) | ✅ | ✅ |
+| `Nowo\PasswordStrengthBundle\Service\PolicyResolver` | yes | none (`final readonly`; holds a `PasswordProfileProviderInterface $profiles` and the default profile name; the `$levels` constructor argument only feeds the default provider when none is given) | ✅ | ✅ |
+| `Nowo\PasswordStrengthBundle\Profile\PasswordProfileProviderInterface` (alias of the default provider) | yes | port; the default implementation is stateless (see next row) | ✅ | ✅ |
+| `Nowo\PasswordStrengthBundle\Profile\ConfigPasswordProfileProvider` (default provider) | yes | none (`final readonly`, profiles map from `nowo_password_strength.profiles`) | ✅ | ✅ |
 | `Nowo\PasswordStrengthBundle\Service\PasswordStrengthEvaluator` | yes | none (`readonly`, only the pattern builder) | ✅ | ✅ |
 | `Nowo\PasswordStrengthBundle\Service\PasswordPatternBuilder` | yes | none (`readonly`, no properties) | ✅ | ✅ |
 | `Nowo\PasswordStrengthBundle\Form\PasswordStrengthType` (`form.type`) | yes | none (`readonly` defaults from config) | ✅ | ✅ |
 | `Nowo\PasswordStrengthBundle\Validator\PasswordStrengthValidator` (`validator.constraint_validator`) | yes | inherited `ConstraintValidator::$context`, re-initialized by the validator before every `validate()` call | ✅ | ✅ |
 | `Integration\ParentFormTypeResolver`, `Integration\PasswordToggleIntegration` | registered by the `resource: '../../*'` glob, used statically | none (pure static helpers, `class_exists()` checks) | ✅ | ✅ |
+
+A host-supplied `PasswordProfileProviderInterface` (database, per tenant, admin-editable) must be stateless, or implement `ResetInterface` / be reset per request: it is shared by the resolver for the whole worker, so it must not cache one tenant's or request's profiles in a property.
 
 Value objects under `src/Model/` (`PasswordConditions`, `EvaluationResult`, `RequirementResult`, enums) are excluded from the container (`src/Resources/config/services.yaml`), created per call and never stored in a service.
 
