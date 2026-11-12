@@ -3,8 +3,8 @@
 | Field | Value |
 |-------|-------|
 | Package | `nowo-tech/password-strength-bundle` (`symfony-bundle`) |
-| Audited revision | `v2.3.1` / release commit |
-| Audit date | 2026-09-24 |
+| Audited revision | `v2.12.0` (kept-alive test and rule-7 note re-checked 2026-11-12; earlier manual review kept below) |
+| Audit date | 2026-11-12 (first audit 2026-09) |
 | Method | Manual review of every PHP file under `src/` (services, form type, validator, DI extension, compiler pass, config) + PHPStan `ruleset-classic.neon` + `ruleset-worker-strict.neon` |
 | **Verdict** | ✅ **Viable** — all services are stateless or `readonly`; safe with or without kernel reset (`FRANKENPHP_RESET_KERNEL` unset / `false`) |
 
@@ -14,6 +14,7 @@
 - [Summary](#summary)
 - [Services reviewed](#services-reviewed)
 - [Findings](#findings)
+- [Kept-alive test (REQ-RUNTIME-002)](#kept-alive-test-req-runtime-002)
   - [W-01 — Validator context is framework-managed (Info)](#w-01--validator-context-is-framework-managed-info)
   - [W-02 — Parent form type resolved at container build time (Info)](#w-02--parent-form-type-resolved-at-container-build-time-info)
 - [Usage recommendations in worker mode](#usage-recommendations-in-worker-mode)
@@ -73,6 +74,14 @@ No findings above Info.
 - **Where:** `src/DependencyInjection/PasswordStrengthExtension.php`; `src/Integration/PasswordToggleIntegration.php`.
 - **Worker impact:** the choice between Symfony `PasswordType` and PasswordToggleBundle's type is compiled into the `nowo_password_strength.parent_form_type` parameter. Installing or removing PasswordToggleBundle requires a cache clear and a worker restart, as with any container change. At runtime, `isToggleFormType()` only runs `class_exists()` on an autoloaded class, which is cheap and deterministic.
 - **Recommendation:** restart workers after `composer require/remove nowo-tech/password-toggle-bundle`.
+
+## Kept-alive test (REQ-RUNTIME-002)
+
+Test: `Nowo\PasswordStrengthBundle\Tests\Integration\Worker\WorkerKeptAliveTest` (`tests/Integration/Worker/WorkerKeptAliveTest.php`). It uses one form factory with the shared type, policy resolver, evaluator and validator, host form built, submitted and validated; `services_resetter` / `kernel.reset` is **never** called. It runs 1,200 iterations alternating two inputs (`medium`/`strong` level, two UI translation domains, a valid and an invalid password), asserts every result contains only its own data (no value of the other input appears), and that memory growth after a 100-iteration warm-up stays below 4 MiB.
+
+Result: no state is carried between requests, so the bundle is **safe with kernel reset false**.
+
+Rule 7: the bundle never clears or resets the host's default EntityManager (it uses no persistence), and nothing in `PasswordStrengthType` depends on it.
 
 ## Usage recommendations in worker mode
 
