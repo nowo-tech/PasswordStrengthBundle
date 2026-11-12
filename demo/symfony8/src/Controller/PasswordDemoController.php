@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use Nowo\PasswordStrengthBundle\Form\PasswordStrengthType;
+use App\Form\PasswordDemoType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
 use function base64_encode;
 use function random_bytes;
@@ -53,7 +51,6 @@ final class PasswordDemoController extends AbstractController
                 'policy_mode'         => 'level',
                 'level'               => 'medium',
                 'feedback_position'   => 'below',
-                'ui_framework'        => 'bootstrap5',
                 'generator_mode'      => 'input',
                 'use_password_toggle' => true,
             ],
@@ -80,7 +77,6 @@ final class PasswordDemoController extends AbstractController
                     'disallow_whitespace' => true,
                 ],
                 'feedback_position'   => 'above',
-                'ui_framework'        => 'bootstrap5',
                 'generator_mode'      => 'modal',
                 'generator_count'     => 4,
                 'use_password_toggle' => true,
@@ -101,7 +97,6 @@ final class PasswordDemoController extends AbstractController
                 'policy_mode'         => 'level',
                 'level'               => 'strong',
                 'feedback_position'   => 'below',
-                'ui_framework'        => 'bootstrap5',
                 'generator_mode'      => 'off',
                 'use_password_toggle' => false,
             ],
@@ -129,12 +124,11 @@ final class PasswordDemoController extends AbstractController
                 'policy_mode'         => 'level',
                 'level'               => 'medium',
                 'feedback_position'   => 'below',
-                'ui_framework'        => 'bootstrap5',
                 'generator_mode'      => 'modal',
                 'use_password_toggle' => true,
             ],
         ]);
-        $response->headers->set('Content-Security-Policy', sprintf("style-src-elem 'self' https://cdn.jsdelivr.net 'nonce-%s'; style-src-attr 'unsafe-inline'", $nonce));
+        $response->headers->set('Content-Security-Policy', sprintf("style-src-elem 'self' 'nonce-%s'; style-src-attr 'unsafe-inline'", $nonce));
 
         return $response;
     }
@@ -175,20 +169,6 @@ final class PasswordDemoController extends AbstractController
      */
     private function createDemoForm(array $passwordOptions): FormInterface
     {
-        // PasswordStrengthType attaches the PasswordStrength constraint for its own policy (enforce: true);
-        // the demo only adds NotBlank (the strength constraint accepts empty values).
-        $passwordOptions['constraints'] = [new NotBlank()];
-        // Row wrapper used by the demo layout (the template renders the form through the child loop, REQ-TWIG-003)
-        $passwordOptions['row_attr'] ??= ['class' => 'mb-3'];
-
-        return $this->createFormBuilder()
-            ->add('password', PasswordStrengthType::class, $passwordOptions)
-            ->add('submit', SubmitType::class, [
-                'label'              => 'demo.submit',
-                'translation_domain' => 'messages',
-                'attr'               => ['class' => 'btn btn-primary px-4'],
-                'row_attr'           => ['class' => 'd-grid d-md-flex gap-2'],
-            ])
-            ->getForm();
+        return $this->createForm(PasswordDemoType::class, null, ['password_options' => $passwordOptions]);
     }
 }
