@@ -3,6 +3,7 @@
 ## Table of contents
 
 - [Unreleased](#unreleased)
+- [To 2.13.0](#to-2130)
 - [To 2.12.0](#to-2120)
 - [To 2.12.0](#to-2120-1)
 - [To 2.11.0](#to-2110)
@@ -39,6 +40,16 @@
   - [Twig-CS-Fixer (maintainers)](#twig-cs-fixer-maintainers)
 
 ## Unreleased
+
+## To 2.13.0
+
+From **2.12.0**: additive, no action needed.
+
+```bash
+composer update nowo-tech/password-strength-bundle
+```
+
+`PolicyResolver`, `PasswordStrengthEvaluator` and `PasswordPatternBuilder` now implement `PolicyResolverInterface`, `PasswordStrengthEvaluatorInterface` and `PasswordPatternBuilderInterface`, aliased to the default services. Type-hint the interfaces in new code; the class ids keep working. To replace one, point the interface alias to your own service.
 
 ## To 2.12.0
 

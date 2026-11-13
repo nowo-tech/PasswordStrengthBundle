@@ -6,8 +6,8 @@ namespace Nowo\PasswordStrengthBundle\Validator;
 
 use InvalidArgumentException;
 use Nowo\PasswordStrengthBundle\Model\PolicyMode;
-use Nowo\PasswordStrengthBundle\Service\PasswordStrengthEvaluator;
-use Nowo\PasswordStrengthBundle\Service\PolicyResolver;
+use Nowo\PasswordStrengthBundle\Service\PasswordStrengthEvaluatorInterface;
+use Nowo\PasswordStrengthBundle\Service\PolicyResolverInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\ConstraintDefinitionException;
@@ -22,8 +22,8 @@ use function sprintf;
 final class PasswordStrengthValidator extends ConstraintValidator
 {
     public function __construct(
-        private readonly PolicyResolver $policyResolver,
-        private readonly PasswordStrengthEvaluator $evaluator,
+        private readonly PolicyResolverInterface $policyResolver,
+        private readonly PasswordStrengthEvaluatorInterface $evaluator,
     ) {
     }
 

@@ -19,7 +19,7 @@ use function strlen;
 /**
  * Evaluates a password against configured conditions (server-side mirror of the TypeScript evaluator).
  */
-final readonly class PasswordStrengthEvaluator
+final readonly class PasswordStrengthEvaluator implements PasswordStrengthEvaluatorInterface
 {
     /**
      * Hard cap on the evaluated input, in bytes: longer values are rejected as a `max_length` violation before any

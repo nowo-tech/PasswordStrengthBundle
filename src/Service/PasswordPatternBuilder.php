@@ -15,7 +15,7 @@ use function str_replace;
 /**
  * Builds an HTML5 pattern attribute from password conditions using positive lookaheads.
  */
-final readonly class PasswordPatternBuilder
+final readonly class PasswordPatternBuilder implements PasswordPatternBuilderInterface
 {
     public function build(PasswordConditions $conditions): string
     {

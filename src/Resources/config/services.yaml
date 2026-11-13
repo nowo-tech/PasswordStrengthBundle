@@ -25,6 +25,16 @@ services:
       $defaultLevel: '%nowo_password_strength.default_profile%'
       $profiles: '@Nowo\PasswordStrengthBundle\Profile\PasswordProfileProviderInterface'
 
+  # Ports (REQ-ARCH-001 rule 1): autowire the interface; override the alias to replace the default implementation.
+  Nowo\PasswordStrengthBundle\Service\PolicyResolverInterface:
+    alias: Nowo\PasswordStrengthBundle\Service\PolicyResolver
+
+  Nowo\PasswordStrengthBundle\Service\PasswordStrengthEvaluatorInterface:
+    alias: Nowo\PasswordStrengthBundle\Service\PasswordStrengthEvaluator
+
+  Nowo\PasswordStrengthBundle\Service\PasswordPatternBuilderInterface:
+    alias: Nowo\PasswordStrengthBundle\Service\PasswordPatternBuilder
+
   Nowo\PasswordStrengthBundle\Form\PasswordStrengthType:
     arguments:
       $defaultFeedbackPosition: '%nowo_password_strength.feedback_position%'
