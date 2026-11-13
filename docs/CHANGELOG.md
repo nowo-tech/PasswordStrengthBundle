@@ -40,6 +40,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Ports (REQ-ARCH-001 rule 1): `PolicyResolverInterface`, `PasswordStrengthEvaluatorInterface` and `PasswordPatternBuilderInterface`, implemented by the existing services and aliased in the container; the form type and the validator type-hint the interfaces. Hosts can override the aliases. Purely additive: the class ids still resolve.
+- `docs/ARCHITECTURE.md`: service ports, the profile provider SPI and how standard Symfony and DDD hosts wire them.
+
 ### Changed
 
 - Demo uses the UiKit base style and FormKit forms (REQ-DEMO-014/015)

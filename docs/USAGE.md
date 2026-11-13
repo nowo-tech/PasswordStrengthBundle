@@ -275,7 +275,7 @@ behind it. It has no entities, no Doctrine mapping and no events; the domain nev
 - Put `PasswordStrengthType` (or `#[PasswordStrength]`) on a form DTO or command such as `RegisterUser::$plainPassword`,
   not on your `User` entity. If the constraint must live with the domain class, declare it in external validator
   mapping (`config/validator/*.yaml` or XML) so the domain class carries no Symfony attribute.
-- If your domain has its own password-policy port, implement it with the bundle's evaluator; it only takes and
+- If your domain has its own password-policy port, implement it with the bundle's evaluator port (see [ARCHITECTURE.md](ARCHITECTURE.md)); it only takes and
   returns plain values:
 
 ```php
@@ -284,14 +284,14 @@ namespace App\Infrastructure\Security;
 use App\Domain\User\PasswordPolicy;                 // your port
 use Nowo\PasswordStrengthBundle\Model\PasswordConditions;
 use Nowo\PasswordStrengthBundle\Model\PolicyMode;
-use Nowo\PasswordStrengthBundle\Service\PasswordStrengthEvaluator;
-use Nowo\PasswordStrengthBundle\Service\PolicyResolver;
+use Nowo\PasswordStrengthBundle\Service\PasswordStrengthEvaluatorInterface;
+use Nowo\PasswordStrengthBundle\Service\PolicyResolverInterface;
 
 final class NowoPasswordPolicy implements PasswordPolicy
 {
     public function __construct(
-        private PolicyResolver $policies,
-        private PasswordStrengthEvaluator $evaluator,
+        private PolicyResolverInterface $policies,
+        private PasswordStrengthEvaluatorInterface $evaluator,
     ) {}
 
     /** @return list<string> condition keys not met (for example `min_length`), empty when acceptable */

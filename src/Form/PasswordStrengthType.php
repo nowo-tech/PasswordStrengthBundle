@@ -10,9 +10,10 @@ use Nowo\PasswordStrengthBundle\Model\FeedbackPosition;
 use Nowo\PasswordStrengthBundle\Model\GeneratorMode;
 use Nowo\PasswordStrengthBundle\Model\PolicyMode;
 use Nowo\PasswordStrengthBundle\Model\RequirementResult;
-use Nowo\PasswordStrengthBundle\Service\PasswordPatternBuilder;
-use Nowo\PasswordStrengthBundle\Service\PasswordStrengthEvaluator;
+use Nowo\PasswordStrengthBundle\Service\PasswordPatternBuilderInterface;
+use Nowo\PasswordStrengthBundle\Service\PasswordStrengthEvaluatorInterface;
 use Nowo\PasswordStrengthBundle\Service\PolicyResolver;
+use Nowo\PasswordStrengthBundle\Service\PolicyResolverInterface;
 use Nowo\PasswordStrengthBundle\Validator\PasswordStrength;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType as SymfonyPasswordType;
@@ -66,9 +67,9 @@ final class PasswordStrengthType extends AbstractType
      * @param array<string, string> $defaultUiClasses 2.11: `ui_classes` (keys of {@see self::UI_CLASS_KEYS})
      */
     public function __construct(
-        private readonly PolicyResolver $policyResolver,
-        private readonly PasswordStrengthEvaluator $evaluator,
-        private readonly PasswordPatternBuilder $patternBuilder,
+        private readonly PolicyResolverInterface $policyResolver,
+        private readonly PasswordStrengthEvaluatorInterface $evaluator,
+        private readonly PasswordPatternBuilderInterface $patternBuilder,
         private readonly string $defaultFeedbackPosition = 'below',
         private readonly bool $defaultShowRequirements = true,
         private readonly bool $defaultLiveFeedback = true,

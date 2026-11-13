@@ -27,7 +27,7 @@ use function sprintf;
  * unknown keys or hold no rule throw an {@see InvalidArgumentException} (the form type reports it as an invalid option, the validator as a
  * constraint definition error).
  */
-final readonly class PolicyResolver
+final readonly class PolicyResolver implements PolicyResolverInterface
 {
     private PasswordProfileProviderInterface $profiles;
 
