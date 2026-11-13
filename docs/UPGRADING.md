@@ -4,6 +4,7 @@
 
 - [Unreleased](#unreleased)
 - [To 2.13.0](#to-2130)
+- [To 2.13.0](#to-2130-1)
 - [To 2.12.0](#to-2120)
 - [To 2.12.0](#to-2120-1)
 - [To 2.11.0](#to-2110)
@@ -40,6 +41,14 @@
   - [Twig-CS-Fixer (maintainers)](#twig-cs-fixer-maintainers)
 
 ## Unreleased
+
+## To 2.13.0
+
+From **2.12.0**:
+
+```bash
+composer update nowo-tech/password-strength-bundle
+```
 
 ## To 2.13.0
 
