@@ -123,6 +123,8 @@ As an integrator, I select a form theme matching Bootstrap, Foundation, Tailwind
 - **FR-EVAL-001**: `PasswordStrengthEvaluator` MUST evaluate min length, character classes, and return `EvaluationResult` with `missing` labels.
 - **FR-EVAL-002**: Values over 4096 bytes MUST be reported as `max_length` before any rule or regex runs (PHP and TypeScript).
 - **FR-PAT-001**: `PasswordPatternBuilder` (PHP) MUST emit HTML5-compatible pattern string from conditions.
+- **FR-PORT-001** (2.13.0, REQ-ARCH-001 rule 1): `PolicyResolverInterface`, `PasswordStrengthEvaluatorInterface` and `PasswordPatternBuilderInterface` MUST be the public service ports, implemented by the existing services and aliased in the container; hosts type-hint the interfaces.
+- **FR-PROF-001**: `PolicyResolver` MUST read named profiles through `PasswordProfileProviderInterface` (`get()`, `names()`); the default `ConfigPasswordProfileProvider` serves `nowo_password_strength.profiles` and hosts MAY alias their own provider.
 - **FR-MODEL-001**–**FR-MODEL-006**: Model enums/DTOs (`EvaluationResult`, `FeedbackPosition`, `GeneratorMode`, `PasswordConditions`, `PolicyMode`, `RequirementResult`) MUST type policy state shared by PHP and TS.
 
 ### Validation
@@ -164,7 +166,7 @@ As an integrator, I select a form theme matching Bootstrap, Foundation, Tailwind
 
 ## Success Criteria
 
-- **SC-001**: **63/63** files under `src/` mapped in [`code-inventory.md`](code-inventory.md).
+- **SC-001**: **69/69** files under `src/` mapped in [`code-inventory.md`](code-inventory.md).
 - **SC-002**: Config keys match `Configuration.php` and `docs/CONFIGURATION.md`.
 - **SC-003**: PHPUnit + PHPStan + Vitest pass (`make release-check`).
 - **SC-004**: PHP and TS evaluators agree on valid/invalid passwords for shared fixtures.
