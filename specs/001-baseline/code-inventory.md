@@ -2,7 +2,7 @@
 
 **Baseline spec**: [`spec.md`](spec.md)  
 **Package**: `nowo-tech/password-strength-bundle`  
-**Last audited**: 2026-10-27 (audit: `git ls-files src | wc -l` → 63)
+**Last audited**: 2026-11-16 (audit: `git ls-files src | wc -l` → 69)
 
 This file proves that **every source artifact** under `src/` is referenced by the baseline specification. Co-located Vitest files (`*.test.ts`) enforce frontend contracts; PHPUnit covers PHP under `tests/`.
 
@@ -26,6 +26,11 @@ This file proves that **every source artifact** under `src/` is referenced by th
 | `Service/PolicyResolver.php` | Policy resolution | FR-POL-001, FR-WORKER-001 |
 | `Service/PasswordStrengthEvaluator.php` | Server-side evaluation | FR-EVAL-001, FR-WORKER-001 |
 | `Service/PasswordPatternBuilder.php` | HTML pattern builder | FR-PAT-001, FR-WORKER-001 |
+| `Service/PolicyResolverInterface.php` | Policy resolver port | FR-PORT-001 |
+| `Service/PasswordStrengthEvaluatorInterface.php` | Evaluator port | FR-PORT-001 |
+| `Service/PasswordPatternBuilderInterface.php` | Pattern builder port | FR-PORT-001 |
+| `Profile/PasswordProfileProviderInterface.php` | Named profile provider SPI | FR-PROF-001 |
+| `Profile/ConfigPasswordProfileProvider.php` | Default provider (`nowo_password_strength.profiles`) | FR-PROF-001, FR-POL-001, FR-WORKER-001 |
 | `Validator/PasswordStrength.php` | Constraint | FR-VAL-001 |
 | `Validator/PasswordStrengthValidator.php` | Server validation | FR-VAL-002, FR-WORKER-002 |
 
@@ -54,6 +59,7 @@ This file proves that **every source artifact** under `src/` is referenced by th
 | `Resources/assets/src/nowo-password-strength-element.test.ts` | Custom element tests | FR-UI-001, FR-UI-002 |
 | `Resources/assets/src/password-strength-csp.test.ts` | Stylesheet / CSP tests | FR-UI-006 |
 | `Resources/assets/src/password-strength-toggle.test.ts` | Password toggle integration tests | FR-INT-002 |
+| `Resources/assets/src/password-strength-ui-classes.test.ts` | Per-framework UI class tests | FR-UI-002, FR-TWIG-003 |
 
 ## Stylesheets (`src/Resources/assets/css/`, `src/Resources/public/`)
 
@@ -113,12 +119,12 @@ This file proves that **every source artifact** under `src/` is referenced by th
 
 | Category | Files | Mapped |
 | --- | ---: | ---: |
-| PHP classes | 18 | 18 |
+| PHP classes | 23 | 23 |
 | TypeScript production | 8 | 8 |
-| Vitest co-located | 8 | 8 |
+| Vitest co-located | 9 | 9 |
 | Stylesheets | 2 | 2 |
 | Legacy JS | 1 | 1 |
 | Symfony config | 1 | 1 |
 | Twig themes | 11 | 11 |
 | Translations | 14 | 14 |
-| **Total sources under `src/`** | **63** | **63** |
+| **Total sources under `src/`** | **69** | **69** |

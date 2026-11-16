@@ -41,6 +41,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Documentation
+
+- Spec Kit baseline: the code inventory maps all 69 files under `src/` again (the 2.13.0 service ports, the profile provider SPI and the UI-class Vitest file), with `FR-PORT-001` / `FR-PROF-001` in the spec (REQ-SPECKIT-001/003). README coverage figures match CI (99.35%, 612/616 lines; REQ-TEST-007).
+
 ## [2.13.0] - 2026-11-13
 
 ### Added
