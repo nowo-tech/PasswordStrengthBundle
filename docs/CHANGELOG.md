@@ -41,6 +41,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Demo: runs in UiKit's demo platform shell (`nowo-tech/ui-kit-bundle` ^2.60); the demo's own header is gone and the pages use the shell page headers and section cards. Demo only, no bundle change.
+
 ### Documentation
 
 - Spec Kit baseline: the code inventory maps all 69 files under `src/` again (the 2.13.0 service ports, the profile provider SPI and the UI-class Vitest file), with `FR-PORT-001` / `FR-PROF-001` in the spec (REQ-SPECKIT-001/003). README coverage figures match CI (99.35%, 612/616 lines; REQ-TEST-007).

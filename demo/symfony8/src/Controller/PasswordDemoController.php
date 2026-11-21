@@ -10,6 +10,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 use function base64_encode;
 use function random_bytes;
@@ -23,6 +24,10 @@ use function strtr;
 final class PasswordDemoController extends AbstractController
 {
     private const LOCALE_REQUIREMENT = ['_locale' => 'en|es'];
+
+    public function __construct(private readonly TranslatorInterface $translator)
+    {
+    }
 
     #[Route('/', name: 'demo_root', methods: ['GET'])]
     public function root(): Response
@@ -150,7 +155,8 @@ final class PasswordDemoController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->addFlash('success', 'demo.saved_success');
+            // Flash texts are plain text (the demo platform shell prints them as given).
+            $this->addFlash('success', $this->translator->trans('demo.saved_success', [], 'messages', $request->getLocale()));
         }
 
         return $this->render('password_demo/show.html.twig', [

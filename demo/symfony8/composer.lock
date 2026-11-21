@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "edaf08bc9828e037ea547c7fa65ab37d",
+    "content-hash": "bc1da82fa0cac3ebd9c3663e09621d1d",
     "packages": [
         {
             "name": "doctrine/collections",
@@ -262,11 +262,11 @@
         },
         {
             "name": "nowo-tech/password-strength-bundle",
-            "version": "dev-chore/demo-uikit-formkit",
+            "version": "dev-chore/demo-platform-shell",
             "dist": {
                 "type": "path",
                 "url": "/var/password-strength-bundle",
-                "reference": "fa54d91a0cf48165aaa6c0f85dac3d1030a63ec8"
+                "reference": "ea98ee9c11d57c7139a636ee28d906842287f602"
             },
             "require": {
                 "php": ">=8.2 <8.6",
@@ -493,16 +493,16 @@
         },
         {
             "name": "nowo-tech/ui-kit-bundle",
-            "version": "v2.49.0",
+            "version": "v2.62.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nowo-tech/UiKitBundle.git",
-                "reference": "38f5a1e26f360bda0fe7e1f88a5182c47081b8ce"
+                "reference": "5fb5c5fab50ea8806eec285255fc10cce7c40ec3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nowo-tech/UiKitBundle/zipball/38f5a1e26f360bda0fe7e1f88a5182c47081b8ce",
-                "reference": "38f5a1e26f360bda0fe7e1f88a5182c47081b8ce",
+                "url": "https://api.github.com/repos/nowo-tech/UiKitBundle/zipball/5fb5c5fab50ea8806eec285255fc10cce7c40ec3",
+                "reference": "5fb5c5fab50ea8806eec285255fc10cce7c40ec3",
                 "shasum": ""
             },
             "require": {
@@ -549,7 +549,8 @@
                 "symfony/validator": "Colour validation in the optional appearance forms"
             },
             "bin": [
-                "bin/nowo-ui-token-lint"
+                "bin/nowo-ui-token-lint",
+                "bin/nowo-ui-demo-style-lint"
             ],
             "type": "symfony-bundle",
             "autoload": {
@@ -591,8 +592,8 @@
                 "issues": "https://github.com/nowo-tech/UiKitBundle/issues",
                 "source": "https://github.com/nowo-tech/UiKitBundle"
             },
-            "time": "2026-11-11T22:37:57+00:00",
-            "published-time": "2026-11-11T22:41:16+00:00"
+            "time": "2026-11-21T01:22:50+00:00",
+            "published-time": "2026-11-21T01:26:09+00:00"
         },
         {
             "name": "psr/cache",
@@ -3374,16 +3375,16 @@
         },
         {
             "name": "symfony/polyfill-php85",
-            "version": "v1.43.0",
+            "version": "v1.44.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php85.git",
-                "reference": "86a42cbcc07adc331481a5ab310a4024bfc227f6"
+                "reference": "94c794cb5ba51784bc259f11e9f128593297d8dc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-php85/zipball/86a42cbcc07adc331481a5ab310a4024bfc227f6",
-                "reference": "86a42cbcc07adc331481a5ab310a4024bfc227f6",
+                "url": "https://api.github.com/repos/symfony/polyfill-php85/zipball/94c794cb5ba51784bc259f11e9f128593297d8dc",
+                "reference": "94c794cb5ba51784bc259f11e9f128593297d8dc",
                 "shasum": ""
             },
             "require": {
@@ -3430,7 +3431,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-php85/tree/v1.43.0"
+                "source": "https://github.com/symfony/polyfill-php85/tree/v1.44.0"
             },
             "funding": [
                 {
@@ -3450,8 +3451,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-09-25T15:46:47+00:00",
-            "published-time": "2026-09-30T10:23:32+00:00"
+            "time": "2026-10-30T15:20:09+00:00",
+            "published-time": "2026-11-15T14:20:22+00:00"
         },
         {
             "name": "symfony/polyfill-php86",
