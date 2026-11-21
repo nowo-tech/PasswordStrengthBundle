@@ -10,12 +10,16 @@
 {% endblock %}
 
 {% block body %}
-    <p>
-        <span class="nowo-ui-badge nowo-ui-badge--neutral">{{ 'demo.feature_live'|trans({}, 'messages') }}</span>
-        <span class="nowo-ui-badge nowo-ui-badge--neutral">{{ 'demo.feature_validator'|trans({}, 'messages') }}</span>
-        <span class="nowo-ui-badge nowo-ui-badge--neutral">{{ 'demo.feature_pattern'|trans({}, 'messages') }}</span>
-        <span class="nowo-ui-badge nowo-ui-badge--neutral">{{ 'demo.feature_generator'|trans({}, 'messages') }}</span>
-    </p>
+    {% embed '@NowoUiKit/demo_platform/_section.html.twig' with {title: 'demo.title'|trans({}, 'messages'), kind: 'content'} %}
+        {% block section_body %}
+            <p>
+                <span class="nowo-ui-badge nowo-ui-badge--neutral">{{ 'demo.feature_live'|trans({}, 'messages') }}</span>
+                <span class="nowo-ui-badge nowo-ui-badge--neutral">{{ 'demo.feature_validator'|trans({}, 'messages') }}</span>
+                <span class="nowo-ui-badge nowo-ui-badge--neutral">{{ 'demo.feature_pattern'|trans({}, 'messages') }}</span>
+                <span class="nowo-ui-badge nowo-ui-badge--neutral">{{ 'demo.feature_generator'|trans({}, 'messages') }}</span>
+            </p>
+        {% endblock %}
+    {% endembed %}
 
     {% set _cards = [
         { route: 'demo_level', key: 'level', badges: [['primary', 'badge_level'], ['neutral', 'badge_toggle'], ['info', 'badge_generator_input']] },
@@ -25,17 +29,19 @@
     ] %}
     <div class="nowo-ui-cards">
         {% for card in _cards %}
-            <article class="nowo-ui-card">
-                <div class="nowo-ui-card__body">
+            {% embed '@NowoUiKit/demo_platform/_section.html.twig' with {title: ('demo.card_' ~ card.key ~ '_title')|trans({}, 'messages'), kind: 'content', card: card} %}
+                {% block section_body %}
                     <p>
                         {% for badge in card.badges %}
                             <span class="nowo-ui-badge nowo-ui-badge--{{ badge[0] }}">{{ ('demo.' ~ badge[1])|trans({}, 'messages') }}</span>
                         {% endfor %}
                     </p>
-                    <h2 class="nowo-ui-card__title"><a class="nowo-ui-link" href="{{ path(card.route, { _locale: app.request.locale }) }}">{{ ('demo.card_' ~ card.key ~ '_title')|trans({}, 'messages') }}</a></h2>
                     <p class="nowo-ui-muted">{{ ('demo.card_' ~ card.key ~ '_lead')|trans({}, 'messages') }}</p>
-                </div>
-            </article>
+                {% endblock %}
+                {% block section_footer %}
+                    <a class="nowo-ui-btn nowo-ui-btn--outline" href="{{ path(card.route, { _locale: app.request.locale }) }}">{{ 'demo.open_demo'|trans({}, 'messages') }}</a>
+                {% endblock %}
+            {% endembed %}
         {% endfor %}
     </div>
 {% endblock %}

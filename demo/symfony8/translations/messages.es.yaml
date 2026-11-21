@@ -4,6 +4,7 @@ demo:
   page_title: 'Password Strength Bundle'
   lead: 'Políticas de contraseña configurables con feedback en vivo, patrón HTML, validación en servidor, toggle opcional y generador.'
   back_home: 'Volver a las demos'
+  open_demo: 'Abrir demo'
   submit: 'Validar contraseña'
   saved_success: 'Contraseña aceptada por la validación del servidor.'
   badge_level: 'Política por nivel'

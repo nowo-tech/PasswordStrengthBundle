@@ -4,6 +4,7 @@ demo:
   page_title: 'Password Strength Bundle'
   lead: 'Configurable password policies with live feedback, HTML pattern, server-side validation, optional toggle, and password generator.'
   back_home: 'Back to demos'
+  open_demo: 'Open demo'
   submit: 'Validate password'
   saved_success: 'Password accepted by server-side validation.'
   badge_level: 'Level policy'

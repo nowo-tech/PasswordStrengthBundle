@@ -3,16 +3,16 @@
 {% block title %}{{ page_title_key|trans({}, 'messages') }} – {{ 'demo.title'|trans({}, 'messages') }}{% endblock %}
 
 {% block nowo_ui_page_header %}
+    {% set _toolbar %}<a class="nowo-ui-btn nowo-ui-btn--outline" href="{{ path('demo_home', { _locale: app.request.locale }) }}">{{ 'demo.back_home'|trans({}, 'messages') }}</a>{% endset %}
     {{ include(nowo_ui_partial('page_header'), {
         title: page_title_key|trans({}, 'messages'),
+        toolbar: _toolbar|trim,
     }) }}
 {% endblock %}
 
 {% block body %}
-    <a class="nowo-ui-back-link" href="{{ path('demo_home', { _locale: app.request.locale }) }}">← {{ 'demo.back_home'|trans({}, 'messages') }}</a>
-
-    <section class="nowo-ui-card" data-testid="demo-case">
-        <div class="nowo-ui-card__body">
+    {% embed '@NowoUiKit/demo_platform/_section.html.twig' with {kind: 'form', testid: 'demo-case'} %}
+        {% block section_body %}
             <p class="nowo-ui-muted">{{ page_lead_key|trans({}, 'messages')|raw }}</p>
             <p>
                 {% for badge_key in badge_keys %}
@@ -20,20 +20,27 @@
                 {% endfor %}
             </p>
 
-            {{ form_start(form, { attr: { novalidate: 'novalidate' } }) }}
+            {{ form_start(form, { attr: { id: 'demo-form', class: 'nowo-ui-form', novalidate: 'novalidate' } }) }}
                 {# REQ-TWIG-003: child loop #}
                 {% for child in form %}
-                    {% if not child.rendered %}
+                    {% if not child.rendered and child.vars.name != 'submit' %}
                         {{ form_row(child) }}
                     {% endif %}
                 {% endfor %}
+                {% do form.submit.setRendered %}
             {{ form_end(form) }}
 
             {% if hint_key is defined and hint_key %}
                 <p class="nowo-ui-muted">{{ hint_key|trans({}, 'messages') }}</p>
             {% endif %}
-        </div>
-    </section>
+        {% endblock %}
+        {% block section_footer %}
+            <button type="submit" form="demo-form" class="nowo-ui-btn nowo-ui-btn--primary">{{ form.submit.vars.label|trans({}, 'messages') }}</button>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
     <script src="{{ asset('password-strength.js', 'nowo_password_strength') }}" defer></script>
 {% endblock %}
