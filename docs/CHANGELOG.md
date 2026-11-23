@@ -44,10 +44,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Demo: runs in UiKit's demo platform shell (`nowo-tech/ui-kit-bundle` ^2.60); the demo's own header is gone and the pages use the shell page headers and section cards. Demo only, no bundle change.
+- **Console**: the script-loaded line of `password-strength.js` now reads `📦 [password-strength] script loaded, build: 2026-11-23 14:05 UTC`: a readable UTC build time instead of the opaque source hash. The time comes from the committed `build-info.json` (`{sourceHash, builtAt}`): the source hash stays the change detector, `builtAt` is reused while the sources are unchanged and renewed only when they change, so rebuilding unchanged sources never rewrites the committed assets (no wall-clock stamp, no git date).
 
 ### Documentation
 
 - Spec Kit baseline: the code inventory maps all 69 files under `src/` again (the 2.13.0 service ports, the profile provider SPI and the UI-class Vitest file), with `FR-PORT-001` / `FR-PROF-001` in the spec (REQ-SPECKIT-001/003). README coverage figures match CI (99.35%, 612/616 lines; REQ-TEST-007).
+
+### Added
+
+- **Console**: quiet switch for the script-loaded line: `<html data-nowo-console="quiet">` or `globalThis.NOWO_CONSOLE = 'quiet'` prints nothing. The default is unchanged.
 
 ## [2.13.0] - 2026-11-13
 
