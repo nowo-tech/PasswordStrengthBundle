@@ -20,6 +20,7 @@
 - [Demo routes](#demo-routes)
 - [Using it from a DDD / hexagonal application](#using-it-from-a-ddd--hexagonal-application)
 - [Related bundles](#related-bundles)
+- [Browser console](#browser-console)
 
 ## Screenshots
 
@@ -367,3 +368,7 @@ Known limitations:
 ## Related bundles
 
 - [PasswordToggleBundle](https://github.com/nowo-tech/PasswordToggleBundle) — optional show/hide toggle
+
+## Browser console
+
+The bundle's script logs one line when it loads (`📦 [password-strength] script loaded, build: 2026-11-23 14:05 UTC`) so a developer can tell which build a page runs. To silence it, set `<html data-nowo-console="quiet">` or `globalThis.NOWO_CONSOLE = 'quiet'` before the script loads; nothing is printed then. The default is unchanged.
