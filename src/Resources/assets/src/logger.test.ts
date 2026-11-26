@@ -1,6 +1,11 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { createBundleLogger } from './logger';
 
+// REQ-ASSETS-005: every test starts with an empty once-guard registry.
+beforeEach(() => {
+  delete (globalThis as { __nowoScriptBannerNames?: unknown }).__nowoScriptBannerNames;
+});
+
 describe('logger', () => {
   beforeEach(() => {
     vi.spyOn(console, 'log').mockImplementation(() => {});
