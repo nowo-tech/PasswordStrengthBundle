@@ -20,6 +20,7 @@ use Symfony\Component\Validator\Exception\ConstraintDefinitionException;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
 use Symfony\Component\Validator\Validation;
+use Symfony\Component\Validator\Violation\ConstraintViolationBuilder;
 use Symfony\Component\Validator\Violation\ConstraintViolationBuilderInterface;
 
 final class PasswordStrengthValidatorTest extends TestCase
@@ -40,7 +41,7 @@ final class PasswordStrengthValidatorTest extends TestCase
         $constraint->policyMode = 'level';
         $constraint->level      = 'medium';
 
-        $builder = $this->createMock(ConstraintViolationBuilderInterface::class);
+        $builder = $this->createMock(ConstraintViolationBuilder::class);
         $builder->method('setParameter')->willReturnSelf();
         $builder->expects(self::once())->method('addViolation');
 
@@ -53,7 +54,7 @@ final class PasswordStrengthValidatorTest extends TestCase
 
     public function testViolationUsesMissingPlaceholder(): void
     {
-        $builder = $this->createMock(ConstraintViolationBuilderInterface::class);
+        $builder = $this->createMock(ConstraintViolationBuilder::class);
         $builder->expects(self::exactly(2))->method('setParameter')
             ->willReturnCallback(static function (string $key, string $value) use ($builder): ConstraintViolationBuilderInterface {
                 self::assertContains($key, ['%missing%', '{{ missing }}']);
@@ -150,7 +151,7 @@ final class PasswordStrengthValidatorTest extends TestCase
         $constraint->policyMode = 'conditions';
         $constraint->conditions = ['min_length' => 12, 'require_special' => true];
 
-        $builder = $this->createMock(ConstraintViolationBuilderInterface::class);
+        $builder = $this->createMock(ConstraintViolationBuilder::class);
         $builder->method('setParameter')->willReturnSelf();
         $builder->expects(self::once())->method('addViolation');
 
@@ -184,7 +185,7 @@ final class PasswordStrengthValidatorTest extends TestCase
 
     public function testValueOverTheByteCapIsAViolation(): void
     {
-        $builder = $this->createMock(ConstraintViolationBuilderInterface::class);
+        $builder = $this->createMock(ConstraintViolationBuilder::class);
         $builder->method('setParameter')->willReturnCallback(static function (string $key, string $value) use ($builder): ConstraintViolationBuilderInterface {
             self::assertSame('max_length', $value);
 
